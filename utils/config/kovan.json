@@ -6,12 +6,12 @@
     },
     "backend": {
         "accounts": [
-            "0x0000000000000000000000000000000000000000"
+            "0xb61C85F9ce87c89C012E06FcdB501ed229a3776f"
         ]
     },
     "multisig": {
         "owners": [
-            "0x0000000000000000000000000000000000000000"
+            "0xb61C85F9ce87c89C012E06FcdB501ed229a3776f"
         ],
         "threshold": 1,
         "autosign": true
@@ -27,7 +27,7 @@
         "privateKey": {
             "type": "plain",
             "options": {
-                "value": "e9634a016bb64b968de6d06cd0571359"
+                "value": "D5E538AD4551C202C3FD3021B09C88191C5B630EF29D87130CDCD1AD36E55BC5"
             }
         },
         "lockPeriod": 86400,
