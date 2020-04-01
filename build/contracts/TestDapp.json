@@ -1,0 +1,662 @@
+{
+  "contractName": "TestDapp",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "noReturn",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_i",
+          "type": "uint256"
+        }
+      ],
+      "name": "uintReturn",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "reason",
+          "type": "string"
+        }
+      ],
+      "name": "doFail",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "pure",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[{\"internalType\":\"string\",\"name\":\"reason\",\"type\":\"string\"}],\"name\":\"doFail\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"pure\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[],\"name\":\"noReturn\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_i\",\"type\":\"uint256\"}],\"name\":\"uintReturn\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"pure\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/argent/utils/TestDapp.sol\":\"TestDapp\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/argent/utils/TestDapp.sol\":{\"keccak256\":\"0x65e6489fd44fe0bfd11a64bd51965500978ae95b3d5ac39274f9228c14b12279\",\"urls\":[\"bzz-raw://d66c87cbd5ea01313a7b5b217375e04e25d808cde61409377e0a24d542df55ff\",\"dweb:/ipfs/QmdbZ45ZLVnENRH2a8JcBrbXVB99uuFvw4WoSaDnuXuZQf\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b506101b5806100206000396000f3fe608060405234801561001057600080fd5b50600436106100415760003560e01c806331794254146100465780633ed63217146100505780635b72e8c3146100c9575b600080fd5b61004e61010b565b005b6100c76004803603602081101561006657600080fd5b810190808035906020019064010000000081111561008357600080fd5b82018360208201111561009557600080fd5b803590602001918460018302840111640100000000831117156100b757600080fd5b909192939192939050505061010d565b005b6100f5600480360360208110156100df57600080fd5b8101908080359060200190929190505050610176565b6040518082815260200191505060405180910390f35b565b81816040517f08c379a000000000000000000000000000000000000000000000000000000000815260040180806020018281038252848482818152602001925080828437600081840152601f19601f820116905080830192505050935050505060405180910390fd5b600081905091905056fea265627a7a723158201602fb8b0bef348047f70f36c330af0adf31de463701d450db9004cdd8838e4664736f6c63430005100032",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100415760003560e01c806331794254146100465780633ed63217146100505780635b72e8c3146100c9575b600080fd5b61004e61010b565b005b6100c76004803603602081101561006657600080fd5b810190808035906020019064010000000081111561008357600080fd5b82018360208201111561009557600080fd5b803590602001918460018302840111640100000000831117156100b757600080fd5b909192939192939050505061010d565b005b6100f5600480360360208110156100df57600080fd5b8101908080359060200190929190505050610176565b6040518082815260200191505060405180910390f35b565b81816040517f08c379a000000000000000000000000000000000000000000000000000000000815260040180806020018281038252848482818152602001925080828437600081840152601f19601f820116905080830192505050935050505060405180910390fd5b600081905091905056fea265627a7a723158201602fb8b0bef348047f70f36c330af0adf31de463701d450db9004cdd8838e4664736f6c63430005100032",
+  "sourceMap": "25:218:49:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;25:218:49;;;;;;;",
+  "deployedSourceMap": "25:218:49:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;25:218:49;;;;;;;;;;;;;;;;;;;;;;;;;;;;;49:31;;;:::i;:::-;;168:73;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;168:73:49;;;;;;;;;;21:11:-1;8;5:28;2:2;;;46:1;43;36:12;2:2;168:73:49;;35:9:-1;28:4;12:14;8:25;5:40;2:2;;;58:1;55;48:12;2:2;168:73:49;;;;;;100:9:-1;95:1;81:12;77:20;67:8;63:35;60:50;39:11;25:12;22:29;11:107;8:2;;;131:1;128;121:12;8:2;168:73:49;;;;;;;;;;;;:::i;:::-;;85:78;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;85:78:49;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;49:31;:::o;168:73::-;231:6;;224:14;;;;;;;;;;;;;;;;;;;;;;;;;;30:3:-1;22:6;14;1:33;99:1;93:3;85:6;81:16;74:27;137:4;133:9;126:4;121:3;117:14;113:30;106:37;;169:3;161:6;157:16;147:26;;224:14:49;;;;;;;;;;;;;;85:78;140:7;158:2;151:9;;85:78;;;:::o",
+  "source": "pragma solidity ^0.5.4;\n\ncontract TestDapp {\n    function noReturn() external {}\n    function uintReturn(uint256 _i) external pure returns (uint256) { return _i; }\n    function doFail(string calldata reason) external pure { revert(reason); }\n}",
+  "sourcePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/argent/utils/TestDapp.sol",
+  "ast": {
+    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/argent/utils/TestDapp.sol",
+    "exportedSymbols": {
+      "TestDapp": [
+        14532
+      ]
+    },
+    "id": 14533,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 14507,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".4"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:49"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 14532,
+        "linearizedBaseContracts": [
+          14532
+        ],
+        "name": "TestDapp",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 14510,
+              "nodeType": "Block",
+              "src": "78:2:49",
+              "statements": []
+            },
+            "documentation": null,
+            "id": 14511,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "noReturn",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 14508,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "66:2:49"
+            },
+            "returnParameters": {
+              "id": 14509,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "78:0:49"
+            },
+            "scope": 14532,
+            "src": "49:31:49",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": {
+              "id": 14520,
+              "nodeType": "Block",
+              "src": "149:14:49",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 14518,
+                    "name": "_i",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 14513,
+                    "src": "158:2:49",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 14517,
+                  "id": 14519,
+                  "nodeType": "Return",
+                  "src": "151:9:49"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 14521,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "uintReturn",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 14514,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 14513,
+                  "name": "_i",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 14521,
+                  "src": "105:10:49",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 14512,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "105:7:49",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "104:12:49"
+            },
+            "returnParameters": {
+              "id": 14517,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 14516,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 14521,
+                  "src": "140:7:49",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 14515,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "140:7:49",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "139:9:49"
+            },
+            "scope": 14532,
+            "src": "85:78:49",
+            "stateMutability": "pure",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": {
+              "id": 14530,
+              "nodeType": "Block",
+              "src": "222:19:49",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 14527,
+                        "name": "reason",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 14523,
+                        "src": "231:6:49",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_calldata_ptr",
+                          "typeString": "string calldata"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_string_calldata_ptr",
+                          "typeString": "string calldata"
+                        }
+                      ],
+                      "id": 14526,
+                      "name": "revert",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [
+                        32822,
+                        32823
+                      ],
+                      "referencedDeclaration": 32823,
+                      "src": "224:6:49",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_revert_pure$_t_string_memory_ptr_$returns$__$",
+                        "typeString": "function (string memory) pure"
+                      }
+                    },
+                    "id": 14528,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "224:14:49",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 14529,
+                  "nodeType": "ExpressionStatement",
+                  "src": "224:14:49"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 14531,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "doFail",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 14524,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 14523,
+                  "name": "reason",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 14531,
+                  "src": "184:22:49",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_calldata_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 14522,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "184:6:49",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "183:24:49"
+            },
+            "returnParameters": {
+              "id": 14525,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "222:0:49"
+            },
+            "scope": 14532,
+            "src": "168:73:49",
+            "stateMutability": "pure",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 14533,
+        "src": "25:218:49"
+      }
+    ],
+    "src": "0:243:49"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/argent/utils/TestDapp.sol",
+    "exportedSymbols": {
+      "TestDapp": [
+        14532
+      ]
+    },
+    "id": 14533,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 14507,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".4"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:49"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 14532,
+        "linearizedBaseContracts": [
+          14532
+        ],
+        "name": "TestDapp",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 14510,
+              "nodeType": "Block",
+              "src": "78:2:49",
+              "statements": []
+            },
+            "documentation": null,
+            "id": 14511,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "noReturn",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 14508,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "66:2:49"
+            },
+            "returnParameters": {
+              "id": 14509,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "78:0:49"
+            },
+            "scope": 14532,
+            "src": "49:31:49",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": {
+              "id": 14520,
+              "nodeType": "Block",
+              "src": "149:14:49",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 14518,
+                    "name": "_i",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 14513,
+                    "src": "158:2:49",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 14517,
+                  "id": 14519,
+                  "nodeType": "Return",
+                  "src": "151:9:49"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 14521,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "uintReturn",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 14514,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 14513,
+                  "name": "_i",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 14521,
+                  "src": "105:10:49",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 14512,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "105:7:49",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "104:12:49"
+            },
+            "returnParameters": {
+              "id": 14517,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 14516,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 14521,
+                  "src": "140:7:49",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 14515,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "140:7:49",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "139:9:49"
+            },
+            "scope": 14532,
+            "src": "85:78:49",
+            "stateMutability": "pure",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": {
+              "id": 14530,
+              "nodeType": "Block",
+              "src": "222:19:49",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 14527,
+                        "name": "reason",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 14523,
+                        "src": "231:6:49",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_calldata_ptr",
+                          "typeString": "string calldata"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_string_calldata_ptr",
+                          "typeString": "string calldata"
+                        }
+                      ],
+                      "id": 14526,
+                      "name": "revert",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [
+                        32822,
+                        32823
+                      ],
+                      "referencedDeclaration": 32823,
+                      "src": "224:6:49",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_revert_pure$_t_string_memory_ptr_$returns$__$",
+                        "typeString": "function (string memory) pure"
+                      }
+                    },
+                    "id": 14528,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "224:14:49",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 14529,
+                  "nodeType": "ExpressionStatement",
+                  "src": "224:14:49"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 14531,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "doFail",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 14524,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 14523,
+                  "name": "reason",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 14531,
+                  "src": "184:22:49",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_calldata_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 14522,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "184:6:49",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "183:24:49"
+            },
+            "returnParameters": {
+              "id": 14525,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "222:0:49"
+            },
+            "scope": 14532,
+            "src": "168:73:49",
+            "stateMutability": "pure",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 14533,
+        "src": "25:218:49"
+      }
+    ],
+    "src": "0:243:49"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.23",
+  "updatedAt": "2020-03-31T19:52:06.646Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}

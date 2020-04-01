@@ -1,0 +1,3291 @@
+{
+  "contractName": "ArgentENSResolver",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "_node",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "_addr",
+          "type": "address"
+        }
+      ],
+      "name": "AddrChanged",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_manager",
+          "type": "address"
+        }
+      ],
+      "name": "ManagerAdded",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_manager",
+          "type": "address"
+        }
+      ],
+      "name": "ManagerRevoked",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "_node",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "_name",
+          "type": "string"
+        }
+      ],
+      "name": "NameChanged",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnerChanged",
+      "type": "event"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_manager",
+          "type": "address"
+        }
+      ],
+      "name": "addManager",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "changeOwner",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "managers",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_manager",
+          "type": "address"
+        }
+      ],
+      "name": "revokeManager",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "_node",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "address",
+          "name": "_addr",
+          "type": "address"
+        }
+      ],
+      "name": "setAddr",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "_node",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "string",
+          "name": "_name",
+          "type": "string"
+        }
+      ],
+      "name": "setName",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "_node",
+          "type": "bytes32"
+        }
+      ],
+      "name": "addr",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "_node",
+          "type": "bytes32"
+        }
+      ],
+      "name": "name",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "bytes4",
+          "name": "_interfaceID",
+          "type": "bytes4"
+        }
+      ],
+      "name": "supportsInterface",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "pure",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"_node\",\"type\":\"bytes32\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"_addr\",\"type\":\"address\"}],\"name\":\"AddrChanged\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"_manager\",\"type\":\"address\"}],\"name\":\"ManagerAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"_manager\",\"type\":\"address\"}],\"name\":\"ManagerRevoked\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"_node\",\"type\":\"bytes32\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"_name\",\"type\":\"string\"}],\"name\":\"NameChanged\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"_newOwner\",\"type\":\"address\"}],\"name\":\"OwnerChanged\",\"type\":\"event\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"_manager\",\"type\":\"address\"}],\"name\":\"addManager\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_node\",\"type\":\"bytes32\"}],\"name\":\"addr\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"_newOwner\",\"type\":\"address\"}],\"name\":\"changeOwner\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"managers\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_node\",\"type\":\"bytes32\"}],\"name\":\"name\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"_manager\",\"type\":\"address\"}],\"name\":\"revokeManager\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_node\",\"type\":\"bytes32\"},{\"internalType\":\"address\",\"name\":\"_addr\",\"type\":\"address\"}],\"name\":\"setAddr\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"_node\",\"type\":\"bytes32\"},{\"internalType\":\"string\",\"name\":\"_name\",\"type\":\"string\"}],\"name\":\"setName\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"bytes4\",\"name\":\"_interfaceID\",\"type\":\"bytes4\"}],\"name\":\"supportsInterface\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"pure\",\"type\":\"function\"}],\"devdoc\":{\"author\":\"Julien Niset - <julien@argent.im>\",\"details\":\"Basic implementation of a Resolver. The contract defines a manager role who is the only role that can add a new name to the list of resolved names.\",\"methods\":{\"addManager(address)\":{\"details\":\"Adds a manager.\",\"params\":{\"_manager\":\"The address of the manager.\"}},\"addr(bytes32)\":{\"details\":\"Gets the address associated to an ENS node.\",\"params\":{\"_node\":\"The target node.\"},\"return\":\"the address of the target node.\"},\"changeOwner(address)\":{\"details\":\"Lets the owner transfer ownership of the contract to a new owner.\",\"params\":{\"_newOwner\":\"The new owner.\"}},\"name(bytes32)\":{\"details\":\"Gets the name associated to an ENS node.\",\"params\":{\"_node\":\"The target ENS node.\"},\"return\":\"the name of the target ENS node.\"},\"revokeManager(address)\":{\"details\":\"Revokes a manager.\",\"params\":{\"_manager\":\"The address of the manager.\"}},\"setAddr(bytes32,address)\":{\"details\":\"Lets the manager set the address associated with an ENS node.\",\"params\":{\"_addr\":\"The address to set.\",\"_node\":\"The node to update.\"}},\"setName(bytes32,string)\":{\"details\":\"Lets the manager set the name associated with an ENS node.\",\"params\":{\"_name\":\"The name to set.\",\"_node\":\"The node to update.\"}},\"supportsInterface(bytes4)\":{\"details\":\"Returns true if the resolver implements the interface specified by the provided hash.\",\"params\":{\"_interfaceID\":\"The ID of the interface to check for.\"},\"return\":\"True if the contract implements the requested interface.\"}},\"title\":\"ArgentENSResolver\"},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/name/dev/argent-contracts-release-1.5.0/contracts/ens/ArgentENSResolver.sol\":\"ArgentENSResolver\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/name/dev/argent-contracts-release-1.5.0/contracts/base/Managed.sol\":{\"keccak256\":\"0x9587921ba68b2f555e3873da5945c545dab031919391ccea2851eaec6d287fa7\",\"urls\":[\"bzz-raw://01516a5c88420e8f269bc0af50c5d11052379be8bc8e00b16f4fa51130d80b09\",\"dweb:/ipfs/QmXVen9CX15SxzjBXTVLVJSPx2pWPw5vMhG4R6kwdmzNAS\"]},\"/Users/name/dev/argent-contracts-release-1.5.0/contracts/base/Owned.sol\":{\"keccak256\":\"0x16d3e14c2a827284c299bf13451fbbde3d9bff5373ffd4b0b5c1070e8b823e35\",\"urls\":[\"bzz-raw://bf7bfc1e22f508bc1c5aed07518bd59542075eed068263c68433bdff4be0a8f9\",\"dweb:/ipfs/QmQnrK5Fbmgj3YZtGUbpvk3yfu5Z1wkfXoafFi461AswP4\"]},\"/Users/name/dev/argent-contracts-release-1.5.0/contracts/ens/ArgentENSResolver.sol\":{\"keccak256\":\"0x8582f51245a0af8eb606a74aae51c4712d09574c68ab3acd11770029758e1da6\",\"urls\":[\"bzz-raw://a87656be69dc4321e81fdfda8935156153326b97fff1038186d1a30abd1bc2f0\",\"dweb:/ipfs/QmYnEM6dMBU8BHL9M6P1pedVJ2UVibe62tHxeEuou5PuBM\"]},\"/Users/name/dev/argent-contracts-release-1.5.0/contracts/ens/ENSResolver.sol\":{\"keccak256\":\"0x64d7f12eec699b60c88baa52479c37e9807672960a9b4d6431f4acf5e879cd2e\",\"urls\":[\"bzz-raw://17dda78980e873f108d428eaa75163de57287ee3dcdaddd8ea31d05385c79046\",\"dweb:/ipfs/Qmah4vk6jtHTgrudo6kfYVRywz5PVujTfbSoY8LWgP6Lm6\"]}},\"version\":1}",
+  "bytecode": "0x6080604052336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550611129806100536000396000f3fe608060405234801561001057600080fd5b506004361061009e5760003560e01c8063773722131161006657806377372213146102a55780638da5cb5b1461036a578063a6f9dae1146103b4578063d5fa2b00146103f8578063fdff9b4d146104465761009e565b806301ffc9a7146100a35780632d06177a14610108578063377e32e61461014c5780633b3b57de14610190578063691f3431146101fe575b600080fd5b6100ee600480360360208110156100b957600080fd5b8101908080357bffffffffffffffffffffffffffffffffffffffffffffffffffffffff191690602001909291905050506104a2565b604051808215151515815260200191505060405180910390f35b61014a6004803603602081101561011e57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610591565b005b61018e6004803603602081101561016257600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506107ed565b005b6101bc600480360360208110156101a657600080fd5b81019080803590602001909291905050506109ed565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b61022a6004803603602081101561021457600080fd5b8101908080359060200190929190505050610a2d565b6040518080602001828103825283818151815260200191508051906020019080838360005b8381101561026a57808201518184015260208101905061024f565b50505050905090810190601f1680156102975780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b610368600480360360408110156102bb57600080fd5b8101908080359060200190929190803590602001906401000000008111156102e257600080fd5b8201836020820111156102f457600080fd5b8035906020019184600183028401116401000000008311171561031657600080fd5b91908080601f016020809104026020016040519081016040528093929190818152602001838380828437600081840152601f19601f820116905080830192505050505050509192919290505050610ae5565b005b610372610c77565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6103f6600480360360208110156103ca57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610c9c565b005b6104446004803603604081101561040e57600080fd5b8101908080359060200190929190803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610e87565b005b6104886004803603602081101561045c57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff16906020019092919050505061100a565b604051808215151515815260200191505060405180910390f35b60006301ffc9a760e01b7bffffffffffffffffffffffffffffffffffffffffffffffffffffffff1916827bffffffffffffffffffffffffffffffffffffffffffffffffffffffff1916148061053b5750633b3b57de60e01b7bffffffffffffffffffffffffffffffffffffffffffffffffffffffff1916827bffffffffffffffffffffffffffffffffffffffffffffffffffffffff1916145b8061058a575063691f343160e01b7bffffffffffffffffffffffffffffffffffffffffffffffffffffffff1916827bffffffffffffffffffffffffffffffffffffffffffffffffffffffff1916145b9050919050565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614610653576040517f08c379a000000000000000000000000000000000000000000000000000000000815260040180806020018281038252600d8152602001807f4d757374206265206f776e65720000000000000000000000000000000000000081525060200191505060405180910390fd5b600073ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff1614156106f6576040517f08c379a000000000000000000000000000000000000000000000000000000000815260040180806020018281038252601b8152602001807f4d3a2041646472657373206d757374206e6f74206265206e756c6c000000000081525060200191505060405180910390fd5b60001515600160008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060009054906101000a900460ff16151514156107ea5760018060008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060006101000a81548160ff0219169083151502179055508073ffffffffffffffffffffffffffffffffffffffff167f3b4a40cccf2058c593542587329dd385be4f0b588db5471fbd9598e56dd7093a60405160405180910390a25b50565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16146108af576040517f08c379a000000000000000000000000000000000000000000000000000000000815260040180806020018281038252600d8152602001807f4d757374206265206f776e65720000000000000000000000000000000000000081525060200191505060405180910390fd5b60011515600160008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060009054906101000a900460ff16151514610958576040517f08c379a00000000000000000000000000000000000000000000000000000000081526004018080602001828103825260258152602001806110d06025913960400191505060405180910390fd5b600160008273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060006101000a81549060ff02191690558073ffffffffffffffffffffffffffffffffffffffff167fe5def11e0516f317f9c37b8835aec29fc01db4d4b6d6fecaca339d3596a29bc160405160405180910390a250565b60006002600083815260200190815260200160002060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff169050919050565b6060600260008381526020019081526020016000206001018054600181600116156101000203166002900480601f016020809104026020016040519081016040528092919081815260200182805460018160011615610100020316600290048015610ad95780601f10610aae57610100808354040283529160200191610ad9565b820191906000526020600020905b815481529060010190602001808311610abc57829003601f168201915b50505050509050919050565b60011515600160003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060009054906101000a900460ff16151514610bab576040517f08c379a00000000000000000000000000000000000000000000000000000000081526004018080602001828103825260128152602001807f4d3a204d757374206265206d616e61676572000000000000000000000000000081525060200191505060405180910390fd5b80600260008481526020019081526020016000206001019080519060200190610bd592919061102a565b50817fb7d29e911041e8d9b843369e890bcb72c9388692ba48b65ac54e7214c4c348f7826040518080602001828103825283818151815260200191508051906020019080838360005b83811015610c39578082015181840152602081019050610c1e565b50505050905090810190601f168015610c665780820380516001836020036101000a031916815260200191505b509250505060405180910390a25050565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614610d5e576040517f08c379a000000000000000000000000000000000000000000000000000000000815260040180806020018281038252600d8152602001807f4d757374206265206f776e65720000000000000000000000000000000000000081525060200191505060405180910390fd5b600073ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff161415610e01576040517f08c379a00000000000000000000000000000000000000000000000000000000081526004018080602001828103825260188152602001807f41646472657373206d757374206e6f74206265206e756c6c000000000000000081525060200191505060405180910390fd5b806000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055508073ffffffffffffffffffffffffffffffffffffffff167fa2ea9883a321a3e97b8266c2b078bfeec6d50c711ed71f874a90d500ae2eaf3660405160405180910390a250565b60011515600160003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060009054906101000a900460ff16151514610f4d576040517f08c379a00000000000000000000000000000000000000000000000000000000081526004018080602001828103825260128152602001807f4d3a204d757374206265206d616e61676572000000000000000000000000000081525060200191505060405180910390fd5b806002600084815260200190815260200160002060000160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550817f52d7d861f09ab3d26239d492e8968629f95e9e318cf0b73bfddc441522a15fd282604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390a25050565b60016020528060005260406000206000915054906101000a900460ff1681565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061106b57805160ff1916838001178555611099565b82800160010185558215611099579182015b8281111561109857825182559160200191906001019061107d565b5b5090506110a691906110aa565b5090565b6110cc91905b808211156110c85760008160009055506001016110b0565b5090565b9056fe4d3a20546172676574206d75737420626520616e206578697374696e67206d616e61676572a265627a7a72315820364401c223e1e8858aa72c07ebfdd2909bfed243843289dbe8f1e9c430e7b18e64736f6c63430005100032",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b506004361061009e5760003560e01c8063773722131161006657806377372213146102a55780638da5cb5b1461036a578063a6f9dae1146103b4578063d5fa2b00146103f8578063fdff9b4d146104465761009e565b806301ffc9a7146100a35780632d06177a14610108578063377e32e61461014c5780633b3b57de14610190578063691f3431146101fe575b600080fd5b6100ee600480360360208110156100b957600080fd5b8101908080357bffffffffffffffffffffffffffffffffffffffffffffffffffffffff191690602001909291905050506104a2565b604051808215151515815260200191505060405180910390f35b61014a6004803603602081101561011e57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610591565b005b61018e6004803603602081101561016257600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506107ed565b005b6101bc600480360360208110156101a657600080fd5b81019080803590602001909291905050506109ed565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b61022a6004803603602081101561021457600080fd5b8101908080359060200190929190505050610a2d565b6040518080602001828103825283818151815260200191508051906020019080838360005b8381101561026a57808201518184015260208101905061024f565b50505050905090810190601f1680156102975780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b610368600480360360408110156102bb57600080fd5b8101908080359060200190929190803590602001906401000000008111156102e257600080fd5b8201836020820111156102f457600080fd5b8035906020019184600183028401116401000000008311171561031657600080fd5b91908080601f016020809104026020016040519081016040528093929190818152602001838380828437600081840152601f19601f820116905080830192505050505050509192919290505050610ae5565b005b610372610c77565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6103f6600480360360208110156103ca57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610c9c565b005b6104446004803603604081101561040e57600080fd5b8101908080359060200190929190803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610e87565b005b6104886004803603602081101561045c57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff16906020019092919050505061100a565b604051808215151515815260200191505060405180910390f35b60006301ffc9a760e01b7bffffffffffffffffffffffffffffffffffffffffffffffffffffffff1916827bffffffffffffffffffffffffffffffffffffffffffffffffffffffff1916148061053b5750633b3b57de60e01b7bffffffffffffffffffffffffffffffffffffffffffffffffffffffff1916827bffffffffffffffffffffffffffffffffffffffffffffffffffffffff1916145b8061058a575063691f343160e01b7bffffffffffffffffffffffffffffffffffffffffffffffffffffffff1916827bffffffffffffffffffffffffffffffffffffffffffffffffffffffff1916145b9050919050565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614610653576040517f08c379a000000000000000000000000000000000000000000000000000000000815260040180806020018281038252600d8152602001807f4d757374206265206f776e65720000000000000000000000000000000000000081525060200191505060405180910390fd5b600073ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff1614156106f6576040517f08c379a000000000000000000000000000000000000000000000000000000000815260040180806020018281038252601b8152602001807f4d3a2041646472657373206d757374206e6f74206265206e756c6c000000000081525060200191505060405180910390fd5b60001515600160008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060009054906101000a900460ff16151514156107ea5760018060008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060006101000a81548160ff0219169083151502179055508073ffffffffffffffffffffffffffffffffffffffff167f3b4a40cccf2058c593542587329dd385be4f0b588db5471fbd9598e56dd7093a60405160405180910390a25b50565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff16146108af576040517f08c379a000000000000000000000000000000000000000000000000000000000815260040180806020018281038252600d8152602001807f4d757374206265206f776e65720000000000000000000000000000000000000081525060200191505060405180910390fd5b60011515600160008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060009054906101000a900460ff16151514610958576040517f08c379a00000000000000000000000000000000000000000000000000000000081526004018080602001828103825260258152602001806110d06025913960400191505060405180910390fd5b600160008273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060006101000a81549060ff02191690558073ffffffffffffffffffffffffffffffffffffffff167fe5def11e0516f317f9c37b8835aec29fc01db4d4b6d6fecaca339d3596a29bc160405160405180910390a250565b60006002600083815260200190815260200160002060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff169050919050565b6060600260008381526020019081526020016000206001018054600181600116156101000203166002900480601f016020809104026020016040519081016040528092919081815260200182805460018160011615610100020316600290048015610ad95780601f10610aae57610100808354040283529160200191610ad9565b820191906000526020600020905b815481529060010190602001808311610abc57829003601f168201915b50505050509050919050565b60011515600160003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060009054906101000a900460ff16151514610bab576040517f08c379a00000000000000000000000000000000000000000000000000000000081526004018080602001828103825260128152602001807f4d3a204d757374206265206d616e61676572000000000000000000000000000081525060200191505060405180910390fd5b80600260008481526020019081526020016000206001019080519060200190610bd592919061102a565b50817fb7d29e911041e8d9b843369e890bcb72c9388692ba48b65ac54e7214c4c348f7826040518080602001828103825283818151815260200191508051906020019080838360005b83811015610c39578082015181840152602081019050610c1e565b50505050905090810190601f168015610c665780820380516001836020036101000a031916815260200191505b509250505060405180910390a25050565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff1614610d5e576040517f08c379a000000000000000000000000000000000000000000000000000000000815260040180806020018281038252600d8152602001807f4d757374206265206f776e65720000000000000000000000000000000000000081525060200191505060405180910390fd5b600073ffffffffffffffffffffffffffffffffffffffff168173ffffffffffffffffffffffffffffffffffffffff161415610e01576040517f08c379a00000000000000000000000000000000000000000000000000000000081526004018080602001828103825260188152602001807f41646472657373206d757374206e6f74206265206e756c6c000000000000000081525060200191505060405180910390fd5b806000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055508073ffffffffffffffffffffffffffffffffffffffff167fa2ea9883a321a3e97b8266c2b078bfeec6d50c711ed71f874a90d500ae2eaf3660405160405180910390a250565b60011515600160003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060009054906101000a900460ff16151514610f4d576040517f08c379a00000000000000000000000000000000000000000000000000000000081526004018080602001828103825260128152602001807f4d3a204d757374206265206d616e61676572000000000000000000000000000081525060200191505060405180910390fd5b806002600084815260200190815260200160002060000160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550817f52d7d861f09ab3d26239d492e8968629f95e9e318cf0b73bfddc441522a15fd282604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390a25050565b60016020528060005260406000206000915054906101000a900460ff1681565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061106b57805160ff1916838001178555611099565b82800160010185558215611099579182015b8281111561109857825182559160200191906001019061107d565b5b5090506110a691906110aa565b5090565b6110cc91905b808211156110c85760008160009055506001016110b0565b5090565b9056fe4d3a20546172676574206d75737420626520616e206578697374696e67206d616e61676572a265627a7a72315820364401c223e1e8858aa72c07ebfdd2909bfed243843289dbe8f1e9c430e7b18e64736f6c63430005100032",
+  "sourceMap": "1059:2107:9:-;;;1164:10:2;1156:5;;:18;;;;;;;;;;;;;;;;;;1059:2107:9;;;;;;",
+  "deployedSourceMap": "1059:2107:9:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;1059:2107:9;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2954:209;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;2954:209:9;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;1395:269:1;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;1395:269:1;;;;;;;;;;;;;;;;;;;:::i;:::-;;1765:227;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;1765:227:1;;;;;;;;;;;;;;;;;;;:::i;:::-;;2323:102:9;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;2323:102:9;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;2589:108;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;2589:108:9;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;99:1;94:3;90:11;84:18;80:1;75:3;71:11;64:39;52:2;49:1;45:10;40:15;;8:100;;;12:14;2589:108:9;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2005:156;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;2005:156:9;;;;;;;;;;;;;;;;;;;21:11:-1;8;5:28;2:2;;;46:1;43;36:12;2:2;2005:156:9;;35:9:-1;28:4;12:14;8:25;5:40;2:2;;;58:1;55;48:12;2:2;2005:156:9;;;;;;100:9:-1;95:1;81:12;77:20;67:8;63:35;60:50;39:11;25:12;22:29;11:107;8:2;;;131:1;128;121:12;8:2;2005:156:9;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;30:3:-1;22:6;14;1:33;99:1;93:3;85:6;81:16;74:27;137:4;133:9;126:4;121:3;117:14;113:30;106:37;;169:3;161:6;157:16;147:26;;2005:156:9;;;;;;;;;;;;;;;:::i;:::-;;881:20:2;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;1320:201;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;1320:201:2;;;;;;;;;;;;;;;;;;;:::i;:::-;;1685:150:9;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;1685:150:9;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;971:41:1;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;971:41:1;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;2954:209:9;3023:4;1163:10;3062:20;;3046:36;;;:12;:36;;;;:73;;;;1215:10;3102:17;;3086:33;;;:12;:33;;;;3046:73;:110;;;;1267:10;3139:17;;3123:33;;;:12;:33;;;;3046:110;3039:117;;2954:209;;;:::o;1395:269:1:-;1078:5:2;;;;;;;;;;;1064:19;;:10;:19;;;1056:45;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1490:1:1;1470:22;;:8;:22;;;;1462:62;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1560:5;1538:27;;:8;:18;1547:8;1538:18;;;;;;;;;;;;;;;;;;;;;;;;;:27;;;1534:124;;;1602:4;1581:8;:18;1590:8;1581:18;;;;;;;;;;;;;;;;:25;;;;;;;;;;;;;;;;;;1638:8;1625:22;;;;;;;;;;;;1534:124;1395:269;:::o;1765:227::-;1078:5:2;;;;;;;;;;;1064:19;;:10;:19;;;1056:45;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1865:4:1;1843:26;;:8;:18;1852:8;1843:18;;;;;;;;;;;;;;;;;;;;;;;;;:26;;;1835:76;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1928:8;:18;1937:8;1928:18;;;;;;;;;;;;;;;;1921:25;;;;;;;;;;;1976:8;1961:24;;;;;;;;;;;;1765:227;:::o;2323:102:9:-;2373:7;2399;:14;2407:5;2399:14;;;;;;;;;;;:19;;;;;;;;;;;;2392:26;;2323:102;;;:::o;2589:108::-;2639:13;2671:7;:14;2679:5;2671:14;;;;;;;;;;;:19;;2664:26;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2589:108;;;:::o;2005:156::-;1149:4:1;1125:28;;:8;:20;1134:10;1125:20;;;;;;;;;;;;;;;;;;;;;;;;;:28;;;1117:59;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2109:5:9;2087:7;:14;2095:5;2087:14;;;;;;;;;;;:19;;:27;;;;;;;;;;;;:::i;:::-;;2141:5;2129:25;2148:5;2129:25;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;99:1;94:3;90:11;84:18;80:1;75:3;71:11;64:39;52:2;49:1;45:10;40:15;;8:100;;;12:14;2129:25:9;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;2005:156;;:::o;881:20:2:-;;;;;;;;;;;;;:::o;1320:201::-;1078:5;;;;;;;;;;;1064:19;;:10;:19;;;1056:45;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1418:1;1397:23;;:9;:23;;;;1389:60;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1467:9;1459:5;;:17;;;;;;;;;;;;;;;;;;1504:9;1491:23;;;;;;;;;;;;1320:201;:::o;1685:150:9:-;1149:4:1;1125:28;;:8;:20;1134:10;1125:20;;;;;;;;;;;;;;;;;;;;;;;;;:28;;;1117:59;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1783:5:9;1761:7;:14;1769:5;1761:14;;;;;;;;;;;:19;;;:27;;;;;;;;;;;;;;;;;;1815:5;1803:25;1822:5;1803:25;;;;;;;;;;;;;;;;;;;;;;1685:150;;:::o;971:41:1:-;;;;;;;;;;;;;;;;;;;;;;:::o;1059:2107:9:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o",
+  "source": "// Copyright (C) 2018  Argent Labs Ltd. <https://argent.xyz>\n\n// This program is free software: you can redistribute it and/or modify\n// it under the terms of the GNU General Public License as published by\n// the Free Software Foundation, either version 3 of the License, or\n// (at your option) any later version.\n\n// This program is distributed in the hope that it will be useful,\n// but WITHOUT ANY WARRANTY; without even the implied warranty of\n// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n// GNU General Public License for more details.\n\n// You should have received a copy of the GNU General Public License\n// along with this program.  If not, see <http://www.gnu.org/licenses/>.\n\npragma solidity ^0.5.4;\nimport \"../base/Owned.sol\";\nimport \"../base/Managed.sol\";\nimport \"./ENSResolver.sol\";\n\n/**\n * @title ArgentENSResolver\n * @dev Basic implementation of a Resolver.\n * The contract defines a manager role who is the only role that can add a new name\n * to the list of resolved names.\n * @author Julien Niset - <julien@argent.im>\n */\ncontract ArgentENSResolver is Owned, Managed, ENSResolver {\n\n    bytes4 constant SUPPORT_INTERFACE_ID = 0x01ffc9a7;\n    bytes4 constant ADDR_INTERFACE_ID = 0x3b3b57de;\n    bytes4 constant NAME_INTERFACE_ID = 0x691f3431;\n\n    // mapping between namehash and resolved records\n    mapping (bytes32 => Record) records;\n\n    struct Record {\n        address addr;\n        string name;\n    }\n\n    // *************** Public Functions ********************* //\n\n    /**\n     * @dev Lets the manager set the address associated with an ENS node.\n     * @param _node The node to update.\n     * @param _addr The address to set.\n     */\n    function setAddr(bytes32 _node, address _addr) public onlyManager {\n        records[_node].addr = _addr;\n        emit AddrChanged(_node, _addr);\n    }\n\n    /**\n     * @dev Lets the manager set the name associated with an ENS node.\n     * @param _node The node to update.\n     * @param _name The name to set.\n     */\n    function setName(bytes32 _node, string memory _name) public onlyManager {\n        records[_node].name = _name;\n        emit NameChanged(_node, _name);\n    }\n\n    /**\n     * @dev Gets the address associated to an ENS node.\n     * @param _node The target node.\n     * @return the address of the target node.\n     */\n    function addr(bytes32 _node) public view returns (address) {\n        return records[_node].addr;\n    }\n\n    /**\n     * @dev Gets the name associated to an ENS node.\n     * @param _node The target ENS node.\n     * @return the name of the target ENS node.\n     */\n    function name(bytes32 _node) public view returns (string memory) {\n        return records[_node].name;\n    }\n\n    /**\n     * @dev Returns true if the resolver implements the interface specified by the provided hash.\n     * @param _interfaceID The ID of the interface to check for.\n     * @return True if the contract implements the requested interface.\n     */\n    function supportsInterface(bytes4 _interfaceID) public pure returns (bool) {\n        return _interfaceID == SUPPORT_INTERFACE_ID || _interfaceID == ADDR_INTERFACE_ID || _interfaceID == NAME_INTERFACE_ID;\n    }\n\n}\n",
+  "sourcePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/ens/ArgentENSResolver.sol",
+  "ast": {
+    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/ens/ArgentENSResolver.sol",
+    "exportedSymbols": {
+      "ArgentENSResolver": [
+        1588
+      ]
+    },
+    "id": 1589,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1470,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".4"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "705:23:9"
+      },
+      {
+        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/base/Owned.sol",
+        "file": "../base/Owned.sol",
+        "id": 1471,
+        "nodeType": "ImportDirective",
+        "scope": 1589,
+        "sourceUnit": 574,
+        "src": "729:27:9",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/base/Managed.sol",
+        "file": "../base/Managed.sol",
+        "id": 1472,
+        "nodeType": "ImportDirective",
+        "scope": 1589,
+        "sourceUnit": 519,
+        "src": "757:29:9",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/ens/ENSResolver.sol",
+        "file": "./ENSResolver.sol",
+        "id": 1473,
+        "nodeType": "ImportDirective",
+        "scope": 1589,
+        "sourceUnit": 1632,
+        "src": "787:27:9",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 1474,
+              "name": "Owned",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 573,
+              "src": "1089:5:9",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_Owned_$573",
+                "typeString": "contract Owned"
+              }
+            },
+            "id": 1475,
+            "nodeType": "InheritanceSpecifier",
+            "src": "1089:5:9"
+          },
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 1476,
+              "name": "Managed",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 518,
+              "src": "1096:7:9",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_Managed_$518",
+                "typeString": "contract Managed"
+              }
+            },
+            "id": 1477,
+            "nodeType": "InheritanceSpecifier",
+            "src": "1096:7:9"
+          },
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 1478,
+              "name": "ENSResolver",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1631,
+              "src": "1105:11:9",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_ENSResolver_$1631",
+                "typeString": "contract ENSResolver"
+              }
+            },
+            "id": 1479,
+            "nodeType": "InheritanceSpecifier",
+            "src": "1105:11:9"
+          }
+        ],
+        "contractDependencies": [
+          518,
+          573,
+          1631
+        ],
+        "contractKind": "contract",
+        "documentation": "@title ArgentENSResolver\n@dev Basic implementation of a Resolver.\nThe contract defines a manager role who is the only role that can add a new name\nto the list of resolved names.\n@author Julien Niset - <julien@argent.im>",
+        "fullyImplemented": true,
+        "id": 1588,
+        "linearizedBaseContracts": [
+          1588,
+          1631,
+          518,
+          573
+        ],
+        "name": "ArgentENSResolver",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": true,
+            "id": 1482,
+            "name": "SUPPORT_INTERFACE_ID",
+            "nodeType": "VariableDeclaration",
+            "scope": 1588,
+            "src": "1124:49:9",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_bytes4",
+              "typeString": "bytes4"
+            },
+            "typeName": {
+              "id": 1480,
+              "name": "bytes4",
+              "nodeType": "ElementaryTypeName",
+              "src": "1124:6:9",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bytes4",
+                "typeString": "bytes4"
+              }
+            },
+            "value": {
+              "argumentTypes": null,
+              "hexValue": "30783031666663396137",
+              "id": 1481,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "1163:10:9",
+              "subdenomination": null,
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_33540519_by_1",
+                "typeString": "int_const 33540519"
+              },
+              "value": "0x01ffc9a7"
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": true,
+            "id": 1485,
+            "name": "ADDR_INTERFACE_ID",
+            "nodeType": "VariableDeclaration",
+            "scope": 1588,
+            "src": "1179:46:9",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_bytes4",
+              "typeString": "bytes4"
+            },
+            "typeName": {
+              "id": 1483,
+              "name": "bytes4",
+              "nodeType": "ElementaryTypeName",
+              "src": "1179:6:9",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bytes4",
+                "typeString": "bytes4"
+              }
+            },
+            "value": {
+              "argumentTypes": null,
+              "hexValue": "30783362336235376465",
+              "id": 1484,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "1215:10:9",
+              "subdenomination": null,
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_993744862_by_1",
+                "typeString": "int_const 993744862"
+              },
+              "value": "0x3b3b57de"
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": true,
+            "id": 1488,
+            "name": "NAME_INTERFACE_ID",
+            "nodeType": "VariableDeclaration",
+            "scope": 1588,
+            "src": "1231:46:9",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_bytes4",
+              "typeString": "bytes4"
+            },
+            "typeName": {
+              "id": 1486,
+              "name": "bytes4",
+              "nodeType": "ElementaryTypeName",
+              "src": "1231:6:9",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bytes4",
+                "typeString": "bytes4"
+              }
+            },
+            "value": {
+              "argumentTypes": null,
+              "hexValue": "30783639316633343331",
+              "id": 1487,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "1267:10:9",
+              "subdenomination": null,
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_1763652657_by_1",
+                "typeString": "int_const 1763652657"
+              },
+              "value": "0x691f3431"
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": false,
+            "id": 1492,
+            "name": "records",
+            "nodeType": "VariableDeclaration",
+            "scope": 1588,
+            "src": "1337:35:9",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Record_$1497_storage_$",
+              "typeString": "mapping(bytes32 => struct ArgentENSResolver.Record)"
+            },
+            "typeName": {
+              "id": 1491,
+              "keyType": {
+                "id": 1489,
+                "name": "bytes32",
+                "nodeType": "ElementaryTypeName",
+                "src": "1346:7:9",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bytes32",
+                  "typeString": "bytes32"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "1337:27:9",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Record_$1497_storage_$",
+                "typeString": "mapping(bytes32 => struct ArgentENSResolver.Record)"
+              },
+              "valueType": {
+                "contractScope": null,
+                "id": 1490,
+                "name": "Record",
+                "nodeType": "UserDefinedTypeName",
+                "referencedDeclaration": 1497,
+                "src": "1357:6:9",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_Record_$1497_storage_ptr",
+                  "typeString": "struct ArgentENSResolver.Record"
+                }
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "canonicalName": "ArgentENSResolver.Record",
+            "id": 1497,
+            "members": [
+              {
+                "constant": false,
+                "id": 1494,
+                "name": "addr",
+                "nodeType": "VariableDeclaration",
+                "scope": 1497,
+                "src": "1403:12:9",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 1493,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1403:7:9",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1496,
+                "name": "name",
+                "nodeType": "VariableDeclaration",
+                "scope": 1497,
+                "src": "1425:11:9",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 1495,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1425:6:9",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "Record",
+            "nodeType": "StructDefinition",
+            "scope": 1588,
+            "src": "1379:64:9",
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1518,
+              "nodeType": "Block",
+              "src": "1751:84:9",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 1511,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "baseExpression": {
+                          "argumentTypes": null,
+                          "id": 1506,
+                          "name": "records",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 1492,
+                          "src": "1761:7:9",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Record_$1497_storage_$",
+                            "typeString": "mapping(bytes32 => struct ArgentENSResolver.Record storage ref)"
+                          }
+                        },
+                        "id": 1508,
+                        "indexExpression": {
+                          "argumentTypes": null,
+                          "id": 1507,
+                          "name": "_node",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 1499,
+                          "src": "1769:5:9",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bytes32",
+                            "typeString": "bytes32"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "1761:14:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Record_$1497_storage",
+                          "typeString": "struct ArgentENSResolver.Record storage ref"
+                        }
+                      },
+                      "id": 1509,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "memberName": "addr",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 1494,
+                      "src": "1761:19:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 1510,
+                      "name": "_addr",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1501,
+                      "src": "1783:5:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "src": "1761:27:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "id": 1512,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1761:27:9"
+                },
+                {
+                  "eventCall": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 1514,
+                        "name": "_node",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1499,
+                        "src": "1815:5:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 1515,
+                        "name": "_addr",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1501,
+                        "src": "1822:5:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        },
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      ],
+                      "id": 1513,
+                      "name": "AddrChanged",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1596,
+                      "src": "1803:11:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_event_nonpayable$_t_bytes32_$_t_address_$returns$__$",
+                        "typeString": "function (bytes32,address)"
+                      }
+                    },
+                    "id": 1516,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1803:25:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 1517,
+                  "nodeType": "EmitStatement",
+                  "src": "1798:30:9"
+                }
+              ]
+            },
+            "documentation": "@dev Lets the manager set the address associated with an ENS node.\n@param _node The node to update.\n@param _addr The address to set.",
+            "id": 1519,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [
+              {
+                "arguments": null,
+                "id": 1504,
+                "modifierName": {
+                  "argumentTypes": null,
+                  "id": 1503,
+                  "name": "onlyManager",
+                  "nodeType": "Identifier",
+                  "overloadedDeclarations": [],
+                  "referencedDeclaration": 449,
+                  "src": "1739:11:9",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_modifier$__$",
+                    "typeString": "modifier ()"
+                  }
+                },
+                "nodeType": "ModifierInvocation",
+                "src": "1739:11:9"
+              }
+            ],
+            "name": "setAddr",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1502,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1499,
+                  "name": "_node",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1519,
+                  "src": "1702:13:9",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 1498,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1702:7:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1501,
+                  "name": "_addr",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1519,
+                  "src": "1717:13:9",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1500,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1717:7:9",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1701:30:9"
+            },
+            "returnParameters": {
+              "id": 1505,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1751:0:9"
+            },
+            "scope": 1588,
+            "src": "1685:150:9",
+            "stateMutability": "nonpayable",
+            "superFunction": 1616,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1540,
+              "nodeType": "Block",
+              "src": "2077:84:9",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 1533,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "baseExpression": {
+                          "argumentTypes": null,
+                          "id": 1528,
+                          "name": "records",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 1492,
+                          "src": "2087:7:9",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Record_$1497_storage_$",
+                            "typeString": "mapping(bytes32 => struct ArgentENSResolver.Record storage ref)"
+                          }
+                        },
+                        "id": 1530,
+                        "indexExpression": {
+                          "argumentTypes": null,
+                          "id": 1529,
+                          "name": "_node",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 1521,
+                          "src": "2095:5:9",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bytes32",
+                            "typeString": "bytes32"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "2087:14:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Record_$1497_storage",
+                          "typeString": "struct ArgentENSResolver.Record storage ref"
+                        }
+                      },
+                      "id": 1531,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "memberName": "name",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 1496,
+                      "src": "2087:19:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_string_storage",
+                        "typeString": "string storage ref"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 1532,
+                      "name": "_name",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1523,
+                      "src": "2109:5:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_string_memory_ptr",
+                        "typeString": "string memory"
+                      }
+                    },
+                    "src": "2087:27:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage",
+                      "typeString": "string storage ref"
+                    }
+                  },
+                  "id": 1534,
+                  "nodeType": "ExpressionStatement",
+                  "src": "2087:27:9"
+                },
+                {
+                  "eventCall": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 1536,
+                        "name": "_node",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1521,
+                        "src": "2141:5:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 1537,
+                        "name": "_name",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1523,
+                        "src": "2148:5:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        },
+                        {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      ],
+                      "id": 1535,
+                      "name": "NameChanged",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1602,
+                      "src": "2129:11:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_event_nonpayable$_t_bytes32_$_t_string_memory_ptr_$returns$__$",
+                        "typeString": "function (bytes32,string memory)"
+                      }
+                    },
+                    "id": 1538,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "2129:25:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 1539,
+                  "nodeType": "EmitStatement",
+                  "src": "2124:30:9"
+                }
+              ]
+            },
+            "documentation": "@dev Lets the manager set the name associated with an ENS node.\n@param _node The node to update.\n@param _name The name to set.",
+            "id": 1541,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [
+              {
+                "arguments": null,
+                "id": 1526,
+                "modifierName": {
+                  "argumentTypes": null,
+                  "id": 1525,
+                  "name": "onlyManager",
+                  "nodeType": "Identifier",
+                  "overloadedDeclarations": [],
+                  "referencedDeclaration": 449,
+                  "src": "2065:11:9",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_modifier$__$",
+                    "typeString": "modifier ()"
+                  }
+                },
+                "nodeType": "ModifierInvocation",
+                "src": "2065:11:9"
+              }
+            ],
+            "name": "setName",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1524,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1521,
+                  "name": "_node",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1541,
+                  "src": "2022:13:9",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 1520,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2022:7:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1523,
+                  "name": "_name",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1541,
+                  "src": "2037:19:9",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 1522,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2037:6:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2021:36:9"
+            },
+            "returnParameters": {
+              "id": 1527,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2077:0:9"
+            },
+            "scope": 1588,
+            "src": "2005:156:9",
+            "stateMutability": "nonpayable",
+            "superFunction": 1630,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1553,
+              "nodeType": "Block",
+              "src": "2382:43:9",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "expression": {
+                      "argumentTypes": null,
+                      "baseExpression": {
+                        "argumentTypes": null,
+                        "id": 1548,
+                        "name": "records",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1492,
+                        "src": "2399:7:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Record_$1497_storage_$",
+                          "typeString": "mapping(bytes32 => struct ArgentENSResolver.Record storage ref)"
+                        }
+                      },
+                      "id": 1550,
+                      "indexExpression": {
+                        "argumentTypes": null,
+                        "id": 1549,
+                        "name": "_node",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1543,
+                        "src": "2407:5:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      },
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "nodeType": "IndexAccess",
+                      "src": "2399:14:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Record_$1497_storage",
+                        "typeString": "struct ArgentENSResolver.Record storage ref"
+                      }
+                    },
+                    "id": 1551,
+                    "isConstant": false,
+                    "isLValue": true,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "memberName": "addr",
+                    "nodeType": "MemberAccess",
+                    "referencedDeclaration": 1494,
+                    "src": "2399:19:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "functionReturnParameters": 1547,
+                  "id": 1552,
+                  "nodeType": "Return",
+                  "src": "2392:26:9"
+                }
+              ]
+            },
+            "documentation": "@dev Gets the address associated to an ENS node.\n@param _node The target node.\n@return the address of the target node.",
+            "id": 1554,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "addr",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1544,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1543,
+                  "name": "_node",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1554,
+                  "src": "2337:13:9",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 1542,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2337:7:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2336:15:9"
+            },
+            "returnParameters": {
+              "id": 1547,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1546,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1554,
+                  "src": "2373:7:9",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1545,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2373:7:9",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2372:9:9"
+            },
+            "scope": 1588,
+            "src": "2323:102:9",
+            "stateMutability": "view",
+            "superFunction": 1609,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1566,
+              "nodeType": "Block",
+              "src": "2654:43:9",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "expression": {
+                      "argumentTypes": null,
+                      "baseExpression": {
+                        "argumentTypes": null,
+                        "id": 1561,
+                        "name": "records",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1492,
+                        "src": "2671:7:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Record_$1497_storage_$",
+                          "typeString": "mapping(bytes32 => struct ArgentENSResolver.Record storage ref)"
+                        }
+                      },
+                      "id": 1563,
+                      "indexExpression": {
+                        "argumentTypes": null,
+                        "id": 1562,
+                        "name": "_node",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1556,
+                        "src": "2679:5:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      },
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "nodeType": "IndexAccess",
+                      "src": "2671:14:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Record_$1497_storage",
+                        "typeString": "struct ArgentENSResolver.Record storage ref"
+                      }
+                    },
+                    "id": 1564,
+                    "isConstant": false,
+                    "isLValue": true,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "memberName": "name",
+                    "nodeType": "MemberAccess",
+                    "referencedDeclaration": 1496,
+                    "src": "2671:19:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage",
+                      "typeString": "string storage ref"
+                    }
+                  },
+                  "functionReturnParameters": 1560,
+                  "id": 1565,
+                  "nodeType": "Return",
+                  "src": "2664:26:9"
+                }
+              ]
+            },
+            "documentation": "@dev Gets the name associated to an ENS node.\n@param _node The target ENS node.\n@return the name of the target ENS node.",
+            "id": 1567,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "name",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1557,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1556,
+                  "name": "_node",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1567,
+                  "src": "2603:13:9",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 1555,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2603:7:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2602:15:9"
+            },
+            "returnParameters": {
+              "id": 1560,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1559,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1567,
+                  "src": "2639:13:9",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 1558,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2639:6:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2638:15:9"
+            },
+            "scope": 1588,
+            "src": "2589:108:9",
+            "stateMutability": "view",
+            "superFunction": 1623,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1586,
+              "nodeType": "Block",
+              "src": "3029:134:9",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "commonType": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    },
+                    "id": 1584,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "argumentTypes": null,
+                      "commonType": {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      },
+                      "id": 1580,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "leftExpression": {
+                        "argumentTypes": null,
+                        "commonType": {
+                          "typeIdentifier": "t_bytes4",
+                          "typeString": "bytes4"
+                        },
+                        "id": 1576,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "argumentTypes": null,
+                          "id": 1574,
+                          "name": "_interfaceID",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 1569,
+                          "src": "3046:12:9",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bytes4",
+                            "typeString": "bytes4"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "==",
+                        "rightExpression": {
+                          "argumentTypes": null,
+                          "id": 1575,
+                          "name": "SUPPORT_INTERFACE_ID",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 1482,
+                          "src": "3062:20:9",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bytes4",
+                            "typeString": "bytes4"
+                          }
+                        },
+                        "src": "3046:36:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      },
+                      "nodeType": "BinaryOperation",
+                      "operator": "||",
+                      "rightExpression": {
+                        "argumentTypes": null,
+                        "commonType": {
+                          "typeIdentifier": "t_bytes4",
+                          "typeString": "bytes4"
+                        },
+                        "id": 1579,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "argumentTypes": null,
+                          "id": 1577,
+                          "name": "_interfaceID",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 1569,
+                          "src": "3086:12:9",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bytes4",
+                            "typeString": "bytes4"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "==",
+                        "rightExpression": {
+                          "argumentTypes": null,
+                          "id": 1578,
+                          "name": "ADDR_INTERFACE_ID",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 1485,
+                          "src": "3102:17:9",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bytes4",
+                            "typeString": "bytes4"
+                          }
+                        },
+                        "src": "3086:33:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      },
+                      "src": "3046:73:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "||",
+                    "rightExpression": {
+                      "argumentTypes": null,
+                      "commonType": {
+                        "typeIdentifier": "t_bytes4",
+                        "typeString": "bytes4"
+                      },
+                      "id": 1583,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "leftExpression": {
+                        "argumentTypes": null,
+                        "id": 1581,
+                        "name": "_interfaceID",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1569,
+                        "src": "3123:12:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes4",
+                          "typeString": "bytes4"
+                        }
+                      },
+                      "nodeType": "BinaryOperation",
+                      "operator": "==",
+                      "rightExpression": {
+                        "argumentTypes": null,
+                        "id": 1582,
+                        "name": "NAME_INTERFACE_ID",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1488,
+                        "src": "3139:17:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes4",
+                          "typeString": "bytes4"
+                        }
+                      },
+                      "src": "3123:33:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      }
+                    },
+                    "src": "3046:110:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "functionReturnParameters": 1573,
+                  "id": 1585,
+                  "nodeType": "Return",
+                  "src": "3039:117:9"
+                }
+              ]
+            },
+            "documentation": "@dev Returns true if the resolver implements the interface specified by the provided hash.\n@param _interfaceID The ID of the interface to check for.\n@return True if the contract implements the requested interface.",
+            "id": 1587,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "supportsInterface",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1570,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1569,
+                  "name": "_interfaceID",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1587,
+                  "src": "2981:19:9",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes4",
+                    "typeString": "bytes4"
+                  },
+                  "typeName": {
+                    "id": 1568,
+                    "name": "bytes4",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2981:6:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes4",
+                      "typeString": "bytes4"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2980:21:9"
+            },
+            "returnParameters": {
+              "id": 1573,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1572,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1587,
+                  "src": "3023:4:9",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 1571,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3023:4:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "3022:6:9"
+            },
+            "scope": 1588,
+            "src": "2954:209:9",
+            "stateMutability": "pure",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 1589,
+        "src": "1059:2107:9"
+      }
+    ],
+    "src": "705:2462:9"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/ens/ArgentENSResolver.sol",
+    "exportedSymbols": {
+      "ArgentENSResolver": [
+        1588
+      ]
+    },
+    "id": 1589,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1470,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".4"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "705:23:9"
+      },
+      {
+        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/base/Owned.sol",
+        "file": "../base/Owned.sol",
+        "id": 1471,
+        "nodeType": "ImportDirective",
+        "scope": 1589,
+        "sourceUnit": 574,
+        "src": "729:27:9",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/base/Managed.sol",
+        "file": "../base/Managed.sol",
+        "id": 1472,
+        "nodeType": "ImportDirective",
+        "scope": 1589,
+        "sourceUnit": 519,
+        "src": "757:29:9",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/ens/ENSResolver.sol",
+        "file": "./ENSResolver.sol",
+        "id": 1473,
+        "nodeType": "ImportDirective",
+        "scope": 1589,
+        "sourceUnit": 1632,
+        "src": "787:27:9",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 1474,
+              "name": "Owned",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 573,
+              "src": "1089:5:9",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_Owned_$573",
+                "typeString": "contract Owned"
+              }
+            },
+            "id": 1475,
+            "nodeType": "InheritanceSpecifier",
+            "src": "1089:5:9"
+          },
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 1476,
+              "name": "Managed",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 518,
+              "src": "1096:7:9",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_Managed_$518",
+                "typeString": "contract Managed"
+              }
+            },
+            "id": 1477,
+            "nodeType": "InheritanceSpecifier",
+            "src": "1096:7:9"
+          },
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 1478,
+              "name": "ENSResolver",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1631,
+              "src": "1105:11:9",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_ENSResolver_$1631",
+                "typeString": "contract ENSResolver"
+              }
+            },
+            "id": 1479,
+            "nodeType": "InheritanceSpecifier",
+            "src": "1105:11:9"
+          }
+        ],
+        "contractDependencies": [
+          518,
+          573,
+          1631
+        ],
+        "contractKind": "contract",
+        "documentation": "@title ArgentENSResolver\n@dev Basic implementation of a Resolver.\nThe contract defines a manager role who is the only role that can add a new name\nto the list of resolved names.\n@author Julien Niset - <julien@argent.im>",
+        "fullyImplemented": true,
+        "id": 1588,
+        "linearizedBaseContracts": [
+          1588,
+          1631,
+          518,
+          573
+        ],
+        "name": "ArgentENSResolver",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": true,
+            "id": 1482,
+            "name": "SUPPORT_INTERFACE_ID",
+            "nodeType": "VariableDeclaration",
+            "scope": 1588,
+            "src": "1124:49:9",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_bytes4",
+              "typeString": "bytes4"
+            },
+            "typeName": {
+              "id": 1480,
+              "name": "bytes4",
+              "nodeType": "ElementaryTypeName",
+              "src": "1124:6:9",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bytes4",
+                "typeString": "bytes4"
+              }
+            },
+            "value": {
+              "argumentTypes": null,
+              "hexValue": "30783031666663396137",
+              "id": 1481,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "1163:10:9",
+              "subdenomination": null,
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_33540519_by_1",
+                "typeString": "int_const 33540519"
+              },
+              "value": "0x01ffc9a7"
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": true,
+            "id": 1485,
+            "name": "ADDR_INTERFACE_ID",
+            "nodeType": "VariableDeclaration",
+            "scope": 1588,
+            "src": "1179:46:9",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_bytes4",
+              "typeString": "bytes4"
+            },
+            "typeName": {
+              "id": 1483,
+              "name": "bytes4",
+              "nodeType": "ElementaryTypeName",
+              "src": "1179:6:9",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bytes4",
+                "typeString": "bytes4"
+              }
+            },
+            "value": {
+              "argumentTypes": null,
+              "hexValue": "30783362336235376465",
+              "id": 1484,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "1215:10:9",
+              "subdenomination": null,
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_993744862_by_1",
+                "typeString": "int_const 993744862"
+              },
+              "value": "0x3b3b57de"
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": true,
+            "id": 1488,
+            "name": "NAME_INTERFACE_ID",
+            "nodeType": "VariableDeclaration",
+            "scope": 1588,
+            "src": "1231:46:9",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_bytes4",
+              "typeString": "bytes4"
+            },
+            "typeName": {
+              "id": 1486,
+              "name": "bytes4",
+              "nodeType": "ElementaryTypeName",
+              "src": "1231:6:9",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bytes4",
+                "typeString": "bytes4"
+              }
+            },
+            "value": {
+              "argumentTypes": null,
+              "hexValue": "30783639316633343331",
+              "id": 1487,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "1267:10:9",
+              "subdenomination": null,
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_1763652657_by_1",
+                "typeString": "int_const 1763652657"
+              },
+              "value": "0x691f3431"
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": false,
+            "id": 1492,
+            "name": "records",
+            "nodeType": "VariableDeclaration",
+            "scope": 1588,
+            "src": "1337:35:9",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Record_$1497_storage_$",
+              "typeString": "mapping(bytes32 => struct ArgentENSResolver.Record)"
+            },
+            "typeName": {
+              "id": 1491,
+              "keyType": {
+                "id": 1489,
+                "name": "bytes32",
+                "nodeType": "ElementaryTypeName",
+                "src": "1346:7:9",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bytes32",
+                  "typeString": "bytes32"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "1337:27:9",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Record_$1497_storage_$",
+                "typeString": "mapping(bytes32 => struct ArgentENSResolver.Record)"
+              },
+              "valueType": {
+                "contractScope": null,
+                "id": 1490,
+                "name": "Record",
+                "nodeType": "UserDefinedTypeName",
+                "referencedDeclaration": 1497,
+                "src": "1357:6:9",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_Record_$1497_storage_ptr",
+                  "typeString": "struct ArgentENSResolver.Record"
+                }
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "canonicalName": "ArgentENSResolver.Record",
+            "id": 1497,
+            "members": [
+              {
+                "constant": false,
+                "id": 1494,
+                "name": "addr",
+                "nodeType": "VariableDeclaration",
+                "scope": 1497,
+                "src": "1403:12:9",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 1493,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1403:7:9",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 1496,
+                "name": "name",
+                "nodeType": "VariableDeclaration",
+                "scope": 1497,
+                "src": "1425:11:9",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 1495,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1425:6:9",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "Record",
+            "nodeType": "StructDefinition",
+            "scope": 1588,
+            "src": "1379:64:9",
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1518,
+              "nodeType": "Block",
+              "src": "1751:84:9",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 1511,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "baseExpression": {
+                          "argumentTypes": null,
+                          "id": 1506,
+                          "name": "records",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 1492,
+                          "src": "1761:7:9",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Record_$1497_storage_$",
+                            "typeString": "mapping(bytes32 => struct ArgentENSResolver.Record storage ref)"
+                          }
+                        },
+                        "id": 1508,
+                        "indexExpression": {
+                          "argumentTypes": null,
+                          "id": 1507,
+                          "name": "_node",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 1499,
+                          "src": "1769:5:9",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bytes32",
+                            "typeString": "bytes32"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "1761:14:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Record_$1497_storage",
+                          "typeString": "struct ArgentENSResolver.Record storage ref"
+                        }
+                      },
+                      "id": 1509,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "memberName": "addr",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 1494,
+                      "src": "1761:19:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 1510,
+                      "name": "_addr",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1501,
+                      "src": "1783:5:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "src": "1761:27:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "id": 1512,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1761:27:9"
+                },
+                {
+                  "eventCall": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 1514,
+                        "name": "_node",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1499,
+                        "src": "1815:5:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 1515,
+                        "name": "_addr",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1501,
+                        "src": "1822:5:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        },
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      ],
+                      "id": 1513,
+                      "name": "AddrChanged",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1596,
+                      "src": "1803:11:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_event_nonpayable$_t_bytes32_$_t_address_$returns$__$",
+                        "typeString": "function (bytes32,address)"
+                      }
+                    },
+                    "id": 1516,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1803:25:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 1517,
+                  "nodeType": "EmitStatement",
+                  "src": "1798:30:9"
+                }
+              ]
+            },
+            "documentation": "@dev Lets the manager set the address associated with an ENS node.\n@param _node The node to update.\n@param _addr The address to set.",
+            "id": 1519,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [
+              {
+                "arguments": null,
+                "id": 1504,
+                "modifierName": {
+                  "argumentTypes": null,
+                  "id": 1503,
+                  "name": "onlyManager",
+                  "nodeType": "Identifier",
+                  "overloadedDeclarations": [],
+                  "referencedDeclaration": 449,
+                  "src": "1739:11:9",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_modifier$__$",
+                    "typeString": "modifier ()"
+                  }
+                },
+                "nodeType": "ModifierInvocation",
+                "src": "1739:11:9"
+              }
+            ],
+            "name": "setAddr",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1502,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1499,
+                  "name": "_node",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1519,
+                  "src": "1702:13:9",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 1498,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1702:7:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1501,
+                  "name": "_addr",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1519,
+                  "src": "1717:13:9",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1500,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1717:7:9",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1701:30:9"
+            },
+            "returnParameters": {
+              "id": 1505,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1751:0:9"
+            },
+            "scope": 1588,
+            "src": "1685:150:9",
+            "stateMutability": "nonpayable",
+            "superFunction": 1616,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1540,
+              "nodeType": "Block",
+              "src": "2077:84:9",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 1533,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "baseExpression": {
+                          "argumentTypes": null,
+                          "id": 1528,
+                          "name": "records",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 1492,
+                          "src": "2087:7:9",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Record_$1497_storage_$",
+                            "typeString": "mapping(bytes32 => struct ArgentENSResolver.Record storage ref)"
+                          }
+                        },
+                        "id": 1530,
+                        "indexExpression": {
+                          "argumentTypes": null,
+                          "id": 1529,
+                          "name": "_node",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 1521,
+                          "src": "2095:5:9",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bytes32",
+                            "typeString": "bytes32"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "2087:14:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Record_$1497_storage",
+                          "typeString": "struct ArgentENSResolver.Record storage ref"
+                        }
+                      },
+                      "id": 1531,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "memberName": "name",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 1496,
+                      "src": "2087:19:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_string_storage",
+                        "typeString": "string storage ref"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "id": 1532,
+                      "name": "_name",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1523,
+                      "src": "2109:5:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_string_memory_ptr",
+                        "typeString": "string memory"
+                      }
+                    },
+                    "src": "2087:27:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage",
+                      "typeString": "string storage ref"
+                    }
+                  },
+                  "id": 1534,
+                  "nodeType": "ExpressionStatement",
+                  "src": "2087:27:9"
+                },
+                {
+                  "eventCall": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 1536,
+                        "name": "_node",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1521,
+                        "src": "2141:5:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 1537,
+                        "name": "_name",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1523,
+                        "src": "2148:5:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        },
+                        {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      ],
+                      "id": 1535,
+                      "name": "NameChanged",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1602,
+                      "src": "2129:11:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_event_nonpayable$_t_bytes32_$_t_string_memory_ptr_$returns$__$",
+                        "typeString": "function (bytes32,string memory)"
+                      }
+                    },
+                    "id": 1538,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "2129:25:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 1539,
+                  "nodeType": "EmitStatement",
+                  "src": "2124:30:9"
+                }
+              ]
+            },
+            "documentation": "@dev Lets the manager set the name associated with an ENS node.\n@param _node The node to update.\n@param _name The name to set.",
+            "id": 1541,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [
+              {
+                "arguments": null,
+                "id": 1526,
+                "modifierName": {
+                  "argumentTypes": null,
+                  "id": 1525,
+                  "name": "onlyManager",
+                  "nodeType": "Identifier",
+                  "overloadedDeclarations": [],
+                  "referencedDeclaration": 449,
+                  "src": "2065:11:9",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_modifier$__$",
+                    "typeString": "modifier ()"
+                  }
+                },
+                "nodeType": "ModifierInvocation",
+                "src": "2065:11:9"
+              }
+            ],
+            "name": "setName",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1524,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1521,
+                  "name": "_node",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1541,
+                  "src": "2022:13:9",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 1520,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2022:7:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1523,
+                  "name": "_name",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1541,
+                  "src": "2037:19:9",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 1522,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2037:6:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2021:36:9"
+            },
+            "returnParameters": {
+              "id": 1527,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2077:0:9"
+            },
+            "scope": 1588,
+            "src": "2005:156:9",
+            "stateMutability": "nonpayable",
+            "superFunction": 1630,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1553,
+              "nodeType": "Block",
+              "src": "2382:43:9",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "expression": {
+                      "argumentTypes": null,
+                      "baseExpression": {
+                        "argumentTypes": null,
+                        "id": 1548,
+                        "name": "records",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1492,
+                        "src": "2399:7:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Record_$1497_storage_$",
+                          "typeString": "mapping(bytes32 => struct ArgentENSResolver.Record storage ref)"
+                        }
+                      },
+                      "id": 1550,
+                      "indexExpression": {
+                        "argumentTypes": null,
+                        "id": 1549,
+                        "name": "_node",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1543,
+                        "src": "2407:5:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      },
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "nodeType": "IndexAccess",
+                      "src": "2399:14:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Record_$1497_storage",
+                        "typeString": "struct ArgentENSResolver.Record storage ref"
+                      }
+                    },
+                    "id": 1551,
+                    "isConstant": false,
+                    "isLValue": true,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "memberName": "addr",
+                    "nodeType": "MemberAccess",
+                    "referencedDeclaration": 1494,
+                    "src": "2399:19:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "functionReturnParameters": 1547,
+                  "id": 1552,
+                  "nodeType": "Return",
+                  "src": "2392:26:9"
+                }
+              ]
+            },
+            "documentation": "@dev Gets the address associated to an ENS node.\n@param _node The target node.\n@return the address of the target node.",
+            "id": 1554,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "addr",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1544,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1543,
+                  "name": "_node",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1554,
+                  "src": "2337:13:9",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 1542,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2337:7:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2336:15:9"
+            },
+            "returnParameters": {
+              "id": 1547,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1546,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1554,
+                  "src": "2373:7:9",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1545,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2373:7:9",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2372:9:9"
+            },
+            "scope": 1588,
+            "src": "2323:102:9",
+            "stateMutability": "view",
+            "superFunction": 1609,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1566,
+              "nodeType": "Block",
+              "src": "2654:43:9",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "expression": {
+                      "argumentTypes": null,
+                      "baseExpression": {
+                        "argumentTypes": null,
+                        "id": 1561,
+                        "name": "records",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1492,
+                        "src": "2671:7:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Record_$1497_storage_$",
+                          "typeString": "mapping(bytes32 => struct ArgentENSResolver.Record storage ref)"
+                        }
+                      },
+                      "id": 1563,
+                      "indexExpression": {
+                        "argumentTypes": null,
+                        "id": 1562,
+                        "name": "_node",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1556,
+                        "src": "2679:5:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes32",
+                          "typeString": "bytes32"
+                        }
+                      },
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "nodeType": "IndexAccess",
+                      "src": "2671:14:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Record_$1497_storage",
+                        "typeString": "struct ArgentENSResolver.Record storage ref"
+                      }
+                    },
+                    "id": 1564,
+                    "isConstant": false,
+                    "isLValue": true,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "memberName": "name",
+                    "nodeType": "MemberAccess",
+                    "referencedDeclaration": 1496,
+                    "src": "2671:19:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage",
+                      "typeString": "string storage ref"
+                    }
+                  },
+                  "functionReturnParameters": 1560,
+                  "id": 1565,
+                  "nodeType": "Return",
+                  "src": "2664:26:9"
+                }
+              ]
+            },
+            "documentation": "@dev Gets the name associated to an ENS node.\n@param _node The target ENS node.\n@return the name of the target ENS node.",
+            "id": 1567,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "name",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1557,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1556,
+                  "name": "_node",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1567,
+                  "src": "2603:13:9",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 1555,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2603:7:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2602:15:9"
+            },
+            "returnParameters": {
+              "id": 1560,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1559,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1567,
+                  "src": "2639:13:9",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 1558,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2639:6:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2638:15:9"
+            },
+            "scope": 1588,
+            "src": "2589:108:9",
+            "stateMutability": "view",
+            "superFunction": 1623,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1586,
+              "nodeType": "Block",
+              "src": "3029:134:9",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "commonType": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    },
+                    "id": 1584,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "argumentTypes": null,
+                      "commonType": {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      },
+                      "id": 1580,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "leftExpression": {
+                        "argumentTypes": null,
+                        "commonType": {
+                          "typeIdentifier": "t_bytes4",
+                          "typeString": "bytes4"
+                        },
+                        "id": 1576,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "argumentTypes": null,
+                          "id": 1574,
+                          "name": "_interfaceID",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 1569,
+                          "src": "3046:12:9",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bytes4",
+                            "typeString": "bytes4"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "==",
+                        "rightExpression": {
+                          "argumentTypes": null,
+                          "id": 1575,
+                          "name": "SUPPORT_INTERFACE_ID",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 1482,
+                          "src": "3062:20:9",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bytes4",
+                            "typeString": "bytes4"
+                          }
+                        },
+                        "src": "3046:36:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      },
+                      "nodeType": "BinaryOperation",
+                      "operator": "||",
+                      "rightExpression": {
+                        "argumentTypes": null,
+                        "commonType": {
+                          "typeIdentifier": "t_bytes4",
+                          "typeString": "bytes4"
+                        },
+                        "id": 1579,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "argumentTypes": null,
+                          "id": 1577,
+                          "name": "_interfaceID",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 1569,
+                          "src": "3086:12:9",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bytes4",
+                            "typeString": "bytes4"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "==",
+                        "rightExpression": {
+                          "argumentTypes": null,
+                          "id": 1578,
+                          "name": "ADDR_INTERFACE_ID",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 1485,
+                          "src": "3102:17:9",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_bytes4",
+                            "typeString": "bytes4"
+                          }
+                        },
+                        "src": "3086:33:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      },
+                      "src": "3046:73:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "||",
+                    "rightExpression": {
+                      "argumentTypes": null,
+                      "commonType": {
+                        "typeIdentifier": "t_bytes4",
+                        "typeString": "bytes4"
+                      },
+                      "id": 1583,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "leftExpression": {
+                        "argumentTypes": null,
+                        "id": 1581,
+                        "name": "_interfaceID",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1569,
+                        "src": "3123:12:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes4",
+                          "typeString": "bytes4"
+                        }
+                      },
+                      "nodeType": "BinaryOperation",
+                      "operator": "==",
+                      "rightExpression": {
+                        "argumentTypes": null,
+                        "id": 1582,
+                        "name": "NAME_INTERFACE_ID",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1488,
+                        "src": "3139:17:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bytes4",
+                          "typeString": "bytes4"
+                        }
+                      },
+                      "src": "3123:33:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bool",
+                        "typeString": "bool"
+                      }
+                    },
+                    "src": "3046:110:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "functionReturnParameters": 1573,
+                  "id": 1585,
+                  "nodeType": "Return",
+                  "src": "3039:117:9"
+                }
+              ]
+            },
+            "documentation": "@dev Returns true if the resolver implements the interface specified by the provided hash.\n@param _interfaceID The ID of the interface to check for.\n@return True if the contract implements the requested interface.",
+            "id": 1587,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "supportsInterface",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1570,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1569,
+                  "name": "_interfaceID",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1587,
+                  "src": "2981:19:9",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes4",
+                    "typeString": "bytes4"
+                  },
+                  "typeName": {
+                    "id": 1568,
+                    "name": "bytes4",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2981:6:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes4",
+                      "typeString": "bytes4"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2980:21:9"
+            },
+            "returnParameters": {
+              "id": 1573,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1572,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1587,
+                  "src": "3023:4:9",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 1571,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3023:4:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "3022:6:9"
+            },
+            "scope": 1588,
+            "src": "2954:209:9",
+            "stateMutability": "pure",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 1589,
+        "src": "1059:2107:9"
+      }
+    ],
+    "src": "705:2462:9"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.23",
+  "updatedAt": "2020-03-31T19:52:06.283Z",
+  "devdoc": {
+    "author": "Julien Niset - <julien@argent.im>",
+    "details": "Basic implementation of a Resolver. The contract defines a manager role who is the only role that can add a new name to the list of resolved names.",
+    "methods": {
+      "addManager(address)": {
+        "details": "Adds a manager.",
+        "params": {
+          "_manager": "The address of the manager."
+        }
+      },
+      "addr(bytes32)": {
+        "details": "Gets the address associated to an ENS node.",
+        "params": {
+          "_node": "The target node."
+        },
+        "return": "the address of the target node."
+      },
+      "changeOwner(address)": {
+        "details": "Lets the owner transfer ownership of the contract to a new owner.",
+        "params": {
+          "_newOwner": "The new owner."
+        }
+      },
+      "name(bytes32)": {
+        "details": "Gets the name associated to an ENS node.",
+        "params": {
+          "_node": "The target ENS node."
+        },
+        "return": "the name of the target ENS node."
+      },
+      "revokeManager(address)": {
+        "details": "Revokes a manager.",
+        "params": {
+          "_manager": "The address of the manager."
+        }
+      },
+      "setAddr(bytes32,address)": {
+        "details": "Lets the manager set the address associated with an ENS node.",
+        "params": {
+          "_addr": "The address to set.",
+          "_node": "The node to update."
+        }
+      },
+      "setName(bytes32,string)": {
+        "details": "Lets the manager set the name associated with an ENS node.",
+        "params": {
+          "_name": "The name to set.",
+          "_node": "The node to update."
+        }
+      },
+      "supportsInterface(bytes4)": {
+        "details": "Returns true if the resolver implements the interface specified by the provided hash.",
+        "params": {
+          "_interfaceID": "The ID of the interface to check for."
+        },
+        "return": "True if the contract implements the requested interface."
+      }
+    },
+    "title": "ArgentENSResolver"
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}

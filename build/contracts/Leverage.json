@@ -1,0 +1,1482 @@
+{
+  "contractName": "Leverage",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_wallet",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "_leverageId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_debtPayment",
+          "type": "uint256"
+        }
+      ],
+      "name": "LeverageClosed",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_wallet",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "_leverageId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "_collateral",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_totalCollateral",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_totalDebt",
+          "type": "uint256"
+        }
+      ],
+      "name": "LeverageOpened",
+      "type": "event"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "contract BaseWallet",
+          "name": "_wallet",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_collateral",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_collateralAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_conversionRatio",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint8",
+          "name": "_iterations",
+          "type": "uint8"
+        }
+      ],
+      "name": "openLeveragedPosition",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "_leverageId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_totalCollateral",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_totalDebt",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "contract BaseWallet",
+          "name": "_wallet",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "_leverageId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_daiPayment",
+          "type": "uint256"
+        }
+      ],
+      "name": "closeLeveragedPosition",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"_wallet\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"_leverageId\",\"type\":\"bytes32\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_debtPayment\",\"type\":\"uint256\"}],\"name\":\"LeverageClosed\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"_wallet\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"bytes32\",\"name\":\"_leverageId\",\"type\":\"bytes32\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"_collateral\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_totalCollateral\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_totalDebt\",\"type\":\"uint256\"}],\"name\":\"LeverageOpened\",\"type\":\"event\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"contract BaseWallet\",\"name\":\"_wallet\",\"type\":\"address\"},{\"internalType\":\"bytes32\",\"name\":\"_leverageId\",\"type\":\"bytes32\"},{\"internalType\":\"uint256\",\"name\":\"_daiPayment\",\"type\":\"uint256\"}],\"name\":\"closeLeveragedPosition\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"contract BaseWallet\",\"name\":\"_wallet\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_collateral\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_collateralAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_conversionRatio\",\"type\":\"uint256\"},{\"internalType\":\"uint8\",\"name\":\"_iterations\",\"type\":\"uint8\"}],\"name\":\"openLeveragedPosition\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"_leverageId\",\"type\":\"bytes32\"},{\"internalType\":\"uint256\",\"name\":\"_totalCollateral\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_totalDebt\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"author\":\"Julien Niset - <julien@argent.xyz>, Olivier VDB - <olivier@argent.xyz>\",\"methods\":{\"closeLeveragedPosition(address,bytes32,uint256)\":{\"details\":\"Lets the owner of a wallet close a previously opened Leveraged Position.\",\"params\":{\"_daiPayment\":\"The amount of DAI debt to repay before \\\"unwinding\\\" the position.\",\"_leverageId\":\"The id of the CDP used to open the Leveraged Position.\",\"_wallet\":\"The target wallet\"}},\"openLeveragedPosition(address,address,uint256,uint256,uint8)\":{\"details\":\"Lets the owner of a wallet open a new Leveraged Position to increase their exposure to a collateral token.\",\"params\":{\"_collateral\":\"The token used as a collateral.\",\"_collateralAmount\":\"The amount of collateral token provided.\",\"_conversionRatio\":\"The ratio of \\\"additional collateral\\\" to \\\"additional debt\\\" to use at each iteration\",\"_iterations\":\"The number of times the operation \\\"borrow tokens, convert and lock as additional collateral\\\" should be repeated\",\"_wallet\":\"The target wallet\"}}},\"title\":\"Interface for a contract that can open Leveraged positions. A user may wish to open a Leveraged Position to increase its exposure to a token (typically ETH). It does so by providing an amount of ETH that will be locked as collateral and used to borrow another token (typically DAI) based on a `_conversionRatio`. The borrowed tokens will be exchanged and added to the locked collateral. This operation (borrowing tokens, converting and locking as additional collateral) is repeated `_iterations` times. The wallet owner can increase its leverage by increasing the number of `_iterations` or by decreasing the `_converstionRatio`.\"},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/name/dev/argent-contracts-release-1.5.0/contracts/defi/Leverage.sol\":\"Leverage\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/name/dev/argent-contracts-release-1.5.0/contracts/defi/Leverage.sol\":{\"keccak256\":\"0xdf03c5b72c49e3868295bab9901562bc901b9902851ee871b5dbcd2c5d5dd41b\",\"urls\":[\"bzz-raw://e94d93677b339d58d47facd6aecfae4d85628dc4f144a4646d4490758db7787a\",\"dweb:/ipfs/QmfJbBts6fmQbASzimvQBQZ3dr6vBbqTeA4pB23rH4uecp\"]},\"/Users/name/dev/argent-contracts-release-1.5.0/contracts/interfaces/Module.sol\":{\"keccak256\":\"0x25555ee2388fbfb9a86f9867e585f466d4eb3f2019e97ecc57d7086b0e44ab93\",\"urls\":[\"bzz-raw://65c0fc38125d27a67fd259e0161e88bf896079f74588329f31a47a9a5c8a1b07\",\"dweb:/ipfs/QmZvNKyYQtV9vTw5CymgybZx9kafFfVnAqBXY2b5V4nFX8\"]},\"/Users/name/dev/argent-contracts-release-1.5.0/contracts/wallet/BaseWallet.sol\":{\"keccak256\":\"0xf57ed4d9c894cf3cb083981471b558a91e50871148c02ee58047f7e22852e8ee\",\"urls\":[\"bzz-raw://bd5e2ef0f78cbcbee02a129e880cb207fc905b40bd43f0043a53d3a72674e27b\",\"dweb:/ipfs/QmSTPAUJJj2wpbFNW4WgDnEn5YxYRymNriXyvQWtazPrKB\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// Copyright (C) 2018  Argent Labs Ltd. <https://argent.xyz>\n\n// This program is free software: you can redistribute it and/or modify\n// it under the terms of the GNU General Public License as published by\n// the Free Software Foundation, either version 3 of the License, or\n// (at your option) any later version.\n\n// This program is distributed in the hope that it will be useful,\n// but WITHOUT ANY WARRANTY; without even the implied warranty of\n// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n// GNU General Public License for more details.\n\n// You should have received a copy of the GNU General Public License\n// along with this program.  If not, see <http://www.gnu.org/licenses/>.\n\npragma solidity ^0.5.4;\nimport \"../wallet/BaseWallet.sol\";\n\n/**\n * @title Interface for a contract that can open Leveraged positions.\n * A user may wish to open a Leveraged Position to increase its exposure to a token (typically ETH).\n * It does so by providing an amount of ETH that will be locked as collateral and used to borrow another token\n * (typically DAI) based on a `_conversionRatio`. The borrowed tokens will be exchanged and added to the locked collateral.\n * This operation (borrowing tokens, converting and locking as additional collateral) is repeated `_iterations` times.\n * The wallet owner can increase its leverage by increasing the number of `_iterations` or by decreasing\n * the `_converstionRatio`.\n * @author Julien Niset - <julien@argent.xyz>, Olivier VDB - <olivier@argent.xyz>\n */\ninterface Leverage {\n\n    event LeverageOpened(\n        address indexed _wallet,\n        bytes32 indexed _leverageId,\n        address _collateral,\n        uint256 _totalCollateral,\n        uint256 _totalDebt);\n    event LeverageClosed(address indexed _wallet, bytes32 indexed _leverageId, uint256 _debtPayment);\n\n\n    /**\n     * @dev Lets the owner of a wallet open a new Leveraged Position to increase their exposure to a collateral token.\n     * @param _wallet The target wallet\n     * @param _collateral The token used as a collateral.\n     * @param _collateralAmount The amount of collateral token provided.\n     * @param _conversionRatio The ratio of \"additional collateral\" to \"additional debt\" to use at each iteration\n     * @param _iterations The number of times the operation \"borrow tokens, convert and lock as additional collateral\" should be repeated\n     */\n    function openLeveragedPosition(\n        BaseWallet _wallet,\n        address _collateral,\n        uint256 _collateralAmount,\n        uint256 _conversionRatio,\n        uint8 _iterations\n    )\n        external\n        returns (bytes32 _leverageId, uint256 _totalCollateral, uint256 _totalDebt);\n\n    /**\n     * @dev Lets the owner of a wallet close a previously opened Leveraged Position.\n     * @param _wallet The target wallet\n     * @param _leverageId The id of the CDP used to open the Leveraged Position.\n     * @param _daiPayment The amount of DAI debt to repay before \"unwinding\" the position.\n     */\n    function closeLeveragedPosition(\n        BaseWallet _wallet,\n        bytes32 _leverageId,\n        uint256 _daiPayment\n    )\n        external;\n\n}",
+  "sourcePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/defi/Leverage.sol",
+  "ast": {
+    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/defi/Leverage.sol",
+    "exportedSymbols": {
+      "Leverage": [
+        838
+      ]
+    },
+    "id": 839,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 788,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".4"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "705:23:5"
+      },
+      {
+        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/wallet/BaseWallet.sol",
+        "file": "../wallet/BaseWallet.sol",
+        "id": 789,
+        "nodeType": "ImportDirective",
+        "scope": 839,
+        "sourceUnit": 27734,
+        "src": "729:34:5",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": "@title Interface for a contract that can open Leveraged positions.\nA user may wish to open a Leveraged Position to increase its exposure to a token (typically ETH).\nIt does so by providing an amount of ETH that will be locked as collateral and used to borrow another token\n(typically DAI) based on a `_conversionRatio`. The borrowed tokens will be exchanged and added to the locked collateral.\nThis operation (borrowing tokens, converting and locking as additional collateral) is repeated `_iterations` times.\nThe wallet owner can increase its leverage by increasing the number of `_iterations` or by decreasing\nthe `_converstionRatio`.\n@author Julien Niset - <julien@argent.xyz>, Olivier VDB - <olivier@argent.xyz>",
+        "fullyImplemented": false,
+        "id": 838,
+        "linearizedBaseContracts": [
+          838
+        ],
+        "name": "Leverage",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 801,
+            "name": "LeverageOpened",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 800,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 791,
+                  "indexed": true,
+                  "name": "_wallet",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 801,
+                  "src": "1569:23:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 790,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1569:7:5",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 793,
+                  "indexed": true,
+                  "name": "_leverageId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 801,
+                  "src": "1602:27:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 792,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1602:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 795,
+                  "indexed": false,
+                  "name": "_collateral",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 801,
+                  "src": "1639:19:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 794,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1639:7:5",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 797,
+                  "indexed": false,
+                  "name": "_totalCollateral",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 801,
+                  "src": "1668:24:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 796,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1668:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 799,
+                  "indexed": false,
+                  "name": "_totalDebt",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 801,
+                  "src": "1702:18:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 798,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1702:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1559:162:5"
+            },
+            "src": "1539:183:5"
+          },
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 809,
+            "name": "LeverageClosed",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 808,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 803,
+                  "indexed": true,
+                  "name": "_wallet",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 809,
+                  "src": "1748:23:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 802,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1748:7:5",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 805,
+                  "indexed": true,
+                  "name": "_leverageId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 809,
+                  "src": "1773:27:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 804,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1773:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 807,
+                  "indexed": false,
+                  "name": "_debtPayment",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 809,
+                  "src": "1802:20:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 806,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1802:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1747:76:5"
+            },
+            "src": "1727:97:5"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Lets the owner of a wallet open a new Leveraged Position to increase their exposure to a collateral token.\n@param _wallet The target wallet\n@param _collateral The token used as a collateral.\n@param _collateralAmount The amount of collateral token provided.\n@param _conversionRatio The ratio of \"additional collateral\" to \"additional debt\" to use at each iteration\n@param _iterations The number of times the operation \"borrow tokens, convert and lock as additional collateral\" should be repeated",
+            "id": 828,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "openLeveragedPosition",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 820,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 811,
+                  "name": "_wallet",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 828,
+                  "src": "2429:18:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                    "typeString": "contract BaseWallet"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 810,
+                    "name": "BaseWallet",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 27733,
+                    "src": "2429:10:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                      "typeString": "contract BaseWallet"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 813,
+                  "name": "_collateral",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 828,
+                  "src": "2457:19:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 812,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2457:7:5",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 815,
+                  "name": "_collateralAmount",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 828,
+                  "src": "2486:25:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 814,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2486:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 817,
+                  "name": "_conversionRatio",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 828,
+                  "src": "2521:24:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 816,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2521:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 819,
+                  "name": "_iterations",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 828,
+                  "src": "2555:17:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 818,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2555:5:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2419:159:5"
+            },
+            "returnParameters": {
+              "id": 827,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 822,
+                  "name": "_leverageId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 828,
+                  "src": "2613:19:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 821,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2613:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 824,
+                  "name": "_totalCollateral",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 828,
+                  "src": "2634:24:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 823,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2634:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 826,
+                  "name": "_totalDebt",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 828,
+                  "src": "2660:18:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 825,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2660:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2612:67:5"
+            },
+            "scope": 838,
+            "src": "2389:291:5",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Lets the owner of a wallet close a previously opened Leveraged Position.\n@param _wallet The target wallet\n@param _leverageId The id of the CDP used to open the Leveraged Position.\n@param _daiPayment The amount of DAI debt to repay before \"unwinding\" the position.",
+            "id": 837,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "closeLeveragedPosition",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 835,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 830,
+                  "name": "_wallet",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 837,
+                  "src": "3040:18:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                    "typeString": "contract BaseWallet"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 829,
+                    "name": "BaseWallet",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 27733,
+                    "src": "3040:10:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                      "typeString": "contract BaseWallet"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 832,
+                  "name": "_leverageId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 837,
+                  "src": "3068:19:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 831,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3068:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 834,
+                  "name": "_daiPayment",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 837,
+                  "src": "3097:19:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 833,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3097:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "3030:92:5"
+            },
+            "returnParameters": {
+              "id": 836,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "3139:0:5"
+            },
+            "scope": 838,
+            "src": "2999:141:5",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 839,
+        "src": "1513:1630:5"
+      }
+    ],
+    "src": "705:2438:5"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/defi/Leverage.sol",
+    "exportedSymbols": {
+      "Leverage": [
+        838
+      ]
+    },
+    "id": 839,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 788,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".4"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "705:23:5"
+      },
+      {
+        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/wallet/BaseWallet.sol",
+        "file": "../wallet/BaseWallet.sol",
+        "id": 789,
+        "nodeType": "ImportDirective",
+        "scope": 839,
+        "sourceUnit": 27734,
+        "src": "729:34:5",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": "@title Interface for a contract that can open Leveraged positions.\nA user may wish to open a Leveraged Position to increase its exposure to a token (typically ETH).\nIt does so by providing an amount of ETH that will be locked as collateral and used to borrow another token\n(typically DAI) based on a `_conversionRatio`. The borrowed tokens will be exchanged and added to the locked collateral.\nThis operation (borrowing tokens, converting and locking as additional collateral) is repeated `_iterations` times.\nThe wallet owner can increase its leverage by increasing the number of `_iterations` or by decreasing\nthe `_converstionRatio`.\n@author Julien Niset - <julien@argent.xyz>, Olivier VDB - <olivier@argent.xyz>",
+        "fullyImplemented": false,
+        "id": 838,
+        "linearizedBaseContracts": [
+          838
+        ],
+        "name": "Leverage",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 801,
+            "name": "LeverageOpened",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 800,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 791,
+                  "indexed": true,
+                  "name": "_wallet",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 801,
+                  "src": "1569:23:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 790,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1569:7:5",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 793,
+                  "indexed": true,
+                  "name": "_leverageId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 801,
+                  "src": "1602:27:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 792,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1602:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 795,
+                  "indexed": false,
+                  "name": "_collateral",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 801,
+                  "src": "1639:19:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 794,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1639:7:5",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 797,
+                  "indexed": false,
+                  "name": "_totalCollateral",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 801,
+                  "src": "1668:24:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 796,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1668:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 799,
+                  "indexed": false,
+                  "name": "_totalDebt",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 801,
+                  "src": "1702:18:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 798,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1702:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1559:162:5"
+            },
+            "src": "1539:183:5"
+          },
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 809,
+            "name": "LeverageClosed",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 808,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 803,
+                  "indexed": true,
+                  "name": "_wallet",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 809,
+                  "src": "1748:23:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 802,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1748:7:5",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 805,
+                  "indexed": true,
+                  "name": "_leverageId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 809,
+                  "src": "1773:27:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 804,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1773:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 807,
+                  "indexed": false,
+                  "name": "_debtPayment",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 809,
+                  "src": "1802:20:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 806,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1802:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1747:76:5"
+            },
+            "src": "1727:97:5"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Lets the owner of a wallet open a new Leveraged Position to increase their exposure to a collateral token.\n@param _wallet The target wallet\n@param _collateral The token used as a collateral.\n@param _collateralAmount The amount of collateral token provided.\n@param _conversionRatio The ratio of \"additional collateral\" to \"additional debt\" to use at each iteration\n@param _iterations The number of times the operation \"borrow tokens, convert and lock as additional collateral\" should be repeated",
+            "id": 828,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "openLeveragedPosition",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 820,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 811,
+                  "name": "_wallet",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 828,
+                  "src": "2429:18:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                    "typeString": "contract BaseWallet"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 810,
+                    "name": "BaseWallet",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 27733,
+                    "src": "2429:10:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                      "typeString": "contract BaseWallet"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 813,
+                  "name": "_collateral",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 828,
+                  "src": "2457:19:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 812,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2457:7:5",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 815,
+                  "name": "_collateralAmount",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 828,
+                  "src": "2486:25:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 814,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2486:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 817,
+                  "name": "_conversionRatio",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 828,
+                  "src": "2521:24:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 816,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2521:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 819,
+                  "name": "_iterations",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 828,
+                  "src": "2555:17:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 818,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2555:5:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2419:159:5"
+            },
+            "returnParameters": {
+              "id": 827,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 822,
+                  "name": "_leverageId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 828,
+                  "src": "2613:19:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 821,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2613:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 824,
+                  "name": "_totalCollateral",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 828,
+                  "src": "2634:24:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 823,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2634:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 826,
+                  "name": "_totalDebt",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 828,
+                  "src": "2660:18:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 825,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2660:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2612:67:5"
+            },
+            "scope": 838,
+            "src": "2389:291:5",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Lets the owner of a wallet close a previously opened Leveraged Position.\n@param _wallet The target wallet\n@param _leverageId The id of the CDP used to open the Leveraged Position.\n@param _daiPayment The amount of DAI debt to repay before \"unwinding\" the position.",
+            "id": 837,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "closeLeveragedPosition",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 835,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 830,
+                  "name": "_wallet",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 837,
+                  "src": "3040:18:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                    "typeString": "contract BaseWallet"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 829,
+                    "name": "BaseWallet",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 27733,
+                    "src": "3040:10:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                      "typeString": "contract BaseWallet"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 832,
+                  "name": "_leverageId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 837,
+                  "src": "3068:19:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  },
+                  "typeName": {
+                    "id": 831,
+                    "name": "bytes32",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3068:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes32",
+                      "typeString": "bytes32"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 834,
+                  "name": "_daiPayment",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 837,
+                  "src": "3097:19:5",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 833,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3097:7:5",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "3030:92:5"
+            },
+            "returnParameters": {
+              "id": 836,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "3139:0:5"
+            },
+            "scope": 838,
+            "src": "2999:141:5",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 839,
+        "src": "1513:1630:5"
+      }
+    ],
+    "src": "705:2438:5"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.23",
+  "updatedAt": "2020-03-31T19:52:06.260Z",
+  "devdoc": {
+    "author": "Julien Niset - <julien@argent.xyz>, Olivier VDB - <olivier@argent.xyz>",
+    "methods": {
+      "closeLeveragedPosition(address,bytes32,uint256)": {
+        "details": "Lets the owner of a wallet close a previously opened Leveraged Position.",
+        "params": {
+          "_daiPayment": "The amount of DAI debt to repay before \"unwinding\" the position.",
+          "_leverageId": "The id of the CDP used to open the Leveraged Position.",
+          "_wallet": "The target wallet"
+        }
+      },
+      "openLeveragedPosition(address,address,uint256,uint256,uint8)": {
+        "details": "Lets the owner of a wallet open a new Leveraged Position to increase their exposure to a collateral token.",
+        "params": {
+          "_collateral": "The token used as a collateral.",
+          "_collateralAmount": "The amount of collateral token provided.",
+          "_conversionRatio": "The ratio of \"additional collateral\" to \"additional debt\" to use at each iteration",
+          "_iterations": "The number of times the operation \"borrow tokens, convert and lock as additional collateral\" should be repeated",
+          "_wallet": "The target wallet"
+        }
+      }
+    },
+    "title": "Interface for a contract that can open Leveraged positions. A user may wish to open a Leveraged Position to increase its exposure to a token (typically ETH). It does so by providing an amount of ETH that will be locked as collateral and used to borrow another token (typically DAI) based on a `_conversionRatio`. The borrowed tokens will be exchanged and added to the locked collateral. This operation (borrowing tokens, converting and locking as additional collateral) is repeated `_iterations` times. The wallet owner can increase its leverage by increasing the number of `_iterations` or by decreasing the `_converstionRatio`."
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}

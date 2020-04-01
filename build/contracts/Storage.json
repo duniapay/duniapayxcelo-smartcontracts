@@ -1,0 +1,535 @@
+{
+  "contractName": "Storage",
+  "abi": [],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"author\":\"Julien Niset - <julien@argent.im>\",\"details\":\"Base contract for the storage of a wallet.\",\"methods\":{},\"title\":\"Storage\"},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/name/dev/argent-contracts-release-1.5.0/contracts/storage/Storage.sol\":\"Storage\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/name/dev/argent-contracts-release-1.5.0/contracts/interfaces/Module.sol\":{\"keccak256\":\"0x25555ee2388fbfb9a86f9867e585f466d4eb3f2019e97ecc57d7086b0e44ab93\",\"urls\":[\"bzz-raw://65c0fc38125d27a67fd259e0161e88bf896079f74588329f31a47a9a5c8a1b07\",\"dweb:/ipfs/QmZvNKyYQtV9vTw5CymgybZx9kafFfVnAqBXY2b5V4nFX8\"]},\"/Users/name/dev/argent-contracts-release-1.5.0/contracts/storage/Storage.sol\":{\"keccak256\":\"0x1bedbcbaba5d6c522ecf0e5e5116a44e68cd67f33f15697118362ec3531bd163\",\"urls\":[\"bzz-raw://856c0f1f76a30155a522037dc6617b9994de88396e653b0ad1f6a4e4d213be32\",\"dweb:/ipfs/QmaZ36ZZaXpXhKQVFYdfYhZPk2VuDoaaaqkYbsfF3J55nw\"]},\"/Users/name/dev/argent-contracts-release-1.5.0/contracts/wallet/BaseWallet.sol\":{\"keccak256\":\"0xf57ed4d9c894cf3cb083981471b558a91e50871148c02ee58047f7e22852e8ee\",\"urls\":[\"bzz-raw://bd5e2ef0f78cbcbee02a129e880cb207fc905b40bd43f0043a53d3a72674e27b\",\"dweb:/ipfs/QmSTPAUJJj2wpbFNW4WgDnEn5YxYRymNriXyvQWtazPrKB\"]}},\"version\":1}",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603e80601d6000396000f3fe6080604052600080fdfea265627a7a72315820e51526b7a9f8a6025a8f08ce37b945f656eb79d64ac28a07aaa8039e5536b24d64736f6c63430005100032",
+  "deployedBytecode": "0x6080604052600080fdfea265627a7a72315820e51526b7a9f8a6025a8f08ce37b945f656eb79d64ac28a07aaa8039e5536b24d64736f6c63430005100032",
+  "sourceMap": "887:267:36:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;887:267:36;;;;;;;",
+  "deployedSourceMap": "887:267:36:-;;;;;",
+  "source": "// Copyright (C) 2018  Argent Labs Ltd. <https://argent.xyz>\n\n// This program is free software: you can redistribute it and/or modify\n// it under the terms of the GNU General Public License as published by\n// the Free Software Foundation, either version 3 of the License, or\n// (at your option) any later version.\n\n// This program is distributed in the hope that it will be useful,\n// but WITHOUT ANY WARRANTY; without even the implied warranty of\n// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n// GNU General Public License for more details.\n\n// You should have received a copy of the GNU General Public License\n// along with this program.  If not, see <http://www.gnu.org/licenses/>.\n\npragma solidity ^0.5.4;\nimport \"../wallet/BaseWallet.sol\";\n\n/**\n * @title Storage\n * @dev Base contract for the storage of a wallet.\n * @author Julien Niset - <julien@argent.im>\n */\ncontract Storage {\n\n    /**\n     * @dev Throws if the caller is not an authorised module.\n     */\n    modifier onlyModule(BaseWallet _wallet) {\n        require(_wallet.authorised(msg.sender), \"TS: must be an authorized module to call this method\");\n        _;\n    }\n}",
+  "sourcePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/storage/Storage.sol",
+  "ast": {
+    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/storage/Storage.sol",
+    "exportedSymbols": {
+      "Storage": [
+        12017
+      ]
+    },
+    "id": 12018,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 12000,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".4"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "705:23:36"
+      },
+      {
+        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/wallet/BaseWallet.sol",
+        "file": "../wallet/BaseWallet.sol",
+        "id": 12001,
+        "nodeType": "ImportDirective",
+        "scope": 12018,
+        "sourceUnit": 27734,
+        "src": "729:34:36",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": "@title Storage\n@dev Base contract for the storage of a wallet.\n@author Julien Niset - <julien@argent.im>",
+        "fullyImplemented": true,
+        "id": 12017,
+        "linearizedBaseContracts": [
+          12017
+        ],
+        "name": "Storage",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 12015,
+              "nodeType": "Block",
+              "src": "1029:123:36",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "arguments": [
+                          {
+                            "argumentTypes": null,
+                            "expression": {
+                              "argumentTypes": null,
+                              "id": 12008,
+                              "name": "msg",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 32817,
+                              "src": "1066:3:36",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_magic_message",
+                                "typeString": "msg"
+                              }
+                            },
+                            "id": 12009,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberName": "sender",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": null,
+                            "src": "1066:10:36",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address_payable",
+                              "typeString": "address payable"
+                            }
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_address_payable",
+                              "typeString": "address payable"
+                            }
+                          ],
+                          "expression": {
+                            "argumentTypes": null,
+                            "id": 12006,
+                            "name": "_wallet",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 12003,
+                            "src": "1047:7:36",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                              "typeString": "contract BaseWallet"
+                            }
+                          },
+                          "id": 12007,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "memberName": "authorised",
+                          "nodeType": "MemberAccess",
+                          "referencedDeclaration": 27375,
+                          "src": "1047:18:36",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_bool_$",
+                            "typeString": "function (address) view external returns (bool)"
+                          }
+                        },
+                        "id": 12010,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "functionCall",
+                        "lValueRequested": false,
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "1047:30:36",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "54533a206d75737420626520616e20617574686f72697a6564206d6f64756c6520746f2063616c6c2074686973206d6574686f64",
+                        "id": 12011,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "1079:54:36",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_621eac8a7ad9a4001ff2bb430eefe4072718db071f2ab22ecf2b52b8c62fa5c7",
+                          "typeString": "literal_string \"TS: must be an authorized module to call this method\""
+                        },
+                        "value": "TS: must be an authorized module to call this method"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_621eac8a7ad9a4001ff2bb430eefe4072718db071f2ab22ecf2b52b8c62fa5c7",
+                          "typeString": "literal_string \"TS: must be an authorized module to call this method\""
+                        }
+                      ],
+                      "id": 12005,
+                      "name": "require",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [
+                        32820,
+                        32821
+                      ],
+                      "referencedDeclaration": 32821,
+                      "src": "1039:7:36",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
+                        "typeString": "function (bool,string memory) pure"
+                      }
+                    },
+                    "id": 12012,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1039:95:36",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 12013,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1039:95:36"
+                },
+                {
+                  "id": 12014,
+                  "nodeType": "PlaceholderStatement",
+                  "src": "1144:1:36"
+                }
+              ]
+            },
+            "documentation": "@dev Throws if the caller is not an authorised module.",
+            "id": 12016,
+            "name": "onlyModule",
+            "nodeType": "ModifierDefinition",
+            "parameters": {
+              "id": 12004,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12003,
+                  "name": "_wallet",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12016,
+                  "src": "1009:18:36",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                    "typeString": "contract BaseWallet"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 12002,
+                    "name": "BaseWallet",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 27733,
+                    "src": "1009:10:36",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                      "typeString": "contract BaseWallet"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1008:20:36"
+            },
+            "src": "989:163:36",
+            "visibility": "internal"
+          }
+        ],
+        "scope": 12018,
+        "src": "887:267:36"
+      }
+    ],
+    "src": "705:449:36"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/storage/Storage.sol",
+    "exportedSymbols": {
+      "Storage": [
+        12017
+      ]
+    },
+    "id": 12018,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 12000,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".4"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "705:23:36"
+      },
+      {
+        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/wallet/BaseWallet.sol",
+        "file": "../wallet/BaseWallet.sol",
+        "id": 12001,
+        "nodeType": "ImportDirective",
+        "scope": 12018,
+        "sourceUnit": 27734,
+        "src": "729:34:36",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": "@title Storage\n@dev Base contract for the storage of a wallet.\n@author Julien Niset - <julien@argent.im>",
+        "fullyImplemented": true,
+        "id": 12017,
+        "linearizedBaseContracts": [
+          12017
+        ],
+        "name": "Storage",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 12015,
+              "nodeType": "Block",
+              "src": "1029:123:36",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "arguments": [
+                          {
+                            "argumentTypes": null,
+                            "expression": {
+                              "argumentTypes": null,
+                              "id": 12008,
+                              "name": "msg",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 32817,
+                              "src": "1066:3:36",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_magic_message",
+                                "typeString": "msg"
+                              }
+                            },
+                            "id": 12009,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "lValueRequested": false,
+                            "memberName": "sender",
+                            "nodeType": "MemberAccess",
+                            "referencedDeclaration": null,
+                            "src": "1066:10:36",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address_payable",
+                              "typeString": "address payable"
+                            }
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_address_payable",
+                              "typeString": "address payable"
+                            }
+                          ],
+                          "expression": {
+                            "argumentTypes": null,
+                            "id": 12006,
+                            "name": "_wallet",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 12003,
+                            "src": "1047:7:36",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                              "typeString": "contract BaseWallet"
+                            }
+                          },
+                          "id": 12007,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "memberName": "authorised",
+                          "nodeType": "MemberAccess",
+                          "referencedDeclaration": 27375,
+                          "src": "1047:18:36",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_bool_$",
+                            "typeString": "function (address) view external returns (bool)"
+                          }
+                        },
+                        "id": 12010,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "functionCall",
+                        "lValueRequested": false,
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "1047:30:36",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "hexValue": "54533a206d75737420626520616e20617574686f72697a6564206d6f64756c6520746f2063616c6c2074686973206d6574686f64",
+                        "id": 12011,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "1079:54:36",
+                        "subdenomination": null,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_621eac8a7ad9a4001ff2bb430eefe4072718db071f2ab22ecf2b52b8c62fa5c7",
+                          "typeString": "literal_string \"TS: must be an authorized module to call this method\""
+                        },
+                        "value": "TS: must be an authorized module to call this method"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_621eac8a7ad9a4001ff2bb430eefe4072718db071f2ab22ecf2b52b8c62fa5c7",
+                          "typeString": "literal_string \"TS: must be an authorized module to call this method\""
+                        }
+                      ],
+                      "id": 12005,
+                      "name": "require",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [
+                        32820,
+                        32821
+                      ],
+                      "referencedDeclaration": 32821,
+                      "src": "1039:7:36",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
+                        "typeString": "function (bool,string memory) pure"
+                      }
+                    },
+                    "id": 12012,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1039:95:36",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 12013,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1039:95:36"
+                },
+                {
+                  "id": 12014,
+                  "nodeType": "PlaceholderStatement",
+                  "src": "1144:1:36"
+                }
+              ]
+            },
+            "documentation": "@dev Throws if the caller is not an authorised module.",
+            "id": 12016,
+            "name": "onlyModule",
+            "nodeType": "ModifierDefinition",
+            "parameters": {
+              "id": 12004,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12003,
+                  "name": "_wallet",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12016,
+                  "src": "1009:18:36",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                    "typeString": "contract BaseWallet"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 12002,
+                    "name": "BaseWallet",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 27733,
+                    "src": "1009:10:36",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                      "typeString": "contract BaseWallet"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1008:20:36"
+            },
+            "src": "989:163:36",
+            "visibility": "internal"
+          }
+        ],
+        "scope": 12018,
+        "src": "887:267:36"
+      }
+    ],
+    "src": "705:449:36"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.23",
+  "updatedAt": "2020-03-31T19:52:06.594Z",
+  "devdoc": {
+    "author": "Julien Niset - <julien@argent.im>",
+    "details": "Base contract for the storage of a wallet.",
+    "methods": {},
+    "title": "Storage"
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}

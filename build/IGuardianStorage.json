@@ -1,0 +1,735 @@
+{
+  "contractName": "IGuardianStorage",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_wallet",
+          "type": "address"
+        },
+        {
+          "name": "_guardian",
+          "type": "address"
+        }
+      ],
+      "name": "addGuardian",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_wallet",
+          "type": "address"
+        },
+        {
+          "name": "_guardian",
+          "type": "address"
+        }
+      ],
+      "name": "revokeGuardian",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_wallet",
+          "type": "address"
+        },
+        {
+          "name": "_guardian",
+          "type": "address"
+        }
+      ],
+      "name": "isGuardian",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// Copyright (C) 2018  Argent Labs Ltd. <https://argent.xyz>\n\n// This program is free software: you can redistribute it and/or modify\n// it under the terms of the GNU General Public License as published by\n// the Free Software Foundation, either version 3 of the License, or\n// (at your option) any later version.\n\n// This program is distributed in the hope that it will be useful,\n// but WITHOUT ANY WARRANTY; without even the implied warranty of\n// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n// GNU General Public License for more details.\n\n// You should have received a copy of the GNU General Public License\n// along with this program.  If not, see <http://www.gnu.org/licenses/>.\n\npragma solidity ^0.5.4;\nimport \"../wallet/BaseWallet.sol\";\n\ninterface IGuardianStorage{\n\n    /**\n     * @dev Lets an authorised module add a guardian to a wallet.\n     * @param _wallet The target wallet.\n     * @param _guardian The guardian to add.\n     */\n    function addGuardian(BaseWallet _wallet, address _guardian) external;\n\n    /**\n     * @dev Lets an authorised module revoke a guardian from a wallet.\n     * @param _wallet The target wallet.\n     * @param _guardian The guardian to revoke.\n     */\n    function revokeGuardian(BaseWallet _wallet, address _guardian) external;\n\n    /**\n     * @dev Checks if an account is a guardian for a wallet.\n     * @param _wallet The target wallet.\n     * @param _guardian The account.\n     * @return true if the account is a guardian for a wallet.\n     */\n    function isGuardian(BaseWallet _wallet, address _guardian) external view returns (bool);\n}",
+  "sourcePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/storage/IGuardianStorage.sol",
+  "ast": {
+    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/storage/IGuardianStorage.sol",
+    "exportedSymbols": {
+      "IGuardianStorage": [
+        11998
+      ]
+    },
+    "id": 11999,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 11973,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".4"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "705:23:35"
+      },
+      {
+        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/wallet/BaseWallet.sol",
+        "file": "../wallet/BaseWallet.sol",
+        "id": 11974,
+        "nodeType": "ImportDirective",
+        "scope": 11999,
+        "sourceUnit": 27734,
+        "src": "729:34:35",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": null,
+        "fullyImplemented": false,
+        "id": 11998,
+        "linearizedBaseContracts": [
+          11998
+        ],
+        "name": "IGuardianStorage",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": "@dev Lets an authorised module add a guardian to a wallet.\n@param _wallet The target wallet.\n@param _guardian The guardian to add.",
+            "id": 11981,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "addGuardian",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 11979,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11976,
+                  "name": "_wallet",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11981,
+                  "src": "987:18:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                    "typeString": "contract BaseWallet"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 11975,
+                    "name": "BaseWallet",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 27733,
+                    "src": "987:10:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                      "typeString": "contract BaseWallet"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11978,
+                  "name": "_guardian",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11981,
+                  "src": "1007:17:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 11977,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1007:7:35",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "986:39:35"
+            },
+            "returnParameters": {
+              "id": 11980,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1034:0:35"
+            },
+            "scope": 11998,
+            "src": "966:69:35",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Lets an authorised module revoke a guardian from a wallet.\n@param _wallet The target wallet.\n@param _guardian The guardian to revoke.",
+            "id": 11988,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "revokeGuardian",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 11986,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11983,
+                  "name": "_wallet",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11988,
+                  "src": "1241:18:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                    "typeString": "contract BaseWallet"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 11982,
+                    "name": "BaseWallet",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 27733,
+                    "src": "1241:10:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                      "typeString": "contract BaseWallet"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11985,
+                  "name": "_guardian",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11988,
+                  "src": "1261:17:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 11984,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1261:7:35",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1240:39:35"
+            },
+            "returnParameters": {
+              "id": 11987,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1288:0:35"
+            },
+            "scope": 11998,
+            "src": "1217:72:35",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Checks if an account is a guardian for a wallet.\n@param _wallet The target wallet.\n@param _guardian The account.\n@return true if the account is a guardian for a wallet.",
+            "id": 11997,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "isGuardian",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 11993,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11990,
+                  "name": "_wallet",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11997,
+                  "src": "1533:18:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                    "typeString": "contract BaseWallet"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 11989,
+                    "name": "BaseWallet",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 27733,
+                    "src": "1533:10:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                      "typeString": "contract BaseWallet"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11992,
+                  "name": "_guardian",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11997,
+                  "src": "1553:17:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 11991,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1553:7:35",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1532:39:35"
+            },
+            "returnParameters": {
+              "id": 11996,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11995,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11997,
+                  "src": "1595:4:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 11994,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1595:4:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1594:6:35"
+            },
+            "scope": 11998,
+            "src": "1513:88:35",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 11999,
+        "src": "765:838:35"
+      }
+    ],
+    "src": "705:898:35"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/storage/IGuardianStorage.sol",
+    "exportedSymbols": {
+      "IGuardianStorage": [
+        11998
+      ]
+    },
+    "id": 11999,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 11973,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".4"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "705:23:35"
+      },
+      {
+        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/wallet/BaseWallet.sol",
+        "file": "../wallet/BaseWallet.sol",
+        "id": 11974,
+        "nodeType": "ImportDirective",
+        "scope": 11999,
+        "sourceUnit": 27734,
+        "src": "729:34:35",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": null,
+        "fullyImplemented": false,
+        "id": 11998,
+        "linearizedBaseContracts": [
+          11998
+        ],
+        "name": "IGuardianStorage",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": "@dev Lets an authorised module add a guardian to a wallet.\n@param _wallet The target wallet.\n@param _guardian The guardian to add.",
+            "id": 11981,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "addGuardian",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 11979,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11976,
+                  "name": "_wallet",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11981,
+                  "src": "987:18:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                    "typeString": "contract BaseWallet"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 11975,
+                    "name": "BaseWallet",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 27733,
+                    "src": "987:10:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                      "typeString": "contract BaseWallet"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11978,
+                  "name": "_guardian",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11981,
+                  "src": "1007:17:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 11977,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1007:7:35",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "986:39:35"
+            },
+            "returnParameters": {
+              "id": 11980,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1034:0:35"
+            },
+            "scope": 11998,
+            "src": "966:69:35",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Lets an authorised module revoke a guardian from a wallet.\n@param _wallet The target wallet.\n@param _guardian The guardian to revoke.",
+            "id": 11988,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "revokeGuardian",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 11986,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11983,
+                  "name": "_wallet",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11988,
+                  "src": "1241:18:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                    "typeString": "contract BaseWallet"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 11982,
+                    "name": "BaseWallet",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 27733,
+                    "src": "1241:10:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                      "typeString": "contract BaseWallet"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11985,
+                  "name": "_guardian",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11988,
+                  "src": "1261:17:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 11984,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1261:7:35",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1240:39:35"
+            },
+            "returnParameters": {
+              "id": 11987,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1288:0:35"
+            },
+            "scope": 11998,
+            "src": "1217:72:35",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Checks if an account is a guardian for a wallet.\n@param _wallet The target wallet.\n@param _guardian The account.\n@return true if the account is a guardian for a wallet.",
+            "id": 11997,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "isGuardian",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 11993,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11990,
+                  "name": "_wallet",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11997,
+                  "src": "1533:18:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                    "typeString": "contract BaseWallet"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 11989,
+                    "name": "BaseWallet",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 27733,
+                    "src": "1533:10:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                      "typeString": "contract BaseWallet"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 11992,
+                  "name": "_guardian",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11997,
+                  "src": "1553:17:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 11991,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1553:7:35",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1532:39:35"
+            },
+            "returnParameters": {
+              "id": 11996,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11995,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 11997,
+                  "src": "1595:4:35",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 11994,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1595:4:35",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1594:6:35"
+            },
+            "scope": 11998,
+            "src": "1513:88:35",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 11999,
+        "src": "765:838:35"
+      }
+    ],
+    "src": "705:898:35"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.4+commit.9549d8ff.Emscripten.clang",
+    "optimizer": true,
+    "runs": 999
+  },
+  "networks": {},
+  "schemaVersion": "2.3.1",
+  "updatedAt": "2020-04-01T15:58:47.232Z"
+}

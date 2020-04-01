@@ -1,0 +1,51 @@
+{
+    "modules": [
+        {
+            "address": "0x16DBb3F310960e13F2b80c3cc8166cF6D9FeDBf8",
+            "name": "GuardianManager"
+        },
+        {
+            "address": "0x963D5B228d5Fa7DE3d69F636704Cf5070d41A760",
+            "name": "LockManager"
+        },
+        {
+            "address": "0x38376A367fc2Ec806155dbDFf6c0A53E3a410102",
+            "name": "RecoveryManager"
+        },
+        {
+            "address": "0x994cB812bE47CEA32542954A4E134Ba2C3a1DC54",
+            "name": "ApprovedTransfer"
+        },
+        {
+            "address": "0xA8Ea2087b79a3Df13506E705E5344676A9a005c7",
+            "name": "TransferManager"
+        },
+        {
+            "address": "0xa0A089070C2815BeF51C6c794CeeD837ea8F48D8",
+            "name": "TokenExchanger"
+        },
+        {
+            "address": "0x09628ee377BC0D20F1D7917bC22074fB9c7385E7",
+            "name": "NftTransfer"
+        },
+        {
+            "address": "0x2A45A5064ad6F9b358D043A464494042dBaA2C87",
+            "name": "MakerManager"
+        },
+        {
+            "address": "0xE9d45870c6C3446A87Ac4091c110E5bbed2b3468",
+            "name": "CompoundManager"
+        },
+        {
+            "address": "0xEb4152Aa9a9730B89Bd61CAE8f960FF99FD0f86f",
+            "name": "UniswapManager"
+        },
+        {
+            "address": "0xE50a98Af12B493df3fD762d30889cbAbb01aB6B1",
+            "name": "MakerV2Manager"
+        }
+    ],
+    "fingerprint": "0x891ab8dc",
+    "version": "1.0.0",
+    "createdAt": 1582015161
+}

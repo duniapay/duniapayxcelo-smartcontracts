@@ -1,0 +1,1443 @@
+{
+  "contractName": "MockScdMcdMigration",
+  "abi": [
+    {
+      "inputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "daiJoin",
+      "outputs": [
+        {
+          "internalType": "contract JoinLike",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "saiJoin",
+      "outputs": [
+        {
+          "internalType": "contract JoinLike",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"constant\":true,\"inputs\":[],\"name\":\"daiJoin\",\"outputs\":[{\"internalType\":\"contract JoinLike\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"saiJoin\",\"outputs\":[{\"internalType\":\"contract JoinLike\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"Mock contract needed to deploy the MakerV2Manager contract\",\"methods\":{},\"title\":\"MockScdMcdMigration\"},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/maker/MockScdMcdMigration.sol\":\"MockScdMcdMigration\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/maker/MockScdMcdMigration.sol\":{\"keccak256\":\"0x54d5dc78dd01d161de96ddcbd0735d44cc1681f6f8641d0552af3e7d492c4d70\",\"urls\":[\"bzz-raw://faf9b09358d4acb6f67246dd8839a6c6dd6075f152589b72cab86681a35087d4\",\"dweb:/ipfs/QmUfYLijUHtzSpT1ELWs1ovvtKtqC2m7XmEb1ezktF2GnL\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b5060405161001d906100e7565b604051809103906000f080158015610039573d6000803e3d6000fd5b506000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550604051610085906100e7565b604051809103906000f0801580156100a1573d6000803e3d6000fd5b50600160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055506100f4565b6101ae8061025283390190565b61014f806101036000396000f3fe608060405234801561001057600080fd5b50600436106100365760003560e01c80630b14408f1461003b578063c11645bc14610085575b600080fd5b6100436100cf565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b61008d6100f4565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff168156fea265627a7a723158209aa65e059c4caad182acd4efeb179804274b349ed74b6c453464a04f484aa36b64736f6c63430005100032608060405234801561001057600080fd5b5061018e806100206000396000f3fe608060405234801561001057600080fd5b50600436106100415760003560e01c806336569e77146100465780637bd2bea714610090578063f4b9fa75146100da575b600080fd5b61004e610124565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b610098610149565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6100e2610151565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b600080905090565b60008090509056fea265627a7a7231582096bc5fd59297d019b6951dc76dd3443d3725fe2691b5f7eda32d159f4e16191464736f6c63430005100032",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100365760003560e01c80630b14408f1461003b578063c11645bc14610085575b600080fd5b6100436100cf565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b61008d6100f4565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff168156fea265627a7a723158209aa65e059c4caad182acd4efeb179804274b349ed74b6c453464a04f484aa36b64736f6c63430005100032",
+  "sourceMap": "399:194:78:-;;;494:97;8:9:-1;5:2;;;30:1;27;20:12;5:2;494:97:78;536:14;;;;;:::i;:::-;;;;;;;;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;536:14:78;526:7;;:24;;;;;;;;;;;;;;;;;;570:14;;;;;:::i;:::-;;;;;;;;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;570:14:78;560:7;;:24;;;;;;;;;;;;;;;;;;399:194;;;;;;;;;;:::o;:::-;;;;;;;",
+  "deployedSourceMap": "399:194:78:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;399:194:78;;;;;;;;;;;;;;;;;;;;;;;;435:23;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;464;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;435;;;;;;;;;;;;;:::o;464:::-;;;;;;;;;;;;;:::o",
+  "source": "pragma solidity ^0.5.4;\n\ncontract JoinLike {\n    function gem() public returns (GemLike) {\n        return GemLike(address(0));\n    }\n    function dai() public returns (GemLike) {\n        return GemLike(address(0));\n    }\n    VatLike public vat;\n}\n\ncontract VatLike {\n\n}\n\ncontract GemLike {\n\n}\n\n/**\n * @title MockScdMcdMigration\n * @dev Mock contract needed to deploy the MakerV2Manager contract\n */\ncontract MockScdMcdMigration {\n\n    JoinLike public saiJoin;\n    JoinLike public daiJoin;\n\n    constructor () public {\n        saiJoin = new JoinLike();\n        daiJoin = new JoinLike();\n    }\n}",
+  "sourcePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/maker/MockScdMcdMigration.sol",
+  "ast": {
+    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/maker/MockScdMcdMigration.sol",
+    "exportedSymbols": {
+      "GemLike": [
+        24778
+      ],
+      "JoinLike": [
+        24776
+      ],
+      "MockScdMcdMigration": [
+        24799
+      ],
+      "VatLike": [
+        24777
+      ]
+    },
+    "id": 24800,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 24749,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".4"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:78"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 24776,
+        "linearizedBaseContracts": [
+          24776
+        ],
+        "name": "JoinLike",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 24760,
+              "nodeType": "Block",
+              "src": "89:43:78",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "arguments": [
+                          {
+                            "argumentTypes": null,
+                            "hexValue": "30",
+                            "id": 24756,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "number",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "122:1:78",
+                            "subdenomination": null,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_rational_0_by_1",
+                              "typeString": "int_const 0"
+                            },
+                            "value": "0"
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_rational_0_by_1",
+                              "typeString": "int_const 0"
+                            }
+                          ],
+                          "id": 24755,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "lValueRequested": false,
+                          "nodeType": "ElementaryTypeNameExpression",
+                          "src": "114:7:78",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_address_$",
+                            "typeString": "type(address)"
+                          },
+                          "typeName": "address"
+                        },
+                        "id": 24757,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "typeConversion",
+                        "lValueRequested": false,
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "114:10:78",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address_payable",
+                          "typeString": "address payable"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address_payable",
+                          "typeString": "address payable"
+                        }
+                      ],
+                      "id": 24754,
+                      "name": "GemLike",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 24778,
+                      "src": "106:7:78",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_type$_t_contract$_GemLike_$24778_$",
+                        "typeString": "type(contract GemLike)"
+                      }
+                    },
+                    "id": 24758,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "kind": "typeConversion",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "106:19:78",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_GemLike_$24778",
+                      "typeString": "contract GemLike"
+                    }
+                  },
+                  "functionReturnParameters": 24753,
+                  "id": 24759,
+                  "nodeType": "Return",
+                  "src": "99:26:78"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 24761,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "gem",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 24750,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "61:2:78"
+            },
+            "returnParameters": {
+              "id": 24753,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 24752,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 24761,
+                  "src": "80:7:78",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_GemLike_$24778",
+                    "typeString": "contract GemLike"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 24751,
+                    "name": "GemLike",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 24778,
+                    "src": "80:7:78",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_GemLike_$24778",
+                      "typeString": "contract GemLike"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "79:9:78"
+            },
+            "scope": 24776,
+            "src": "49:83:78",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 24772,
+              "nodeType": "Block",
+              "src": "177:43:78",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "arguments": [
+                          {
+                            "argumentTypes": null,
+                            "hexValue": "30",
+                            "id": 24768,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "number",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "210:1:78",
+                            "subdenomination": null,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_rational_0_by_1",
+                              "typeString": "int_const 0"
+                            },
+                            "value": "0"
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_rational_0_by_1",
+                              "typeString": "int_const 0"
+                            }
+                          ],
+                          "id": 24767,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "lValueRequested": false,
+                          "nodeType": "ElementaryTypeNameExpression",
+                          "src": "202:7:78",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_address_$",
+                            "typeString": "type(address)"
+                          },
+                          "typeName": "address"
+                        },
+                        "id": 24769,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "typeConversion",
+                        "lValueRequested": false,
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "202:10:78",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address_payable",
+                          "typeString": "address payable"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address_payable",
+                          "typeString": "address payable"
+                        }
+                      ],
+                      "id": 24766,
+                      "name": "GemLike",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 24778,
+                      "src": "194:7:78",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_type$_t_contract$_GemLike_$24778_$",
+                        "typeString": "type(contract GemLike)"
+                      }
+                    },
+                    "id": 24770,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "kind": "typeConversion",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "194:19:78",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_GemLike_$24778",
+                      "typeString": "contract GemLike"
+                    }
+                  },
+                  "functionReturnParameters": 24765,
+                  "id": 24771,
+                  "nodeType": "Return",
+                  "src": "187:26:78"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 24773,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "dai",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 24762,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "149:2:78"
+            },
+            "returnParameters": {
+              "id": 24765,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 24764,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 24773,
+                  "src": "168:7:78",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_GemLike_$24778",
+                    "typeString": "contract GemLike"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 24763,
+                    "name": "GemLike",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 24778,
+                    "src": "168:7:78",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_GemLike_$24778",
+                      "typeString": "contract GemLike"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "167:9:78"
+            },
+            "scope": 24776,
+            "src": "137:83:78",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 24775,
+            "name": "vat",
+            "nodeType": "VariableDeclaration",
+            "scope": 24776,
+            "src": "225:18:78",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_contract$_VatLike_$24777",
+              "typeString": "contract VatLike"
+            },
+            "typeName": {
+              "contractScope": null,
+              "id": 24774,
+              "name": "VatLike",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 24777,
+              "src": "225:7:78",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_VatLike_$24777",
+                "typeString": "contract VatLike"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 24800,
+        "src": "25:221:78"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 24777,
+        "linearizedBaseContracts": [
+          24777
+        ],
+        "name": "VatLike",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 24800,
+        "src": "248:21:78"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 24778,
+        "linearizedBaseContracts": [
+          24778
+        ],
+        "name": "GemLike",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 24800,
+        "src": "271:21:78"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [
+          24776
+        ],
+        "contractKind": "contract",
+        "documentation": "@title MockScdMcdMigration\n@dev Mock contract needed to deploy the MakerV2Manager contract",
+        "fullyImplemented": true,
+        "id": 24799,
+        "linearizedBaseContracts": [
+          24799
+        ],
+        "name": "MockScdMcdMigration",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 24780,
+            "name": "saiJoin",
+            "nodeType": "VariableDeclaration",
+            "scope": 24799,
+            "src": "435:23:78",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_contract$_JoinLike_$24776",
+              "typeString": "contract JoinLike"
+            },
+            "typeName": {
+              "contractScope": null,
+              "id": 24779,
+              "name": "JoinLike",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 24776,
+              "src": "435:8:78",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_JoinLike_$24776",
+                "typeString": "contract JoinLike"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 24782,
+            "name": "daiJoin",
+            "nodeType": "VariableDeclaration",
+            "scope": 24799,
+            "src": "464:23:78",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_contract$_JoinLike_$24776",
+              "typeString": "contract JoinLike"
+            },
+            "typeName": {
+              "contractScope": null,
+              "id": 24781,
+              "name": "JoinLike",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 24776,
+              "src": "464:8:78",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_JoinLike_$24776",
+                "typeString": "contract JoinLike"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 24797,
+              "nodeType": "Block",
+              "src": "516:75:78",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 24789,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 24785,
+                      "name": "saiJoin",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 24780,
+                      "src": "526:7:78",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_JoinLike_$24776",
+                        "typeString": "contract JoinLike"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "arguments": [],
+                      "expression": {
+                        "argumentTypes": [],
+                        "id": 24787,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "NewExpression",
+                        "src": "536:12:78",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_JoinLike_$24776_$",
+                          "typeString": "function () returns (contract JoinLike)"
+                        },
+                        "typeName": {
+                          "contractScope": null,
+                          "id": 24786,
+                          "name": "JoinLike",
+                          "nodeType": "UserDefinedTypeName",
+                          "referencedDeclaration": 24776,
+                          "src": "540:8:78",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_contract$_JoinLike_$24776",
+                            "typeString": "contract JoinLike"
+                          }
+                        }
+                      },
+                      "id": 24788,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "functionCall",
+                      "lValueRequested": false,
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "536:14:78",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_JoinLike_$24776",
+                        "typeString": "contract JoinLike"
+                      }
+                    },
+                    "src": "526:24:78",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_JoinLike_$24776",
+                      "typeString": "contract JoinLike"
+                    }
+                  },
+                  "id": 24790,
+                  "nodeType": "ExpressionStatement",
+                  "src": "526:24:78"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 24795,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 24791,
+                      "name": "daiJoin",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 24782,
+                      "src": "560:7:78",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_JoinLike_$24776",
+                        "typeString": "contract JoinLike"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "arguments": [],
+                      "expression": {
+                        "argumentTypes": [],
+                        "id": 24793,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "NewExpression",
+                        "src": "570:12:78",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_JoinLike_$24776_$",
+                          "typeString": "function () returns (contract JoinLike)"
+                        },
+                        "typeName": {
+                          "contractScope": null,
+                          "id": 24792,
+                          "name": "JoinLike",
+                          "nodeType": "UserDefinedTypeName",
+                          "referencedDeclaration": 24776,
+                          "src": "574:8:78",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_contract$_JoinLike_$24776",
+                            "typeString": "contract JoinLike"
+                          }
+                        }
+                      },
+                      "id": 24794,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "functionCall",
+                      "lValueRequested": false,
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "570:14:78",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_JoinLike_$24776",
+                        "typeString": "contract JoinLike"
+                      }
+                    },
+                    "src": "560:24:78",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_JoinLike_$24776",
+                      "typeString": "contract JoinLike"
+                    }
+                  },
+                  "id": 24796,
+                  "nodeType": "ExpressionStatement",
+                  "src": "560:24:78"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 24798,
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [],
+            "name": "",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 24783,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "506:2:78"
+            },
+            "returnParameters": {
+              "id": 24784,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "516:0:78"
+            },
+            "scope": 24799,
+            "src": "494:97:78",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 24800,
+        "src": "399:194:78"
+      }
+    ],
+    "src": "0:593:78"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/maker/MockScdMcdMigration.sol",
+    "exportedSymbols": {
+      "GemLike": [
+        24778
+      ],
+      "JoinLike": [
+        24776
+      ],
+      "MockScdMcdMigration": [
+        24799
+      ],
+      "VatLike": [
+        24777
+      ]
+    },
+    "id": 24800,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 24749,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".4"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:78"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 24776,
+        "linearizedBaseContracts": [
+          24776
+        ],
+        "name": "JoinLike",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 24760,
+              "nodeType": "Block",
+              "src": "89:43:78",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "arguments": [
+                          {
+                            "argumentTypes": null,
+                            "hexValue": "30",
+                            "id": 24756,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "number",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "122:1:78",
+                            "subdenomination": null,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_rational_0_by_1",
+                              "typeString": "int_const 0"
+                            },
+                            "value": "0"
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_rational_0_by_1",
+                              "typeString": "int_const 0"
+                            }
+                          ],
+                          "id": 24755,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "lValueRequested": false,
+                          "nodeType": "ElementaryTypeNameExpression",
+                          "src": "114:7:78",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_address_$",
+                            "typeString": "type(address)"
+                          },
+                          "typeName": "address"
+                        },
+                        "id": 24757,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "typeConversion",
+                        "lValueRequested": false,
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "114:10:78",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address_payable",
+                          "typeString": "address payable"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address_payable",
+                          "typeString": "address payable"
+                        }
+                      ],
+                      "id": 24754,
+                      "name": "GemLike",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 24778,
+                      "src": "106:7:78",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_type$_t_contract$_GemLike_$24778_$",
+                        "typeString": "type(contract GemLike)"
+                      }
+                    },
+                    "id": 24758,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "kind": "typeConversion",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "106:19:78",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_GemLike_$24778",
+                      "typeString": "contract GemLike"
+                    }
+                  },
+                  "functionReturnParameters": 24753,
+                  "id": 24759,
+                  "nodeType": "Return",
+                  "src": "99:26:78"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 24761,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "gem",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 24750,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "61:2:78"
+            },
+            "returnParameters": {
+              "id": 24753,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 24752,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 24761,
+                  "src": "80:7:78",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_GemLike_$24778",
+                    "typeString": "contract GemLike"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 24751,
+                    "name": "GemLike",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 24778,
+                    "src": "80:7:78",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_GemLike_$24778",
+                      "typeString": "contract GemLike"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "79:9:78"
+            },
+            "scope": 24776,
+            "src": "49:83:78",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 24772,
+              "nodeType": "Block",
+              "src": "177:43:78",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "arguments": [
+                          {
+                            "argumentTypes": null,
+                            "hexValue": "30",
+                            "id": 24768,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "kind": "number",
+                            "lValueRequested": false,
+                            "nodeType": "Literal",
+                            "src": "210:1:78",
+                            "subdenomination": null,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_rational_0_by_1",
+                              "typeString": "int_const 0"
+                            },
+                            "value": "0"
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_rational_0_by_1",
+                              "typeString": "int_const 0"
+                            }
+                          ],
+                          "id": 24767,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "lValueRequested": false,
+                          "nodeType": "ElementaryTypeNameExpression",
+                          "src": "202:7:78",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_address_$",
+                            "typeString": "type(address)"
+                          },
+                          "typeName": "address"
+                        },
+                        "id": 24769,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "typeConversion",
+                        "lValueRequested": false,
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "202:10:78",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address_payable",
+                          "typeString": "address payable"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address_payable",
+                          "typeString": "address payable"
+                        }
+                      ],
+                      "id": 24766,
+                      "name": "GemLike",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 24778,
+                      "src": "194:7:78",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_type$_t_contract$_GemLike_$24778_$",
+                        "typeString": "type(contract GemLike)"
+                      }
+                    },
+                    "id": 24770,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "kind": "typeConversion",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "194:19:78",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_GemLike_$24778",
+                      "typeString": "contract GemLike"
+                    }
+                  },
+                  "functionReturnParameters": 24765,
+                  "id": 24771,
+                  "nodeType": "Return",
+                  "src": "187:26:78"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 24773,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "dai",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 24762,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "149:2:78"
+            },
+            "returnParameters": {
+              "id": 24765,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 24764,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 24773,
+                  "src": "168:7:78",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_GemLike_$24778",
+                    "typeString": "contract GemLike"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 24763,
+                    "name": "GemLike",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 24778,
+                    "src": "168:7:78",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_GemLike_$24778",
+                      "typeString": "contract GemLike"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "167:9:78"
+            },
+            "scope": 24776,
+            "src": "137:83:78",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 24775,
+            "name": "vat",
+            "nodeType": "VariableDeclaration",
+            "scope": 24776,
+            "src": "225:18:78",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_contract$_VatLike_$24777",
+              "typeString": "contract VatLike"
+            },
+            "typeName": {
+              "contractScope": null,
+              "id": 24774,
+              "name": "VatLike",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 24777,
+              "src": "225:7:78",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_VatLike_$24777",
+                "typeString": "contract VatLike"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 24800,
+        "src": "25:221:78"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 24777,
+        "linearizedBaseContracts": [
+          24777
+        ],
+        "name": "VatLike",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 24800,
+        "src": "248:21:78"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 24778,
+        "linearizedBaseContracts": [
+          24778
+        ],
+        "name": "GemLike",
+        "nodeType": "ContractDefinition",
+        "nodes": [],
+        "scope": 24800,
+        "src": "271:21:78"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [
+          24776
+        ],
+        "contractKind": "contract",
+        "documentation": "@title MockScdMcdMigration\n@dev Mock contract needed to deploy the MakerV2Manager contract",
+        "fullyImplemented": true,
+        "id": 24799,
+        "linearizedBaseContracts": [
+          24799
+        ],
+        "name": "MockScdMcdMigration",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 24780,
+            "name": "saiJoin",
+            "nodeType": "VariableDeclaration",
+            "scope": 24799,
+            "src": "435:23:78",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_contract$_JoinLike_$24776",
+              "typeString": "contract JoinLike"
+            },
+            "typeName": {
+              "contractScope": null,
+              "id": 24779,
+              "name": "JoinLike",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 24776,
+              "src": "435:8:78",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_JoinLike_$24776",
+                "typeString": "contract JoinLike"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 24782,
+            "name": "daiJoin",
+            "nodeType": "VariableDeclaration",
+            "scope": 24799,
+            "src": "464:23:78",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_contract$_JoinLike_$24776",
+              "typeString": "contract JoinLike"
+            },
+            "typeName": {
+              "contractScope": null,
+              "id": 24781,
+              "name": "JoinLike",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 24776,
+              "src": "464:8:78",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_JoinLike_$24776",
+                "typeString": "contract JoinLike"
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 24797,
+              "nodeType": "Block",
+              "src": "516:75:78",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 24789,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 24785,
+                      "name": "saiJoin",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 24780,
+                      "src": "526:7:78",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_JoinLike_$24776",
+                        "typeString": "contract JoinLike"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "arguments": [],
+                      "expression": {
+                        "argumentTypes": [],
+                        "id": 24787,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "NewExpression",
+                        "src": "536:12:78",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_JoinLike_$24776_$",
+                          "typeString": "function () returns (contract JoinLike)"
+                        },
+                        "typeName": {
+                          "contractScope": null,
+                          "id": 24786,
+                          "name": "JoinLike",
+                          "nodeType": "UserDefinedTypeName",
+                          "referencedDeclaration": 24776,
+                          "src": "540:8:78",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_contract$_JoinLike_$24776",
+                            "typeString": "contract JoinLike"
+                          }
+                        }
+                      },
+                      "id": 24788,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "functionCall",
+                      "lValueRequested": false,
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "536:14:78",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_JoinLike_$24776",
+                        "typeString": "contract JoinLike"
+                      }
+                    },
+                    "src": "526:24:78",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_JoinLike_$24776",
+                      "typeString": "contract JoinLike"
+                    }
+                  },
+                  "id": 24790,
+                  "nodeType": "ExpressionStatement",
+                  "src": "526:24:78"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 24795,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "argumentTypes": null,
+                      "id": 24791,
+                      "name": "daiJoin",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 24782,
+                      "src": "560:7:78",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_JoinLike_$24776",
+                        "typeString": "contract JoinLike"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "argumentTypes": null,
+                      "arguments": [],
+                      "expression": {
+                        "argumentTypes": [],
+                        "id": 24793,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "NewExpression",
+                        "src": "570:12:78",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_creation_nonpayable$__$returns$_t_contract$_JoinLike_$24776_$",
+                          "typeString": "function () returns (contract JoinLike)"
+                        },
+                        "typeName": {
+                          "contractScope": null,
+                          "id": 24792,
+                          "name": "JoinLike",
+                          "nodeType": "UserDefinedTypeName",
+                          "referencedDeclaration": 24776,
+                          "src": "574:8:78",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_contract$_JoinLike_$24776",
+                            "typeString": "contract JoinLike"
+                          }
+                        }
+                      },
+                      "id": 24794,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "functionCall",
+                      "lValueRequested": false,
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "570:14:78",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_contract$_JoinLike_$24776",
+                        "typeString": "contract JoinLike"
+                      }
+                    },
+                    "src": "560:24:78",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_JoinLike_$24776",
+                      "typeString": "contract JoinLike"
+                    }
+                  },
+                  "id": 24796,
+                  "nodeType": "ExpressionStatement",
+                  "src": "560:24:78"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 24798,
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [],
+            "name": "",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 24783,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "506:2:78"
+            },
+            "returnParameters": {
+              "id": 24784,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "516:0:78"
+            },
+            "scope": 24799,
+            "src": "494:97:78",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 24800,
+        "src": "399:194:78"
+      }
+    ],
+    "src": "0:593:78"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.23",
+  "updatedAt": "2020-03-31T19:52:06.909Z",
+  "devdoc": {
+    "details": "Mock contract needed to deploy the MakerV2Manager contract",
+    "methods": {},
+    "title": "MockScdMcdMigration"
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}

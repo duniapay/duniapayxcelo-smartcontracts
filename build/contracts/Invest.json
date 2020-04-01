@@ -1,0 +1,1566 @@
+{
+  "contractName": "Invest",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_wallet",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "_token",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_invested",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_period",
+          "type": "uint256"
+        }
+      ],
+      "name": "InvestmentAdded",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_wallet",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "_token",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_fraction",
+          "type": "uint256"
+        }
+      ],
+      "name": "InvestmentRemoved",
+      "type": "event"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "contract BaseWallet",
+          "name": "_wallet",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_token",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_period",
+          "type": "uint256"
+        }
+      ],
+      "name": "addInvestment",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "_invested",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "internalType": "contract BaseWallet",
+          "name": "_wallet",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_token",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_fraction",
+          "type": "uint256"
+        }
+      ],
+      "name": "removeInvestment",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "internalType": "contract BaseWallet",
+          "name": "_wallet",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_token",
+          "type": "address"
+        }
+      ],
+      "name": "getInvestment",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "_tokenValue",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_periodEnd",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"_wallet\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"_token\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_invested\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_period\",\"type\":\"uint256\"}],\"name\":\"InvestmentAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"_wallet\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"_token\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_fraction\",\"type\":\"uint256\"}],\"name\":\"InvestmentRemoved\",\"type\":\"event\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"contract BaseWallet\",\"name\":\"_wallet\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_token\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_amount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_period\",\"type\":\"uint256\"}],\"name\":\"addInvestment\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"_invested\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"contract BaseWallet\",\"name\":\"_wallet\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_token\",\"type\":\"address\"}],\"name\":\"getInvestment\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"_tokenValue\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_periodEnd\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"contract BaseWallet\",\"name\":\"_wallet\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_token\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_fraction\",\"type\":\"uint256\"}],\"name\":\"removeInvestment\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"author\":\"Julien Niset - <julien@argent.xyz>\",\"methods\":{\"addInvestment(address,address,uint256,uint256)\":{\"details\":\"Invest tokens for a given period.\",\"params\":{\"_amount\":\"The amount of tokens to invest.\",\"_period\":\"The period over which the tokens may be locked in the investment (optional).\",\"_token\":\"The token address.\",\"_wallet\":\"The target wallet.\"},\"return\":\"The exact amount of tokens that have been invested.\"},\"getInvestment(address,address)\":{\"details\":\"Get the amount of investment in a given token.\",\"params\":{\"_token\":\"The token address.\",\"_wallet\":\"The target wallet.\"},\"return\":\"The value in tokens of the investment (including interests) and the time at which the investment can be removed.\"},\"removeInvestment(address,address,uint256)\":{\"details\":\"Exit invested postions.\",\"params\":{\"_fraction\":\"The fraction of invested tokens to exit in per 10000.\",\"_token\":\"The token address.\",\"_wallet\":\"The target wallet.\"}}},\"title\":\"Interface for a contract that can invest tokens in order to earn an interest.\"},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Users/name/dev/argent-contracts-release-1.5.0/contracts/defi/Invest.sol\":\"Invest\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/name/dev/argent-contracts-release-1.5.0/contracts/defi/Invest.sol\":{\"keccak256\":\"0xdcbcf8e14ba0621b2d68b3e77d582c2e611c1a257651814026178947b4c17a6e\",\"urls\":[\"bzz-raw://58ae19b70f8710384788ea89c5ccce62432df3bf2beac54a900574888d4bd4dc\",\"dweb:/ipfs/QmVkPM8YjceUUzfpesCsPRStR3T5UwAaW85M7XwpmDSb9u\"]},\"/Users/name/dev/argent-contracts-release-1.5.0/contracts/interfaces/Module.sol\":{\"keccak256\":\"0x25555ee2388fbfb9a86f9867e585f466d4eb3f2019e97ecc57d7086b0e44ab93\",\"urls\":[\"bzz-raw://65c0fc38125d27a67fd259e0161e88bf896079f74588329f31a47a9a5c8a1b07\",\"dweb:/ipfs/QmZvNKyYQtV9vTw5CymgybZx9kafFfVnAqBXY2b5V4nFX8\"]},\"/Users/name/dev/argent-contracts-release-1.5.0/contracts/wallet/BaseWallet.sol\":{\"keccak256\":\"0xf57ed4d9c894cf3cb083981471b558a91e50871148c02ee58047f7e22852e8ee\",\"urls\":[\"bzz-raw://bd5e2ef0f78cbcbee02a129e880cb207fc905b40bd43f0043a53d3a72674e27b\",\"dweb:/ipfs/QmSTPAUJJj2wpbFNW4WgDnEn5YxYRymNriXyvQWtazPrKB\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// Copyright (C) 2018  Argent Labs Ltd. <https://argent.xyz>\n\n// This program is free software: you can redistribute it and/or modify\n// it under the terms of the GNU General Public License as published by\n// the Free Software Foundation, either version 3 of the License, or\n// (at your option) any later version.\n\n// This program is distributed in the hope that it will be useful,\n// but WITHOUT ANY WARRANTY; without even the implied warranty of\n// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n// GNU General Public License for more details.\n\n// You should have received a copy of the GNU General Public License\n// along with this program.  If not, see <http://www.gnu.org/licenses/>.\n\npragma solidity ^0.5.4;\nimport \"../wallet/BaseWallet.sol\";\n\n/**\n * @title Interface for a contract that can invest tokens in order to earn an interest.\n * @author Julien Niset - <julien@argent.xyz>\n */\ninterface Invest {\n\n    event InvestmentAdded(address indexed _wallet, address _token, uint256 _invested, uint256 _period);\n    event InvestmentRemoved(address indexed _wallet, address _token, uint256 _fraction);\n\n    /**\n     * @dev Invest tokens for a given period.\n     * @param _wallet The target wallet.\n     * @param _token The token address.\n     * @param _amount The amount of tokens to invest.\n     * @param _period The period over which the tokens may be locked in the investment (optional).\n     * @return The exact amount of tokens that have been invested.\n     */\n    function addInvestment(\n        BaseWallet _wallet,\n        address _token,\n        uint256 _amount,\n        uint256 _period\n    )\n        external\n        returns (uint256 _invested);\n\n    /**\n     * @dev Exit invested postions.\n     * @param _wallet The target wallet.\n     * @param _token The token address.\n     * @param _fraction The fraction of invested tokens to exit in per 10000.\n     */\n    function removeInvestment(\n        BaseWallet _wallet,\n        address _token,\n        uint256 _fraction\n    )\n        external;\n\n    /**\n     * @dev Get the amount of investment in a given token.\n     * @param _wallet The target wallet.\n     * @param _token The token address.\n     * @return The value in tokens of the investment (including interests) and the time at which the investment can be removed.\n     */\n    function getInvestment(\n        BaseWallet _wallet,\n        address _token\n    )\n        external\n        view\n        returns (uint256 _tokenValue, uint256 _periodEnd);\n}",
+  "sourcePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/defi/Invest.sol",
+  "ast": {
+    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/defi/Invest.sol",
+    "exportedSymbols": {
+      "Invest": [
+        786
+      ]
+    },
+    "id": 787,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 733,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".4"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "705:23:4"
+      },
+      {
+        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/wallet/BaseWallet.sol",
+        "file": "../wallet/BaseWallet.sol",
+        "id": 734,
+        "nodeType": "ImportDirective",
+        "scope": 787,
+        "sourceUnit": 27734,
+        "src": "729:34:4",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": "@title Interface for a contract that can invest tokens in order to earn an interest.\n@author Julien Niset - <julien@argent.xyz>",
+        "fullyImplemented": false,
+        "id": 786,
+        "linearizedBaseContracts": [
+          786
+        ],
+        "name": "Invest",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 744,
+            "name": "InvestmentAdded",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 743,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 736,
+                  "indexed": true,
+                  "name": "_wallet",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 744,
+                  "src": "953:23:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 735,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "953:7:4",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 738,
+                  "indexed": false,
+                  "name": "_token",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 744,
+                  "src": "978:14:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 737,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "978:7:4",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 740,
+                  "indexed": false,
+                  "name": "_invested",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 744,
+                  "src": "994:17:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 739,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "994:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 742,
+                  "indexed": false,
+                  "name": "_period",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 744,
+                  "src": "1013:15:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 741,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1013:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "952:77:4"
+            },
+            "src": "931:99:4"
+          },
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 752,
+            "name": "InvestmentRemoved",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 751,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 746,
+                  "indexed": true,
+                  "name": "_wallet",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 752,
+                  "src": "1059:23:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 745,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1059:7:4",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 748,
+                  "indexed": false,
+                  "name": "_token",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 752,
+                  "src": "1084:14:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 747,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1084:7:4",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 750,
+                  "indexed": false,
+                  "name": "_fraction",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 752,
+                  "src": "1100:17:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 749,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1100:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1058:60:4"
+            },
+            "src": "1035:84:4"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Invest tokens for a given period.\n@param _wallet The target wallet.\n@param _token The token address.\n@param _amount The amount of tokens to invest.\n@param _period The period over which the tokens may be locked in the investment (optional).\n@return The exact amount of tokens that have been invested.",
+            "id": 765,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "addInvestment",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 761,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 754,
+                  "name": "_wallet",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 765,
+                  "src": "1520:18:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                    "typeString": "contract BaseWallet"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 753,
+                    "name": "BaseWallet",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 27733,
+                    "src": "1520:10:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                      "typeString": "contract BaseWallet"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 756,
+                  "name": "_token",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 765,
+                  "src": "1548:14:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 755,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1548:7:4",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 758,
+                  "name": "_amount",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 765,
+                  "src": "1572:15:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 757,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1572:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 760,
+                  "name": "_period",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 765,
+                  "src": "1597:15:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 759,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1597:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1510:108:4"
+            },
+            "returnParameters": {
+              "id": 764,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 763,
+                  "name": "_invested",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 765,
+                  "src": "1653:17:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 762,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1653:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1652:19:4"
+            },
+            "scope": 786,
+            "src": "1488:184:4",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Exit invested postions.\n@param _wallet The target wallet.\n@param _token The token address.\n@param _fraction The fraction of invested tokens to exit in per 10000.",
+            "id": 774,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "removeInvestment",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 772,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 767,
+                  "name": "_wallet",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 774,
+                  "src": "1924:18:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                    "typeString": "contract BaseWallet"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 766,
+                    "name": "BaseWallet",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 27733,
+                    "src": "1924:10:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                      "typeString": "contract BaseWallet"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 769,
+                  "name": "_token",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 774,
+                  "src": "1952:14:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 768,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1952:7:4",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 771,
+                  "name": "_fraction",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 774,
+                  "src": "1976:17:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 770,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1976:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1914:85:4"
+            },
+            "returnParameters": {
+              "id": 773,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2016:0:4"
+            },
+            "scope": 786,
+            "src": "1889:128:4",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Get the amount of investment in a given token.\n@param _wallet The target wallet.\n@param _token The token address.\n@return The value in tokens of the investment (including interests) and the time at which the investment can be removed.",
+            "id": 785,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getInvestment",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 779,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 776,
+                  "name": "_wallet",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 785,
+                  "src": "2339:18:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                    "typeString": "contract BaseWallet"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 775,
+                    "name": "BaseWallet",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 27733,
+                    "src": "2339:10:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                      "typeString": "contract BaseWallet"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 778,
+                  "name": "_token",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 785,
+                  "src": "2367:14:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 777,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2367:7:4",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2329:58:4"
+            },
+            "returnParameters": {
+              "id": 784,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 781,
+                  "name": "_tokenValue",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 785,
+                  "src": "2435:19:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 780,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2435:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 783,
+                  "name": "_periodEnd",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 785,
+                  "src": "2456:18:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 782,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2456:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2434:41:4"
+            },
+            "scope": 786,
+            "src": "2307:169:4",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 787,
+        "src": "907:1571:4"
+      }
+    ],
+    "src": "705:1773:4"
+  },
+  "legacyAST": {
+    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/defi/Invest.sol",
+    "exportedSymbols": {
+      "Invest": [
+        786
+      ]
+    },
+    "id": 787,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 733,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".4"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "705:23:4"
+      },
+      {
+        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/wallet/BaseWallet.sol",
+        "file": "../wallet/BaseWallet.sol",
+        "id": 734,
+        "nodeType": "ImportDirective",
+        "scope": 787,
+        "sourceUnit": 27734,
+        "src": "729:34:4",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "documentation": "@title Interface for a contract that can invest tokens in order to earn an interest.\n@author Julien Niset - <julien@argent.xyz>",
+        "fullyImplemented": false,
+        "id": 786,
+        "linearizedBaseContracts": [
+          786
+        ],
+        "name": "Invest",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 744,
+            "name": "InvestmentAdded",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 743,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 736,
+                  "indexed": true,
+                  "name": "_wallet",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 744,
+                  "src": "953:23:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 735,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "953:7:4",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 738,
+                  "indexed": false,
+                  "name": "_token",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 744,
+                  "src": "978:14:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 737,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "978:7:4",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 740,
+                  "indexed": false,
+                  "name": "_invested",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 744,
+                  "src": "994:17:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 739,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "994:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 742,
+                  "indexed": false,
+                  "name": "_period",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 744,
+                  "src": "1013:15:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 741,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1013:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "952:77:4"
+            },
+            "src": "931:99:4"
+          },
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 752,
+            "name": "InvestmentRemoved",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 751,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 746,
+                  "indexed": true,
+                  "name": "_wallet",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 752,
+                  "src": "1059:23:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 745,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1059:7:4",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 748,
+                  "indexed": false,
+                  "name": "_token",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 752,
+                  "src": "1084:14:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 747,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1084:7:4",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 750,
+                  "indexed": false,
+                  "name": "_fraction",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 752,
+                  "src": "1100:17:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 749,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1100:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1058:60:4"
+            },
+            "src": "1035:84:4"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Invest tokens for a given period.\n@param _wallet The target wallet.\n@param _token The token address.\n@param _amount The amount of tokens to invest.\n@param _period The period over which the tokens may be locked in the investment (optional).\n@return The exact amount of tokens that have been invested.",
+            "id": 765,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "addInvestment",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 761,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 754,
+                  "name": "_wallet",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 765,
+                  "src": "1520:18:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                    "typeString": "contract BaseWallet"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 753,
+                    "name": "BaseWallet",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 27733,
+                    "src": "1520:10:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                      "typeString": "contract BaseWallet"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 756,
+                  "name": "_token",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 765,
+                  "src": "1548:14:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 755,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1548:7:4",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 758,
+                  "name": "_amount",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 765,
+                  "src": "1572:15:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 757,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1572:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 760,
+                  "name": "_period",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 765,
+                  "src": "1597:15:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 759,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1597:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1510:108:4"
+            },
+            "returnParameters": {
+              "id": 764,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 763,
+                  "name": "_invested",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 765,
+                  "src": "1653:17:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 762,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1653:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1652:19:4"
+            },
+            "scope": 786,
+            "src": "1488:184:4",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Exit invested postions.\n@param _wallet The target wallet.\n@param _token The token address.\n@param _fraction The fraction of invested tokens to exit in per 10000.",
+            "id": 774,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "removeInvestment",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 772,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 767,
+                  "name": "_wallet",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 774,
+                  "src": "1924:18:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                    "typeString": "contract BaseWallet"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 766,
+                    "name": "BaseWallet",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 27733,
+                    "src": "1924:10:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                      "typeString": "contract BaseWallet"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 769,
+                  "name": "_token",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 774,
+                  "src": "1952:14:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 768,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1952:7:4",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 771,
+                  "name": "_fraction",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 774,
+                  "src": "1976:17:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 770,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1976:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1914:85:4"
+            },
+            "returnParameters": {
+              "id": 773,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2016:0:4"
+            },
+            "scope": 786,
+            "src": "1889:128:4",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "external"
+          },
+          {
+            "body": null,
+            "documentation": "@dev Get the amount of investment in a given token.\n@param _wallet The target wallet.\n@param _token The token address.\n@return The value in tokens of the investment (including interests) and the time at which the investment can be removed.",
+            "id": 785,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getInvestment",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 779,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 776,
+                  "name": "_wallet",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 785,
+                  "src": "2339:18:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                    "typeString": "contract BaseWallet"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 775,
+                    "name": "BaseWallet",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 27733,
+                    "src": "2339:10:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_BaseWallet_$27733",
+                      "typeString": "contract BaseWallet"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 778,
+                  "name": "_token",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 785,
+                  "src": "2367:14:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 777,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2367:7:4",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2329:58:4"
+            },
+            "returnParameters": {
+              "id": 784,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 781,
+                  "name": "_tokenValue",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 785,
+                  "src": "2435:19:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 780,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2435:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 783,
+                  "name": "_periodEnd",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 785,
+                  "src": "2456:18:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 782,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2456:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2434:41:4"
+            },
+            "scope": 786,
+            "src": "2307:169:4",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "external"
+          }
+        ],
+        "scope": 787,
+        "src": "907:1571:4"
+      }
+    ],
+    "src": "705:1773:4"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.0.23",
+  "updatedAt": "2020-03-31T19:52:06.260Z",
+  "devdoc": {
+    "author": "Julien Niset - <julien@argent.xyz>",
+    "methods": {
+      "addInvestment(address,address,uint256,uint256)": {
+        "details": "Invest tokens for a given period.",
+        "params": {
+          "_amount": "The amount of tokens to invest.",
+          "_period": "The period over which the tokens may be locked in the investment (optional).",
+          "_token": "The token address.",
+          "_wallet": "The target wallet."
+        },
+        "return": "The exact amount of tokens that have been invested."
+      },
+      "getInvestment(address,address)": {
+        "details": "Get the amount of investment in a given token.",
+        "params": {
+          "_token": "The token address.",
+          "_wallet": "The target wallet."
+        },
+        "return": "The value in tokens of the investment (including interests) and the time at which the investment can be removed."
+      },
+      "removeInvestment(address,address,uint256)": {
+        "details": "Exit invested postions.",
+        "params": {
+          "_fraction": "The fraction of invested tokens to exit in per 10000.",
+          "_token": "The token address.",
+          "_wallet": "The target wallet."
+        }
+      }
+    },
+    "title": "Interface for a contract that can invest tokens in order to earn an interest."
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}
