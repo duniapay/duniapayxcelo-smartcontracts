@@ -190,9 +190,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "// Copyright (C) 2018  Argent Labs Ltd. <https://argent.xyz>\n\n// This program is free software: you can redistribute it and/or modify\n// it under the terms of the GNU General Public License as published by\n// the Free Software Foundation, either version 3 of the License, or\n// (at your option) any later version.\n\n// This program is distributed in the hope that it will be useful,\n// but WITHOUT ANY WARRANTY; without even the implied warranty of\n// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n// GNU General Public License for more details.\n\n// You should have received a copy of the GNU General Public License\n// along with this program.  If not, see <http://www.gnu.org/licenses/>.\n\npragma solidity ^0.5.4;\nimport \"./BaseModule.sol\";\nimport \"./RelayerModule.sol\";\nimport \"../../wallet/BaseWallet.sol\";\n\n/**\n * @title OnlyOwnerModule\n * @dev Module that extends BaseModule and RelayerModule for modules where the execute() method\n * must be called with one signature frm the owner.\n * @author Julien Niset - <julien@argent.im>\n */\ncontract OnlyOwnerModule is BaseModule, RelayerModule {\n\n    // bytes4 private constant IS_ONLY_OWNER_MODULE = bytes4(keccak256(\"isOnlyOwnerModule()\"));\n\n   /**\n    * @dev Returns a constant that indicates that the module is an OnlyOwnerModule.\n    * @return The constant bytes4(keccak256(\"isOnlyOwnerModule()\"))\n    */\n    function isOnlyOwnerModule() external pure returns (bytes4) {\n        // return IS_ONLY_OWNER_MODULE;\n        return this.isOnlyOwnerModule.selector;\n    }\n\n    /**\n     * @dev Adds a module to a wallet. First checks that the module is registered.\n     * Unlike its overrided parent, this method can be called via the RelayerModule's execute()\n     * @param _wallet The target wallet.\n     * @param _module The modules to authorise.\n     */\n    function addModule(BaseWallet _wallet, Module _module) external onlyWalletOwner(_wallet) {\n        require(registry.isRegisteredModule(address(_module)), \"BM: module is not registered\");\n        _wallet.authoriseModule(address(_module), true);\n    }\n\n    // *************** Implementation of RelayerModule methods ********************* //\n\n    // Overrides to use the incremental nonce and save some gas\n    function checkAndUpdateUniqueness(BaseWallet _wallet, uint256 _nonce, bytes32 /* _signHash */) internal returns (bool) {\n        return checkAndUpdateNonce(_wallet, _nonce);\n    }\n\n    function validateSignatures(\n        BaseWallet _wallet,\n        bytes memory /* _data */,\n        bytes32 _signHash,\n        bytes memory _signatures\n    )\n        internal\n        view\n        returns (bool)\n    {\n        address signer = recoverSigner(_signHash, _signatures, 0);\n        return isOwner(_wallet, signer); // \"OOM: signer must be owner\"\n    }\n\n    function getRequiredSignatures(BaseWallet /* _wallet */, bytes memory /* _data */) internal view returns (uint256) {\n        return 1;\n    }\n}",
-  "sourcePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/OnlyOwnerModule.sol",
+  "sourcePath": "/Users/name/dev/smartcontracts/contracts/modules/common/OnlyOwnerModule.sol",
   "ast": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/OnlyOwnerModule.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/common/OnlyOwnerModule.sol",
     "exportedSymbols": {
       "OnlyOwnerModule": [
         11016
@@ -213,7 +213,7 @@
         "src": "705:23:31"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/BaseModule.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/common/BaseModule.sol",
         "file": "./BaseModule.sol",
         "id": 10913,
         "nodeType": "ImportDirective",
@@ -224,7 +224,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/RelayerModule.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/common/RelayerModule.sol",
         "file": "./RelayerModule.sol",
         "id": 10914,
         "nodeType": "ImportDirective",
@@ -235,7 +235,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/wallet/BaseWallet.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/wallet/BaseWallet.sol",
         "file": "../../wallet/BaseWallet.sol",
         "id": 10915,
         "nodeType": "ImportDirective",
@@ -1560,7 +1560,7 @@
     "src": "705:2217:31"
   },
   "legacyAST": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/OnlyOwnerModule.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/common/OnlyOwnerModule.sol",
     "exportedSymbols": {
       "OnlyOwnerModule": [
         11016
@@ -1581,7 +1581,7 @@
         "src": "705:23:31"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/BaseModule.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/common/BaseModule.sol",
         "file": "./BaseModule.sol",
         "id": 10913,
         "nodeType": "ImportDirective",
@@ -1592,7 +1592,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/RelayerModule.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/common/RelayerModule.sol",
         "file": "./RelayerModule.sol",
         "id": 10914,
         "nodeType": "ImportDirective",
@@ -1603,7 +1603,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/wallet/BaseWallet.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/wallet/BaseWallet.sol",
         "file": "../../wallet/BaseWallet.sol",
         "id": 10915,
         "nodeType": "ImportDirective",
@@ -2935,5 +2935,5 @@
   },
   "networks": {},
   "schemaVersion": "2.3.1",
-  "updatedAt": "2020-04-01T15:58:47.228Z"
+  "updatedAt": "2020-04-01T21:49:52.972Z"
 }

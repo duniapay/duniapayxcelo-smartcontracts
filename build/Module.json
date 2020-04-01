@@ -53,9 +53,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "// Copyright (C) 2018  Argent Labs Ltd. <https://argent.xyz>\n\n// This program is free software: you can redistribute it and/or modify\n// it under the terms of the GNU General Public License as published by\n// the Free Software Foundation, either version 3 of the License, or\n// (at your option) any later version.\n\n// This program is distributed in the hope that it will be useful,\n// but WITHOUT ANY WARRANTY; without even the implied warranty of\n// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n// GNU General Public License for more details.\n\n// You should have received a copy of the GNU General Public License\n// along with this program.  If not, see <http://www.gnu.org/licenses/>.\n\npragma solidity ^0.5.4;\nimport \"../wallet/BaseWallet.sol\";\n\n/**\n * @title Module\n * @dev Interface for a module.\n * A module MUST implement the addModule() method to ensure that a wallet with at least one module\n * can never end up in a \"frozen\" state.\n * @author Julien Niset - <julien@argent.xyz>\n */\ninterface Module {\n\n    /**\n     * @dev Inits a module for a wallet by e.g. setting some wallet specific parameters in storage.\n     * @param _wallet The wallet.\n     */\n    function init(BaseWallet _wallet) external;\n\n    /**\n     * @dev Adds a module to a wallet.\n     * @param _wallet The target wallet.\n     * @param _module The modules to authorise.\n     */\n    function addModule(BaseWallet _wallet, Module _module) external;\n\n    /**\n    * @dev Utility method to recover any ERC20 token that was sent to the\n    * module by mistake.\n    * @param _token The token to recover.\n    */\n    function recoverToken(address _token) external;\n}",
-  "sourcePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/interfaces/Module.sol",
+  "sourcePath": "/Users/name/dev/smartcontracts/contracts/interfaces/Module.sol",
   "ast": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/interfaces/Module.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/interfaces/Module.sol",
     "exportedSymbols": {
       "Module": [
         2050
@@ -76,7 +76,7 @@
         "src": "705:23:16"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/wallet/BaseWallet.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/wallet/BaseWallet.sol",
         "file": "../wallet/BaseWallet.sol",
         "id": 2032,
         "nodeType": "ImportDirective",
@@ -302,7 +302,7 @@
     "src": "705:945:16"
   },
   "legacyAST": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/interfaces/Module.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/interfaces/Module.sol",
     "exportedSymbols": {
       "Module": [
         2050
@@ -323,7 +323,7 @@
         "src": "705:23:16"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/wallet/BaseWallet.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/wallet/BaseWallet.sol",
         "file": "../wallet/BaseWallet.sol",
         "id": 2032,
         "nodeType": "ImportDirective",
@@ -556,5 +556,5 @@
   },
   "networks": {},
   "schemaVersion": "2.3.1",
-  "updatedAt": "2020-04-01T15:58:47.183Z"
+  "updatedAt": "2020-04-01T21:49:52.954Z"
 }

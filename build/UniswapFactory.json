@@ -26,9 +26,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "// Copyright (C) 2018  Argent Labs Ltd. <https://argent.xyz>\n\n// This program is free software: you can redistribute it and/or modify\n// it under the terms of the GNU General Public License as published by\n// the Free Software Foundation, either version 3 of the License, or\n// (at your option) any later version.\n\n// This program is distributed in the hope that it will be useful,\n// but WITHOUT ANY WARRANTY; without even the implied warranty of\n// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n// GNU General Public License for more details.\n\n// You should have received a copy of the GNU General Public License\n// along with this program.  If not, see <http://www.gnu.org/licenses/>.\n\npragma solidity ^0.5.4;\n\nimport \"../../lib/utils/SafeMath.sol\";\nimport \"../wallet/BaseWallet.sol\";\nimport \"./common/BaseModule.sol\";\nimport \"./common/RelayerModule.sol\";\nimport \"./common/OnlyOwnerModule.sol\";\nimport \"../defi/Invest.sol\";\n\ninterface UniswapFactory {\n    function getExchange(address _token) external view returns(address);\n}\n\ninterface UniswapExchange {\n    function getEthToTokenOutputPrice(uint256 _tokens_bought) external view returns (uint256);\n    function getEthToTokenInputPrice(uint256 _eth_sold) external view returns (uint256);\n    function getTokenToEthOutputPrice(uint256 _eth_bought) external view returns (uint256);\n    function getTokenToEthInputPrice(uint256 _tokens_sold) external view returns (uint256);\n}\n\n/**\n * @title UniswapInvestManager\n * @dev Module to invest tokens with Uniswap in order to earn an interest\n * @author Julien Niset - <julien@argent.xyz>\n */\ncontract UniswapManager is Invest, BaseModule, RelayerModule, OnlyOwnerModule {\n\n    bytes32 constant NAME = \"UniswapInvestManager\";\n\n    // The Uniswap Factory contract\n    UniswapFactory public uniswapFactory;\n\n    // Mock token address for ETH\n    address constant internal ETH_TOKEN_ADDRESS = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;\n\n    using SafeMath for uint256;\n\n    constructor(\n        ModuleRegistry _registry,\n        GuardianStorage _guardianStorage,\n        UniswapFactory _uniswapFactory\n    )\n        BaseModule(_registry, _guardianStorage, NAME)\n        public\n    {\n        uniswapFactory = _uniswapFactory;\n    }\n\n    /* ********************************** Implementation of Invest ************************************* */\n\n    /**\n     * @dev Invest tokens for a given period.\n     * @param _wallet The target wallet.\n     * @param _token The token address.\n     * @param _amount The amount of tokens to invest.\n     * @param _period The period over which the tokens may be locked in the investment (optional).\n     * @return The amount of tokens that have been invested.\n     */\n    function addInvestment(\n        BaseWallet _wallet,\n        address _token,\n        uint256 _amount,\n        uint256 _period\n    )\n        external\n        onlyWalletOwner(_wallet)\n        onlyWhenUnlocked(_wallet)\n        returns (uint256 _invested)\n    {\n        _invested = addLiquidity(_wallet, _token, _amount);\n        emit InvestmentAdded(address(_wallet), _token, _amount, _period);\n    }\n\n    /**\n     * @dev Removes a fraction of the tokens from an investment.\n     * @param _wallet The target wallet.s\n     * @param _token The array of token address.\n     * @param _fraction The fraction of invested tokens to exit in per 10000.\n     */\n    function removeInvestment(\n        BaseWallet _wallet,\n        address _token,\n        uint256 _fraction\n    )\n        external\n        onlyWalletOwner(_wallet)\n        onlyWhenUnlocked(_wallet)\n    {\n        require(_fraction <= 10000, \"Uniswap: _fraction must be expressed in 1 per 10000\");\n        removeLiquidity(_wallet, _token, _fraction);\n        emit InvestmentRemoved(address(_wallet), _token, _fraction);\n    }\n\n    /**\n     * @dev Get the amount of investment in a given token.\n     * @param _wallet The target wallet.\n     * @param _token The token address.\n     * @return The value in tokens of the investment (including interests) and the time at which the investment can be removed.\n     */\n    function getInvestment(\n        BaseWallet _wallet,\n        address _token\n    )\n        external\n        view\n        returns (uint256 _tokenValue, uint256 _periodEnd)\n    {\n        address tokenPool = uniswapFactory.getExchange(_token);\n        uint256 tokenPoolSize = ERC20(_token).balanceOf(tokenPool);\n        uint shares = ERC20(tokenPool).balanceOf(address(_wallet));\n        uint totalSupply = ERC20(tokenPool).totalSupply();\n        _tokenValue = shares.mul(tokenPoolSize).mul(2).div(totalSupply);\n        _periodEnd = 0;\n    }\n\n    /* ****************************************** Uniswap utilities ******************************************* */\n\n    /**\n     * @dev Adds liquidity to a Uniswap ETH-ERC20 pair.\n     * @param _wallet The target wallet\n     * @param _token The address of the ERC20 token of the pair.\n     * @param _amount The amount of tokens to add to the pool.\n     */\n    function addLiquidity(\n        BaseWallet _wallet,\n        address _token,\n        uint256 _amount\n    )\n        internal\n        returns (uint256)\n    {\n        require(_amount > 0, \"Uniswap: can't add 0 liquidity\");\n        address tokenPool = uniswapFactory.getExchange(_token);\n        require(tokenPool != address(0), \"Uniswap: target token is not traded on Uniswap\");\n\n        uint256 tokenBalance = ERC20(_token).balanceOf(address(_wallet));\n        if (_amount > tokenBalance) {\n            uint256 ethToSwap = UniswapExchange(tokenPool).getEthToTokenOutputPrice(_amount - tokenBalance);\n            require(ethToSwap <= address(_wallet).balance, \"Uniswap: not enough ETH to swap\");\n            invokeWallet(address(_wallet), tokenPool, ethToSwap, abi.encodeWithSignature(\"ethToTokenSwapOutput(uint256,uint256)\", _amount - tokenBalance, block.timestamp));\n        }\n\n        uint256 tokenLiquidity = ERC20(_token).balanceOf(tokenPool);\n        uint256 ethLiquidity = tokenPool.balance;\n        uint256 ethToPool = (_amount - 1).mul(ethLiquidity).div(tokenLiquidity);\n        require(ethToPool <= address(_wallet).balance, \"Uniswap: not enough ETH to pool\");\n        invokeWallet(address(_wallet), _token, 0, abi.encodeWithSignature(\"approve(address,uint256)\", tokenPool, _amount));\n        invokeWallet(\n            address(_wallet),\n            tokenPool,\n            ethToPool,\n            abi.encodeWithSignature(\"addLiquidity(uint256,uint256,uint256)\",\n            1,\n            _amount,\n            block.timestamp + 1));\n        return _amount.mul(2);\n    }\n\n    /**\n     * @dev Removes liquidity from a Uniswap ETH-ERC20 pair.\n     * @param _wallet The target wallet\n     * @param _token The address of the ERC20 token of the pair.\n     * @param _fraction The fraction of pool shares to liquidate.\n     */\n    function removeLiquidity(\n        BaseWallet _wallet,\n        address _token,\n        uint256 _fraction\n    )\n        internal\n    {\n        address tokenPool = uniswapFactory.getExchange(_token);\n        require(tokenPool != address(0), \"Uniswap: The target token is not traded on Uniswap\");\n        uint256 shares = ERC20(tokenPool).balanceOf(address(_wallet));\n        invokeWallet(\n            address(_wallet),\n            tokenPool,\n            0,\n            abi.encodeWithSignature(\"removeLiquidity(uint256,uint256,uint256,uint256)\",\n            shares.mul(_fraction).div(10000),\n            1,\n            1,\n            block.timestamp + 1));\n    }\n}\n\n",
-  "sourcePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/UniswapManager.sol",
+  "sourcePath": "/Users/name/dev/smartcontracts/contracts/modules/UniswapManager.sol",
   "ast": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/UniswapManager.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/UniswapManager.sol",
     "exportedSymbols": {
       "UniswapExchange": [
         9549
@@ -55,7 +55,7 @@
         "src": "705:23:27"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/lib/utils/SafeMath.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/lib/utils/SafeMath.sol",
         "file": "../../lib/utils/SafeMath.sol",
         "id": 9507,
         "nodeType": "ImportDirective",
@@ -66,7 +66,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/wallet/BaseWallet.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/wallet/BaseWallet.sol",
         "file": "../wallet/BaseWallet.sol",
         "id": 9508,
         "nodeType": "ImportDirective",
@@ -77,7 +77,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/BaseModule.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/common/BaseModule.sol",
         "file": "./common/BaseModule.sol",
         "id": 9509,
         "nodeType": "ImportDirective",
@@ -88,7 +88,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/RelayerModule.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/common/RelayerModule.sol",
         "file": "./common/RelayerModule.sol",
         "id": 9510,
         "nodeType": "ImportDirective",
@@ -99,7 +99,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/OnlyOwnerModule.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/common/OnlyOwnerModule.sol",
         "file": "./common/OnlyOwnerModule.sol",
         "id": 9511,
         "nodeType": "ImportDirective",
@@ -110,7 +110,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/defi/Invest.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/defi/Invest.sol",
         "file": "../defi/Invest.sol",
         "id": 9512,
         "nodeType": "ImportDirective",
@@ -6522,7 +6522,7 @@
     "src": "705:6755:27"
   },
   "legacyAST": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/UniswapManager.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/UniswapManager.sol",
     "exportedSymbols": {
       "UniswapExchange": [
         9549
@@ -6549,7 +6549,7 @@
         "src": "705:23:27"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/lib/utils/SafeMath.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/lib/utils/SafeMath.sol",
         "file": "../../lib/utils/SafeMath.sol",
         "id": 9507,
         "nodeType": "ImportDirective",
@@ -6560,7 +6560,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/wallet/BaseWallet.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/wallet/BaseWallet.sol",
         "file": "../wallet/BaseWallet.sol",
         "id": 9508,
         "nodeType": "ImportDirective",
@@ -6571,7 +6571,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/BaseModule.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/common/BaseModule.sol",
         "file": "./common/BaseModule.sol",
         "id": 9509,
         "nodeType": "ImportDirective",
@@ -6582,7 +6582,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/RelayerModule.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/common/RelayerModule.sol",
         "file": "./common/RelayerModule.sol",
         "id": 9510,
         "nodeType": "ImportDirective",
@@ -6593,7 +6593,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/OnlyOwnerModule.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/common/OnlyOwnerModule.sol",
         "file": "./common/OnlyOwnerModule.sol",
         "id": 9511,
         "nodeType": "ImportDirective",
@@ -6604,7 +6604,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/defi/Invest.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/defi/Invest.sol",
         "file": "../defi/Invest.sol",
         "id": 9512,
         "nodeType": "ImportDirective",
@@ -13023,5 +13023,5 @@
   },
   "networks": {},
   "schemaVersion": "2.3.1",
-  "updatedAt": "2020-04-01T15:58:47.494Z"
+  "updatedAt": "2020-04-01T21:49:53.122Z"
 }

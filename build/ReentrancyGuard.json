@@ -13,9 +13,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.5.4;\n\n/**\n * @title Helps contracts guard against reentrancy attacks.\n * @author Remco Bloemen <remco@2π.com>, Eenae <alexey@mixbytes.io>\n * @dev If you mark a function `nonReentrant`, you should also\n * mark it `external`.\n */\ncontract ReentrancyGuard {\n    /// @dev counter to allow mutex lock with only one SSTORE operation\n    uint256 private _guardCounter;\n\n    constructor () internal {\n        // The counter starts at one to prevent changing it from zero to a non-zero\n        // value, which is a more expensive operation.\n        _guardCounter = 1;\n    }\n\n    /**\n     * @dev Prevents a contract from calling itself, directly or indirectly.\n     * Calling a `nonReentrant` function from another `nonReentrant`\n     * function is not supported. It is possible to prevent this from happening\n     * by making the `nonReentrant` function external, and make it call a\n     * `private` function that does the actual work.\n     */\n    modifier nonReentrant() {\n        _guardCounter += 1;\n        uint256 localCounter = _guardCounter;\n        _;\n        require(localCounter == _guardCounter, \"re-entered\");\n    }\n}\n",
-  "sourcePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/compound/ReentrancyGuard.sol",
+  "sourcePath": "/Users/name/dev/smartcontracts/contracts/test/compound/ReentrancyGuard.sol",
   "ast": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/compound/ReentrancyGuard.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/compound/ReentrancyGuard.sol",
     "exportedSymbols": {
       "ReentrancyGuard": [
         22959
@@ -403,7 +403,7 @@
     "src": "0:1140:67"
   },
   "legacyAST": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/compound/ReentrancyGuard.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/compound/ReentrancyGuard.sol",
     "exportedSymbols": {
       "ReentrancyGuard": [
         22959
@@ -798,5 +798,5 @@
   },
   "networks": {},
   "schemaVersion": "2.3.1",
-  "updatedAt": "2020-04-01T15:58:47.339Z"
+  "updatedAt": "2020-04-01T21:49:53.036Z"
 }

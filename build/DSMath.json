@@ -1,14 +1,14 @@
 {
   "contractName": "DSMath",
   "abi": [],
-  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3fe6080604052600080fdfea165627a7a72305820b88b74fe922cf61b2c9958c6faaf68514284d94aa19add067baeed46679f82c40029",
-  "deployedBytecode": "0x6080604052600080fdfea165627a7a72305820b88b74fe922cf61b2c9958c6faaf68514284d94aa19add067baeed46679f82c40029",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3fe6080604052600080fdfea165627a7a723058208a7ae82203cb71c7374d154def816718614e153afb11f19b2bafd600cb57fc150029",
+  "deployedBytecode": "0x6080604052600080fdfea165627a7a723058208a7ae82203cb71c7374d154def816718614e153afb11f19b2bafd600cb57fc150029",
   "sourceMap": "721:2106:72:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;721:2106:72;;;;;;;",
   "deployedSourceMap": "721:2106:72:-;;;;;",
   "source": "/// math.sol -- mixin for inline numerical wizardry\n\n// This program is free software: you can redistribute it and/or modify\n// it under the terms of the GNU General Public License as published by\n// the Free Software Foundation, either version 3 of the License, or\n// (at your option) any later version.\n\n// This program is distributed in the hope that it will be useful,\n// but WITHOUT ANY WARRANTY; without even the implied warranty of\n// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n// GNU General Public License for more details.\n\n// You should have received a copy of the GNU General Public License\n// along with this program.  If not, see <http://www.gnu.org/licenses/>.\n\npragma solidity ^0.5.4;\n\ncontract DSMath {\n    function add(uint x, uint y) internal pure returns (uint z) {\n        ((z = x + y) >= x);\n    }\n    function sub(uint x, uint y) internal pure returns (uint z) {\n        require((z = x - y) <= x);\n    }\n    function mul(uint x, uint y) internal pure returns (uint z) {\n        require(y == 0 || (z = x * y) / y == x);\n    }\n\n    function min(uint x, uint y) internal pure returns (uint z) {\n        return x <= y ? x : y;\n    }\n    function max(uint x, uint y) internal pure returns (uint z) {\n        return x >= y ? x : y;\n    }\n    function imin(int x, int y) internal pure returns (int z) {\n        return x <= y ? x : y;\n    }\n    function imax(int x, int y) internal pure returns (int z) {\n        return x >= y ? x : y;\n    }\n\n    uint constant WAD = 10 ** 18;\n    uint constant RAY = 10 ** 27;\n\n    function wmul(uint x, uint y) internal pure returns (uint z) {\n        z = add(mul(x, y), WAD / 2) / WAD;\n    }\n    function rmul(uint x, uint y) internal pure returns (uint z) {\n        z = add(mul(x, y), RAY / 2) / RAY;\n    }\n    function wdiv(uint x, uint y) internal pure returns (uint z) {\n        z = add(mul(x, WAD), y / 2) / y;\n    }\n    function rdiv(uint x, uint y) internal pure returns (uint z) {\n        z = add(mul(x, RAY), y / 2) / y;\n    }\n\n    // This famous algorithm is called \"exponentiation by squaring\"\n    // and calculates x^n with x as fixed-point and n as regular unsigned.\n    //\n    // It's O(log n), instead of O(n) for naive repeated multiplication.\n    //\n    // These facts are why it works:\n    //\n    //  If n is even, then x^n = (x^2)^(n/2).\n    //  If n is odd,  then x^n = x * x^(n-1),\n    //   and applying the equation for even x gives\n    //    x^n = x * (x^2)^((n-1) / 2).\n    //\n    //  Also, EVM division is flooring and\n    //    floor[(n-1) / 2] = floor[n / 2].\n    //\n    function rpow(uint x, uint n) internal pure returns (uint z) {\n        z = n % 2 != 0 ? x : RAY;\n\n        for (n /= 2; n != 0; n /= 2) {\n            x = rmul(x, x);\n\n            if (n % 2 != 0) {\n                z = rmul(z, x);\n            }\n        }\n    }\n}",
-  "sourcePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/maker/DS/DSMath.sol",
+  "sourcePath": "/Users/name/dev/smartcontracts/contracts/test/maker/DS/DSMath.sol",
   "ast": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/maker/DS/DSMath.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/maker/DS/DSMath.sol",
     "exportedSymbols": {
       "DSMath": [
         24005
@@ -4012,7 +4012,7 @@
     "src": "696:2131:72"
   },
   "legacyAST": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/maker/DS/DSMath.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/maker/DS/DSMath.sol",
     "exportedSymbols": {
       "DSMath": [
         24005
@@ -8023,5 +8023,5 @@
   },
   "networks": {},
   "schemaVersion": "2.3.1",
-  "updatedAt": "2020-04-01T15:58:47.359Z"
+  "updatedAt": "2020-04-01T21:49:53.050Z"
 }

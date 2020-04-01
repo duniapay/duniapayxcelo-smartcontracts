@@ -136,9 +136,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "// Copyright (C) 2018  Argent Labs Ltd. <https://argent.xyz>\n\n// This program is free software: you can redistribute it and/or modify\n// it under the terms of the GNU General Public License as published by\n// the Free Software Foundation, either version 3 of the License, or\n// (at your option) any later version.\n\n// This program is distributed in the hope that it will be useful,\n// but WITHOUT ANY WARRANTY; without even the implied warranty of\n// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n// GNU General Public License for more details.\n\n// You should have received a copy of the GNU General Public License\n// along with this program.  If not, see <http://www.gnu.org/licenses/>.\n\npragma solidity ^0.5.4;\nimport \"../wallet/BaseWallet.sol\";\n\n/**\n * @title Interface for a contract that can invest tokens in order to earn an interest.\n * @author Julien Niset - <julien@argent.xyz>\n */\ninterface Invest {\n\n    event InvestmentAdded(address indexed _wallet, address _token, uint256 _invested, uint256 _period);\n    event InvestmentRemoved(address indexed _wallet, address _token, uint256 _fraction);\n\n    /**\n     * @dev Invest tokens for a given period.\n     * @param _wallet The target wallet.\n     * @param _token The token address.\n     * @param _amount The amount of tokens to invest.\n     * @param _period The period over which the tokens may be locked in the investment (optional).\n     * @return The exact amount of tokens that have been invested.\n     */\n    function addInvestment(\n        BaseWallet _wallet,\n        address _token,\n        uint256 _amount,\n        uint256 _period\n    )\n        external\n        returns (uint256 _invested);\n\n    /**\n     * @dev Exit invested postions.\n     * @param _wallet The target wallet.\n     * @param _token The token address.\n     * @param _fraction The fraction of invested tokens to exit in per 10000.\n     */\n    function removeInvestment(\n        BaseWallet _wallet,\n        address _token,\n        uint256 _fraction\n    )\n        external;\n\n    /**\n     * @dev Get the amount of investment in a given token.\n     * @param _wallet The target wallet.\n     * @param _token The token address.\n     * @return The value in tokens of the investment (including interests) and the time at which the investment can be removed.\n     */\n    function getInvestment(\n        BaseWallet _wallet,\n        address _token\n    )\n        external\n        view\n        returns (uint256 _tokenValue, uint256 _periodEnd);\n}",
-  "sourcePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/defi/Invest.sol",
+  "sourcePath": "/Users/name/dev/smartcontracts/contracts/defi/Invest.sol",
   "ast": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/defi/Invest.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/defi/Invest.sol",
     "exportedSymbols": {
       "Invest": [
         786
@@ -159,7 +159,7 @@
         "src": "705:23:4"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/wallet/BaseWallet.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/wallet/BaseWallet.sol",
         "file": "../wallet/BaseWallet.sol",
         "id": 734,
         "nodeType": "ImportDirective",
@@ -820,7 +820,7 @@
     "src": "705:1773:4"
   },
   "legacyAST": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/defi/Invest.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/defi/Invest.sol",
     "exportedSymbols": {
       "Invest": [
         786
@@ -841,7 +841,7 @@
         "src": "705:23:4"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/wallet/BaseWallet.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/wallet/BaseWallet.sol",
         "file": "../wallet/BaseWallet.sol",
         "id": 734,
         "nodeType": "ImportDirective",
@@ -1509,5 +1509,5 @@
   },
   "networks": {},
   "schemaVersion": "2.3.1",
-  "updatedAt": "2020-04-01T15:58:47.127Z"
+  "updatedAt": "2020-04-01T21:49:52.937Z"
 }

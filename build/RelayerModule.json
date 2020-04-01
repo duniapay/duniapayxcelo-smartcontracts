@@ -176,9 +176,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "// Copyright (C) 2018  Argent Labs Ltd. <https://argent.xyz>\n\n// This program is free software: you can redistribute it and/or modify\n// it under the terms of the GNU General Public License as published by\n// the Free Software Foundation, either version 3 of the License, or\n// (at your option) any later version.\n\n// This program is distributed in the hope that it will be useful,\n// but WITHOUT ANY WARRANTY; without even the implied warranty of\n// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n// GNU General Public License for more details.\n\n// You should have received a copy of the GNU General Public License\n// along with this program.  If not, see <http://www.gnu.org/licenses/>.\n\npragma solidity ^0.5.4;\nimport \"../../wallet/BaseWallet.sol\";\nimport \"../../interfaces/Module.sol\";\nimport \"./BaseModule.sol\";\n\n/**\n * @title RelayerModule\n * @dev Base module containing logic to execute transactions signed by eth-less accounts and sent by a relayer.\n * @author Julien Niset - <julien@argent.im>\n */\ncontract RelayerModule is BaseModule {\n\n    uint256 constant internal BLOCKBOUND = 10000;\n\n    mapping (address => RelayerConfig) public relayer;\n\n    struct RelayerConfig {\n        uint256 nonce;\n        mapping (bytes32 => bool) executedTx;\n    }\n\n    event TransactionExecuted(address indexed wallet, bool indexed success, bytes32 signedHash);\n\n    /**\n     * @dev Throws if the call did not go through the execute() method.\n     */\n    modifier onlyExecute {\n        require(msg.sender == address(this), \"RM: must be called via execute()\");\n        _;\n    }\n\n    /* ***************** Abstract method ************************* */\n\n    /**\n    * @dev Gets the number of valid signatures that must be provided to execute a\n    * specific relayed transaction.\n    * @param _wallet The target wallet.\n    * @param _data The data of the relayed transaction.\n    * @return The number of required signatures.\n    */\n    function getRequiredSignatures(BaseWallet _wallet, bytes memory _data) internal view returns (uint256);\n\n    /**\n    * @dev Validates the signatures provided with a relayed transaction.\n    * The method MUST throw if one or more signatures are not valid.\n    * @param _wallet The target wallet.\n    * @param _data The data of the relayed transaction.\n    * @param _signHash The signed hash representing the relayed transaction.\n    * @param _signatures The signatures as a concatenated byte array.\n    */\n    function validateSignatures(\n        BaseWallet _wallet,\n        bytes memory _data,\n        bytes32 _signHash,\n        bytes memory _signatures) internal view returns (bool);\n\n    /* ************************************************************ */\n\n    /**\n    * @dev Executes a relayed transaction.\n    * @param _wallet The target wallet.\n    * @param _data The data for the relayed transaction\n    * @param _nonce The nonce used to prevent replay attacks.\n    * @param _signatures The signatures as a concatenated byte array.\n    * @param _gasPrice The gas price to use for the gas refund.\n    * @param _gasLimit The gas limit to use for the gas refund.\n    */\n    function execute(\n        BaseWallet _wallet,\n        bytes calldata _data,\n        uint256 _nonce,\n        bytes calldata _signatures,\n        uint256 _gasPrice,\n        uint256 _gasLimit\n    )\n        external\n        returns (bool success)\n    {\n        uint startGas = gasleft();\n        bytes32 signHash = getSignHash(address(this), address(_wallet), 0, _data, _nonce, _gasPrice, _gasLimit);\n        require(checkAndUpdateUniqueness(_wallet, _nonce, signHash), \"RM: Duplicate request\");\n        require(verifyData(address(_wallet), _data), \"RM: the wallet authorized is different then the target of the relayed data\");\n        uint256 requiredSignatures = getRequiredSignatures(_wallet, _data);\n        if ((requiredSignatures * 65) == _signatures.length) {\n            if (verifyRefund(_wallet, _gasLimit, _gasPrice, requiredSignatures)) {\n                if (requiredSignatures == 0 || validateSignatures(_wallet, _data, signHash, _signatures)) {\n                    // solium-disable-next-line security/no-call-value\n                    (success,) = address(this).call(_data);\n                    refund(_wallet, startGas - gasleft(), _gasPrice, _gasLimit, requiredSignatures, msg.sender);\n                }\n            }\n        }\n        emit TransactionExecuted(address(_wallet), success, signHash);\n    }\n\n    /**\n    * @dev Gets the current nonce for a wallet.\n    * @param _wallet The target wallet.\n    */\n    function getNonce(BaseWallet _wallet) external view returns (uint256 nonce) {\n        return relayer[address(_wallet)].nonce;\n    }\n\n    /**\n    * @dev Generates the signed hash of a relayed transaction according to ERC 1077.\n    * @param _from The starting address for the relayed transaction (should be the module)\n    * @param _to The destination address for the relayed transaction (should be the wallet)\n    * @param _value The value for the relayed transaction\n    * @param _data The data for the relayed transaction\n    * @param _nonce The nonce used to prevent replay attacks.\n    * @param _gasPrice The gas price to use for the gas refund.\n    * @param _gasLimit The gas limit to use for the gas refund.\n    */\n    function getSignHash(\n        address _from,\n        address _to,\n        uint256 _value,\n        bytes memory _data,\n        uint256 _nonce,\n        uint256 _gasPrice,\n        uint256 _gasLimit\n    )\n        internal\n        pure\n        returns (bytes32)\n    {\n        return keccak256(\n            abi.encodePacked(\n                \"\\x19Ethereum Signed Message:\\n32\",\n                keccak256(abi.encodePacked(byte(0x19), byte(0), _from, _to, _value, _data, _nonce, _gasPrice, _gasLimit))\n        ));\n    }\n\n    /**\n    * @dev Checks if the relayed transaction is unique.\n    * @param _wallet The target wallet.\n    * @param _nonce The nonce\n    * @param _signHash The signed hash of the transaction\n    */\n    function checkAndUpdateUniqueness(BaseWallet _wallet, uint256 _nonce, bytes32 _signHash) internal returns (bool) {\n        if (relayer[address(_wallet)].executedTx[_signHash] == true) {\n            return false;\n        }\n        relayer[address(_wallet)].executedTx[_signHash] = true;\n        return true;\n    }\n\n    /**\n    * @dev Checks that a nonce has the correct format and is valid.\n    * It must be constructed as nonce = {block number}{timestamp} where each component is 16 bytes.\n    * @param _wallet The target wallet.\n    * @param _nonce The nonce\n    */\n    function checkAndUpdateNonce(BaseWallet _wallet, uint256 _nonce) internal returns (bool) {\n        if (_nonce <= relayer[address(_wallet)].nonce) {\n            return false;\n        }\n        uint256 nonceBlock = (_nonce & 0xffffffffffffffffffffffffffffffff00000000000000000000000000000000) >> 128;\n        if (nonceBlock > block.number + BLOCKBOUND) {\n            return false;\n        }\n        relayer[address(_wallet)].nonce = _nonce;\n        return true;\n    }\n\n    /**\n    * @dev Recovers the signer at a given position from a list of concatenated signatures.\n    * @param _signedHash The signed hash\n    * @param _signatures The concatenated signatures.\n    * @param _index The index of the signature to recover.\n    */\n    function recoverSigner(bytes32 _signedHash, bytes memory _signatures, uint _index) internal pure returns (address) {\n        uint8 v;\n        bytes32 r;\n        bytes32 s;\n        // we jump 32 (0x20) as the first slot of bytes contains the length\n        // we jump 65 (0x41) per signature\n        // for v we load 32 bytes ending with v (the first 31 come from s) then apply a mask\n        // solium-disable-next-line security/no-inline-assembly\n        assembly {\n            r := mload(add(_signatures, add(0x20,mul(0x41,_index))))\n            s := mload(add(_signatures, add(0x40,mul(0x41,_index))))\n            v := and(mload(add(_signatures, add(0x41,mul(0x41,_index)))), 0xff)\n        }\n        require(v == 27 || v == 28); // solium-disable-line error-reason\n        return ecrecover(_signedHash, v, r, s);\n    }\n\n    /**\n    * @dev Refunds the gas used to the Relayer.\n    * For security reasons the default behavior is to not refund calls with 0 or 1 signatures.\n    * @param _wallet The target wallet.\n    * @param _gasUsed The gas used.\n    * @param _gasPrice The gas price for the refund.\n    * @param _gasLimit The gas limit for the refund.\n    * @param _signatures The number of signatures used in the call.\n    * @param _relayer The address of the Relayer.\n    */\n    function refund(BaseWallet _wallet, uint _gasUsed, uint _gasPrice, uint _gasLimit, uint _signatures, address _relayer) internal {\n        uint256 amount = 29292 + _gasUsed; // 21000 (transaction) + 7620 (execution of refund) + 672 to log the event + _gasUsed\n        // only refund if gas price not null, more than 1 signatures, gas less than gasLimit\n        if (_gasPrice > 0 && _signatures > 1 && amount <= _gasLimit) {\n            if (_gasPrice > tx.gasprice) {\n                amount = amount * tx.gasprice;\n            } else {\n                amount = amount * _gasPrice;\n            }\n            invokeWallet(address(_wallet), _relayer, amount, EMPTY_BYTES);\n        }\n    }\n\n    /**\n    * @dev Returns false if the refund is expected to fail.\n    * @param _wallet The target wallet.\n    * @param _gasUsed The expected gas used.\n    * @param _gasPrice The expected gas price for the refund.\n    */\n    function verifyRefund(BaseWallet _wallet, uint _gasUsed, uint _gasPrice, uint _signatures) internal view returns (bool) {\n        if (_gasPrice > 0 &&\n            _signatures > 1 &&\n            (address(_wallet).balance < _gasUsed * _gasPrice || _wallet.authorised(address(this)) == false)) {\n            return false;\n        }\n        return true;\n    }\n\n    /**\n    * @dev Checks that the wallet address provided as the first parameter of the relayed data is the same\n    * as the wallet passed as the input of the execute() method.\n    @return false if the addresses are different.\n    */\n    function verifyData(address _wallet, bytes memory _data) private pure returns (bool) {\n        require(_data.length >= 36, \"RM: Invalid dataWallet\");\n        address dataWallet;\n        // solium-disable-next-line security/no-inline-assembly\n        assembly {\n            //_data = {length:32}{sig:4}{_wallet:32}{...}\n            dataWallet := mload(add(_data, 0x24))\n        }\n        return dataWallet == _wallet;\n    }\n\n    /**\n    * @dev Parses the data to extract the method signature.\n    */\n    function functionPrefix(bytes memory _data) internal pure returns (bytes4 prefix) {\n        require(_data.length >= 4, \"RM: Invalid functionPrefix\");\n        // solium-disable-next-line security/no-inline-assembly\n        assembly {\n            prefix := mload(add(_data, 0x20))\n        }\n    }\n}",
-  "sourcePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/RelayerModule.sol",
+  "sourcePath": "/Users/name/dev/smartcontracts/contracts/modules/common/RelayerModule.sol",
   "ast": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/RelayerModule.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/common/RelayerModule.sol",
     "exportedSymbols": {
       "RelayerModule": [
         11550
@@ -199,7 +199,7 @@
         "src": "705:23:32"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/wallet/BaseWallet.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/wallet/BaseWallet.sol",
         "file": "../../wallet/BaseWallet.sol",
         "id": 11019,
         "nodeType": "ImportDirective",
@@ -210,7 +210,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/interfaces/Module.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/interfaces/Module.sol",
         "file": "../../interfaces/Module.sol",
         "id": 11020,
         "nodeType": "ImportDirective",
@@ -221,7 +221,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/BaseModule.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/common/BaseModule.sol",
         "file": "./BaseModule.sol",
         "id": 11021,
         "nodeType": "ImportDirective",
@@ -7736,7 +7736,7 @@
     "src": "705:10167:32"
   },
   "legacyAST": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/RelayerModule.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/common/RelayerModule.sol",
     "exportedSymbols": {
       "RelayerModule": [
         11550
@@ -7757,7 +7757,7 @@
         "src": "705:23:32"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/wallet/BaseWallet.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/wallet/BaseWallet.sol",
         "file": "../../wallet/BaseWallet.sol",
         "id": 11019,
         "nodeType": "ImportDirective",
@@ -7768,7 +7768,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/interfaces/Module.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/interfaces/Module.sol",
         "file": "../../interfaces/Module.sol",
         "id": 11020,
         "nodeType": "ImportDirective",
@@ -7779,7 +7779,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/BaseModule.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/common/BaseModule.sol",
         "file": "./BaseModule.sol",
         "id": 11021,
         "nodeType": "ImportDirective",
@@ -15301,5 +15301,5 @@
   },
   "networks": {},
   "schemaVersion": "2.3.1",
-  "updatedAt": "2020-04-01T15:58:47.533Z"
+  "updatedAt": "2020-04-01T21:49:53.133Z"
 }

@@ -1,14 +1,14 @@
 {
   "contractName": "Storage",
   "abi": [],
-  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3fe6080604052600080fdfea165627a7a72305820e56b769b0185faf34c63d3f3192848c324d11f88ccc8fcf1bb7d171f4d630e500029",
-  "deployedBytecode": "0x6080604052600080fdfea165627a7a72305820e56b769b0185faf34c63d3f3192848c324d11f88ccc8fcf1bb7d171f4d630e500029",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3fe6080604052600080fdfea165627a7a7230582017eb4295126a813cd26caa8c55b26e3889c7f078f891346c3d794d994aac6e460029",
+  "deployedBytecode": "0x6080604052600080fdfea165627a7a7230582017eb4295126a813cd26caa8c55b26e3889c7f078f891346c3d794d994aac6e460029",
   "sourceMap": "887:267:36:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;887:267:36;;;;;;;",
   "deployedSourceMap": "887:267:36:-;;;;;",
   "source": "// Copyright (C) 2018  Argent Labs Ltd. <https://argent.xyz>\n\n// This program is free software: you can redistribute it and/or modify\n// it under the terms of the GNU General Public License as published by\n// the Free Software Foundation, either version 3 of the License, or\n// (at your option) any later version.\n\n// This program is distributed in the hope that it will be useful,\n// but WITHOUT ANY WARRANTY; without even the implied warranty of\n// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n// GNU General Public License for more details.\n\n// You should have received a copy of the GNU General Public License\n// along with this program.  If not, see <http://www.gnu.org/licenses/>.\n\npragma solidity ^0.5.4;\nimport \"../wallet/BaseWallet.sol\";\n\n/**\n * @title Storage\n * @dev Base contract for the storage of a wallet.\n * @author Julien Niset - <julien@argent.im>\n */\ncontract Storage {\n\n    /**\n     * @dev Throws if the caller is not an authorised module.\n     */\n    modifier onlyModule(BaseWallet _wallet) {\n        require(_wallet.authorised(msg.sender), \"TS: must be an authorized module to call this method\");\n        _;\n    }\n}",
-  "sourcePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/storage/Storage.sol",
+  "sourcePath": "/Users/name/dev/smartcontracts/contracts/storage/Storage.sol",
   "ast": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/storage/Storage.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/storage/Storage.sol",
     "exportedSymbols": {
       "Storage": [
         12017
@@ -29,7 +29,7 @@
         "src": "705:23:36"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/wallet/BaseWallet.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/wallet/BaseWallet.sol",
         "file": "../wallet/BaseWallet.sol",
         "id": 12001,
         "nodeType": "ImportDirective",
@@ -262,7 +262,7 @@
     "src": "705:449:36"
   },
   "legacyAST": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/storage/Storage.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/storage/Storage.sol",
     "exportedSymbols": {
       "Storage": [
         12017
@@ -283,7 +283,7 @@
         "src": "705:23:36"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/wallet/BaseWallet.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/wallet/BaseWallet.sol",
         "file": "../wallet/BaseWallet.sol",
         "id": 12001,
         "nodeType": "ImportDirective",
@@ -523,5 +523,5 @@
   },
   "networks": {},
   "schemaVersion": "2.3.1",
-  "updatedAt": "2020-04-01T15:58:47.233Z"
+  "updatedAt": "2020-04-01T21:49:52.973Z"
 }

@@ -40,9 +40,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.5.4;\n\nimport \"./CToken.sol\";\n\ninterface PriceOracle {\n    /**\n     * @notice Indicator that this is a PriceOracle contract (for inspection)\n     */\n    function isPriceOracle() external pure returns (bool);\n\n    /**\n      * @notice Get the underlying price of a cToken asset\n      * @param cToken The cToken to get the underlying price of\n      * @return The underlying asset price mantissa (scaled by 1e18).\n      *  Zero means the price is unavailable.\n      */\n    function getUnderlyingPrice(CToken cToken) external view returns (uint);\n}\n",
-  "sourcePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/compound/PriceOracle.sol",
+  "sourcePath": "/Users/name/dev/smartcontracts/contracts/test/compound/PriceOracle.sol",
   "ast": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/compound/PriceOracle.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/compound/PriceOracle.sol",
     "exportedSymbols": {
       "PriceOracle": [
         22827
@@ -63,7 +63,7 @@
         "src": "0:23:65"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/compound/CToken.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/compound/CToken.sol",
         "file": "./CToken.sol",
         "id": 22814,
         "nodeType": "ImportDirective",
@@ -231,7 +231,7 @@
     "src": "0:562:65"
   },
   "legacyAST": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/compound/PriceOracle.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/compound/PriceOracle.sol",
     "exportedSymbols": {
       "PriceOracle": [
         22827
@@ -252,7 +252,7 @@
         "src": "0:23:65"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/compound/CToken.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/compound/CToken.sol",
         "file": "./CToken.sol",
         "id": 22814,
         "nodeType": "ImportDirective",
@@ -427,5 +427,5 @@
   },
   "networks": {},
   "schemaVersion": "2.3.1",
-  "updatedAt": "2020-04-01T15:58:47.349Z"
+  "updatedAt": "2020-04-01T21:49:53.036Z"
 }

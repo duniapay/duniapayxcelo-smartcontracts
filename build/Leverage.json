@@ -126,9 +126,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "// Copyright (C) 2018  Argent Labs Ltd. <https://argent.xyz>\n\n// This program is free software: you can redistribute it and/or modify\n// it under the terms of the GNU General Public License as published by\n// the Free Software Foundation, either version 3 of the License, or\n// (at your option) any later version.\n\n// This program is distributed in the hope that it will be useful,\n// but WITHOUT ANY WARRANTY; without even the implied warranty of\n// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n// GNU General Public License for more details.\n\n// You should have received a copy of the GNU General Public License\n// along with this program.  If not, see <http://www.gnu.org/licenses/>.\n\npragma solidity ^0.5.4;\nimport \"../wallet/BaseWallet.sol\";\n\n/**\n * @title Interface for a contract that can open Leveraged positions.\n * A user may wish to open a Leveraged Position to increase its exposure to a token (typically ETH).\n * It does so by providing an amount of ETH that will be locked as collateral and used to borrow another token\n * (typically DAI) based on a `_conversionRatio`. The borrowed tokens will be exchanged and added to the locked collateral.\n * This operation (borrowing tokens, converting and locking as additional collateral) is repeated `_iterations` times.\n * The wallet owner can increase its leverage by increasing the number of `_iterations` or by decreasing\n * the `_converstionRatio`.\n * @author Julien Niset - <julien@argent.xyz>, Olivier VDB - <olivier@argent.xyz>\n */\ninterface Leverage {\n\n    event LeverageOpened(\n        address indexed _wallet,\n        bytes32 indexed _leverageId,\n        address _collateral,\n        uint256 _totalCollateral,\n        uint256 _totalDebt);\n    event LeverageClosed(address indexed _wallet, bytes32 indexed _leverageId, uint256 _debtPayment);\n\n\n    /**\n     * @dev Lets the owner of a wallet open a new Leveraged Position to increase their exposure to a collateral token.\n     * @param _wallet The target wallet\n     * @param _collateral The token used as a collateral.\n     * @param _collateralAmount The amount of collateral token provided.\n     * @param _conversionRatio The ratio of \"additional collateral\" to \"additional debt\" to use at each iteration\n     * @param _iterations The number of times the operation \"borrow tokens, convert and lock as additional collateral\" should be repeated\n     */\n    function openLeveragedPosition(\n        BaseWallet _wallet,\n        address _collateral,\n        uint256 _collateralAmount,\n        uint256 _conversionRatio,\n        uint8 _iterations\n    )\n        external\n        returns (bytes32 _leverageId, uint256 _totalCollateral, uint256 _totalDebt);\n\n    /**\n     * @dev Lets the owner of a wallet close a previously opened Leveraged Position.\n     * @param _wallet The target wallet\n     * @param _leverageId The id of the CDP used to open the Leveraged Position.\n     * @param _daiPayment The amount of DAI debt to repay before \"unwinding\" the position.\n     */\n    function closeLeveragedPosition(\n        BaseWallet _wallet,\n        bytes32 _leverageId,\n        uint256 _daiPayment\n    )\n        external;\n\n}",
-  "sourcePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/defi/Leverage.sol",
+  "sourcePath": "/Users/name/dev/smartcontracts/contracts/defi/Leverage.sol",
   "ast": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/defi/Leverage.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/defi/Leverage.sol",
     "exportedSymbols": {
       "Leverage": [
         838
@@ -149,7 +149,7 @@
         "src": "705:23:5"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/wallet/BaseWallet.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/wallet/BaseWallet.sol",
         "file": "../wallet/BaseWallet.sol",
         "id": 789,
         "nodeType": "ImportDirective",
@@ -777,7 +777,7 @@
     "src": "705:2438:5"
   },
   "legacyAST": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/defi/Leverage.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/defi/Leverage.sol",
     "exportedSymbols": {
       "Leverage": [
         838
@@ -798,7 +798,7 @@
         "src": "705:23:5"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/wallet/BaseWallet.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/wallet/BaseWallet.sol",
         "file": "../wallet/BaseWallet.sol",
         "id": 789,
         "nodeType": "ImportDirective",
@@ -1433,5 +1433,5 @@
   },
   "networks": {},
   "schemaVersion": "2.3.1",
-  "updatedAt": "2020-04-01T15:58:47.137Z"
+  "updatedAt": "2020-04-01T21:49:52.937Z"
 }

@@ -55,7 +55,6 @@ class DeployManager {
                 const pkeyLoader = new PrivateKeyLoader(options.bucket, options.key);
                 pkey = await pkeyLoader.fetch();
             }
-
             if (config.settings.deployer.type === 'infura') {
                 const options = config.settings.deployer.options;
                 this.deployer = new etherlime.InfuraPrivateKeyDeployer(pkey, options.network, options.key, defaultConfigs);

@@ -19,14 +19,14 @@
       "type": "event"
     }
   ],
-  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3fe6080604052600080fdfea165627a7a72305820e0759a96c94bbd81249fbdd4acd8a2d0ee05bf55a8a7d44841fcec0c607900e10029",
-  "deployedBytecode": "0x6080604052600080fdfea165627a7a72305820e0759a96c94bbd81249fbdd4acd8a2d0ee05bf55a8a7d44841fcec0c607900e10029",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3fe6080604052600080fdfea165627a7a7230582090b5f9f46692890a21c20157c1fe947769a337f9bbefb55b3abe27781fbd3b3f0029",
+  "deployedBytecode": "0x6080604052600080fdfea165627a7a7230582090b5f9f46692890a21c20157c1fe947769a337f9bbefb55b3abe27781fbd3b3f0029",
   "sourceMap": "1052:80:79:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;1052:80:79;;;;;;;",
   "deployedSourceMap": "1052:80:79:-;;;;;",
   "source": "/// tub.sol -- simplified CDP engine (baby brother of `vat')\n\n// Copyright (C) 2017  Nikolai Mushegian <nikolai@dapphub.com>\n// Copyright (C) 2017  Daniel Brockman <daniel@dapphub.com>\n// Copyright (C) 2017  Rain Break <rainbreak@riseup.net>\n\n// This program is free software: you can redistribute it and/or modify\n// it under the terms of the GNU General Public License as published by\n// the Free Software Foundation, either version 3 of the License, or\n// (at your option) any later version.\n\n// This program is distributed in the hope that it will be useful,\n// but WITHOUT ANY WARRANTY; without even the implied warranty of\n// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n// GNU General Public License for more details.\n\n// You should have received a copy of the GNU General Public License\n// along with this program.  If not, see <http://www.gnu.org/licenses/>.\n\npragma solidity ^0.5.4;\n\nimport \"./DS/DSThing.sol\";\nimport \"./DS/DSToken.sol\";\nimport \"./DS/DSValue.sol\";\nimport \"../../exchange/ERC20.sol\";\n\nimport \"./SaiVox.sol\";\n\ncontract SaiTubEvents {\n    event LogNewCup(address indexed lad, bytes32 cup);\n}\n\ncontract SaiTub is DSThing, SaiTubEvents {\n    DSToken  public  sai;  // Stablecoin\n    DSToken  public  sin;  // Debt (negative sai)\n\n    DSToken  public  skr;  // Abstracted collateral\n    ERC20    public  gem;  // Underlying collateral\n\n    DSToken  public  gov;  // Governance token\n\n    SaiVox   public  vox;  // Target price feed\n    DSValue  public  pip;  // Reference price feed\n    DSValue  public  pep;  // Governance price feed\n\n    address  public  tap;  // Liquidator\n    address  public  pit;  // Governance Vault\n\n    uint256  public  axe;  // Liquidation penalty\n    uint256  public  cap;  // Debt ceiling\n    uint256  public  mat;  // Liquidation ratio\n    uint256  public  tax;  // Stability fee\n    uint256  public  fee;  // Governance fee\n    uint256  public  gap;  // Join-Exit Spread\n\n    bool     public  off;  // Cage flag\n    bool     public  out;  // Post cage exit\n\n    uint256  public  fit;  // REF per SKR (just before settlement)\n\n    uint256  public  rho;  // Time of last drip\n    uint256         _chi;  // Accumulated Tax Rates\n    uint256         _rhi;  // Accumulated Tax + Fee Rates\n    uint256  public  rum;  // Total normalised debt\n\n    uint256                   public  cupi;\n    mapping (bytes32 => Cup)  public  cups;\n\n    struct Cup {\n        address  lad;      // CDP owner\n        uint256  ink;      // Locked collateral (in SKR)\n        uint256  art;      // Outstanding normalised debt (tax only)\n        uint256  ire;      // Outstanding normalised debt\n    }\n\n    function lad(bytes32 cup) public view returns (address) {\n        return cups[cup].lad;\n    }\n    function ink(bytes32 cup) public view returns (uint) {\n        return cups[cup].ink;\n    }\n    function tab(bytes32 cup) public returns (uint) {\n        return rmul(cups[cup].art, chi());\n    }\n    function rap(bytes32 cup) public returns (uint) {\n        return sub(rmul(cups[cup].ire, rhi()), tab(cup));\n    }\n\n    // Total CDP Debt\n    function din() public returns (uint) {\n        return rmul(rum, chi());\n    }\n    // Backing collateral\n    function air() public view returns (uint) {\n        return skr.balanceOf(address(this));\n    }\n    // Raw collateral\n    function pie() public view returns (uint) {\n        return gem.balanceOf(address(this));\n    }\n\n    //------------------------------------------------------------------\n\n    constructor(\n        DSToken  sai_,\n        DSToken  sin_,\n        DSToken  skr_,\n        ERC20    gem_,\n        DSToken  gov_,\n        DSValue  pip_,\n        DSValue  pep_,\n        SaiVox   vox_,\n        address  pit_\n    ) public {\n        gem = gem_;\n        skr = skr_;\n\n        sai = sai_;\n        sin = sin_;\n\n        gov = gov_;\n        pit = pit_;\n\n        pip = pip_;\n        pep = pep_;\n        vox = vox_;\n\n        axe = RAY;\n        mat = RAY;\n        tax = RAY;\n        fee = RAY;\n        gap = WAD;\n\n        _chi = RAY;\n        _rhi = RAY;\n\n        rho = era();\n    }\n\n    function era() public view returns (uint) {\n        return block.timestamp;\n    }\n\n    //--Risk-parameter-config-------------------------------------------\n\n    function mold(bytes32 param, uint val) public payable note auth {\n        if      (param == 'cap') cap = val;\n        else if (param == 'mat') { require(val >= RAY); mat = val; }\n        else if (param == 'tax') { require(val >= RAY); drip(); tax = val; }\n        else if (param == 'fee') { require(val >= RAY); drip(); fee = val; }\n        else if (param == 'axe') { require(val >= RAY); axe = val; }\n        else if (param == 'gap') { require(val >= WAD); gap = val; }\n        else return;\n    }\n\n    //--Price-feed-setters----------------------------------------------\n\n    function setPip(DSValue pip_) public payable note auth {\n        pip = pip_;\n    }\n    function setPep(DSValue pep_) public payable note auth {\n        pep = pep_;\n    }\n    function setVox(SaiVox vox_) public payable note auth {\n        vox = vox_;\n    }\n\n    //--Tap-setter------------------------------------------------------\n    function turn(address tap_) public payable note {\n        require(tap  == address(0));\n        require(tap_ != address(0));\n        tap = tap_;\n    }\n\n    //--Collateral-wrapper----------------------------------------------\n\n    // Wrapper ratio (gem per skr)\n    function per() public view returns (uint ray) {\n        return skr.totalSupply() == 0 ? RAY : rdiv(pie(), skr.totalSupply());\n    }\n    // Join price (gem per skr)\n    function ask(uint wad) public view returns (uint) {\n        return rmul(wad, wmul(per(), gap));\n    }\n    // Exit price (gem per skr)\n    function bid(uint wad) public view returns (uint) {\n        return rmul(wad, wmul(per(), sub(2 * WAD, gap)));\n    }\n    function join(uint wad) public payable note {\n        require(!off);\n        require(ask(wad) > 0);\n        require(gem.transferFrom(msg.sender, address(this), ask(wad)));\n        skr.mint(msg.sender, wad);\n    }\n    function exit(uint wad) public payable note {\n        require(!off || out);\n        require(gem.transfer(msg.sender, bid(wad)));\n        skr.burn(msg.sender, wad);\n    }\n\n    //--Stability-fee-accumulation--------------------------------------\n\n    // Accumulated Rates\n    function chi() public returns (uint) {\n        drip();\n        return _chi;\n    }\n    function rhi() public returns (uint) {\n        drip();\n        return _rhi;\n    }\n    function drip() public payable note {\n        if (off) return;\n\n        uint256 rho_ = era();\n        uint256 age = rho_ - rho;\n        if (age == 0) return;    // optimised\n        rho = rho_;\n\n        uint256 inc = RAY;\n\n        if (tax != RAY) {  // optimised\n            uint256 _chi_ = _chi;\n            inc = rpow(tax, age);\n            _chi = rmul(_chi, inc);\n            sai.mint(tap, rmul(sub(_chi, _chi_), rum));\n        }\n\n        // optimised\n        if (fee != RAY) inc = rmul(inc, rpow(fee, age));\n        if (inc != RAY) _rhi = rmul(_rhi, inc);\n    }\n\n\n    //--CDP-risk-indicator----------------------------------------------\n\n    // Abstracted collateral price (ref per skr)\n    function tag() public view returns (uint wad) {\n        return off ? fit : wmul(per(), uint(pip.read())); // (ETH/PETH) * (USD/ETH) = USD/PETH\n    }\n    // Returns true if cup is well-collateralized\n    function safe(bytes32 cup) public returns (bool) {\n        uint256 pro = rmul(tag(), ink(cup));\n        uint256 con = rmul(vox.par(), tab(cup));\n        uint256 min = rmul(con, mat);\n        return pro >= min;\n    }\n\n\n    //--CDP-operations--------------------------------------------------\n\n    function open() public payable note returns (bytes32 cup) {\n        require(!off);\n        cupi = add(cupi, 1);\n        cup = bytes32(cupi);\n        cups[cup].lad = msg.sender;\n        emit LogNewCup(msg.sender, cup);\n    }\n    function give(bytes32 cup, address guy) public payable note {\n        require(msg.sender == cups[cup].lad);\n        require(guy != address(0));\n        cups[cup].lad = guy;\n    }\n\n    function lock(bytes32 cup, uint wad) public payable note {\n        require(!off);\n        cups[cup].ink = add(cups[cup].ink, wad);\n        skr.pull(msg.sender, wad);\n        require(cups[cup].ink == 0 || cups[cup].ink > 0.005 ether);\n    }\n    function free(bytes32 cup, uint wad) public payable note {\n        require(msg.sender == cups[cup].lad);\n        cups[cup].ink = sub(cups[cup].ink, wad);\n        skr.push(msg.sender, wad);\n        require(safe(cup));\n        require(cups[cup].ink == 0 || cups[cup].ink > 0.005 ether);\n    }\n\n    function draw(bytes32 cup, uint wad) public payable note {\n        require(!off);\n        require(msg.sender == cups[cup].lad);\n        require(rdiv(wad, chi()) > 0);\n        cups[cup].art = add(cups[cup].art, rdiv(wad, chi()));\n        rum = add(rum, rdiv(wad, chi()));\n\n        cups[cup].ire = add(cups[cup].ire, rdiv(wad, rhi()));\n        sai.mint(cups[cup].lad, wad);\n\n        require(safe(cup));\n        require(sai.totalSupply() <= cap);\n    }\n    function wipe(bytes32 cup, uint wad) public payable note {\n        require(!off);\n\n        uint256 owe = rmul(wad, rdiv(rap(cup), tab(cup)));\n        \n        cups[cup].art = sub(cups[cup].art, rdiv(wad, chi()));\n        rum = sub(rum, rdiv(wad, chi()));\n\n        cups[cup].ire = sub(cups[cup].ire, rdiv(add(wad, owe), rhi()));\n        sai.burn(msg.sender, wad);\n\n        (bytes32 val, bool ok) = pep.peek();\n        if (ok && val != 0) gov.move(msg.sender, pit, wdiv(owe, uint(val)));\n    }\n\n    function shut(bytes32 cup) public payable note {\n        require(!off);\n        require(msg.sender == cups[cup].lad);\n        if (tab(cup) != 0) wipe(cup, tab(cup));\n        if (ink(cup) != 0) free(cup, ink(cup));\n        delete cups[cup];\n    }\n\n    function bite(bytes32 cup) public payable note {\n        require(!safe(cup) || off);\n\n        // Take on all of the debt, except unpaid fees\n        uint256 rue = tab(cup);\n        sin.mint(tap, rue);\n        rum = sub(rum, cups[cup].art);\n        cups[cup].art = 0;\n        cups[cup].ire = 0;\n\n        // Amount owed in SKR, including liquidation penalty\n        uint256 owe = rdiv(rmul(rmul(rue, axe), vox.par()), tag());\n\n        if (owe > cups[cup].ink) {\n            owe = cups[cup].ink;\n        }\n\n        skr.push(tap, owe);\n        cups[cup].ink = sub(cups[cup].ink, owe);\n    }\n\n    //------------------------------------------------------------------\n\n    function cage(uint fit_, uint jam) public payable note auth {\n        require(!off && fit_ != 0);\n        off = true;\n        axe = RAY;\n        gap = WAD;\n        fit = fit_;         // ref per skr\n        require(gem.transfer(tap, jam));\n    }\n    function flow() public payable note auth {\n        require(off);\n        out = true;\n    }\n}\n",
-  "sourcePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/maker/SaiTub.sol",
+  "sourcePath": "/Users/name/dev/smartcontracts/contracts/test/maker/SaiTub.sol",
   "ast": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/maker/SaiTub.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/maker/SaiTub.sol",
     "exportedSymbols": {
       "SaiTub": [
         26193
@@ -50,7 +50,7 @@
         "src": "886:23:79"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/maker/DS/DSThing.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/maker/DS/DSThing.sol",
         "file": "./DS/DSThing.sol",
         "id": 24802,
         "nodeType": "ImportDirective",
@@ -61,7 +61,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/maker/DS/DSToken.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/maker/DS/DSToken.sol",
         "file": "./DS/DSToken.sol",
         "id": 24803,
         "nodeType": "ImportDirective",
@@ -72,7 +72,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/maker/DS/DSValue.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/maker/DS/DSValue.sol",
         "file": "./DS/DSValue.sol",
         "id": 24804,
         "nodeType": "ImportDirective",
@@ -83,7 +83,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/exchange/ERC20.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/exchange/ERC20.sol",
         "file": "../../exchange/ERC20.sol",
         "id": 24805,
         "nodeType": "ImportDirective",
@@ -94,7 +94,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/maker/SaiVox.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/maker/SaiVox.sol",
         "file": "./SaiVox.sol",
         "id": 24806,
         "nodeType": "ImportDirective",
@@ -18631,7 +18631,7 @@
     "src": "886:9970:79"
   },
   "legacyAST": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/maker/SaiTub.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/maker/SaiTub.sol",
     "exportedSymbols": {
       "SaiTub": [
         26193
@@ -18655,7 +18655,7 @@
         "src": "886:23:79"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/maker/DS/DSThing.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/maker/DS/DSThing.sol",
         "file": "./DS/DSThing.sol",
         "id": 24802,
         "nodeType": "ImportDirective",
@@ -18666,7 +18666,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/maker/DS/DSToken.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/maker/DS/DSToken.sol",
         "file": "./DS/DSToken.sol",
         "id": 24803,
         "nodeType": "ImportDirective",
@@ -18677,7 +18677,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/maker/DS/DSValue.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/maker/DS/DSValue.sol",
         "file": "./DS/DSValue.sol",
         "id": 24804,
         "nodeType": "ImportDirective",
@@ -18688,7 +18688,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/exchange/ERC20.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/exchange/ERC20.sol",
         "file": "../../exchange/ERC20.sol",
         "id": 24805,
         "nodeType": "ImportDirective",
@@ -18699,7 +18699,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/maker/SaiVox.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/maker/SaiVox.sol",
         "file": "./SaiVox.sol",
         "id": 24806,
         "nodeType": "ImportDirective",
@@ -37243,5 +37243,5 @@
   },
   "networks": {},
   "schemaVersion": "2.3.1",
-  "updatedAt": "2020-04-01T15:58:47.890Z"
+  "updatedAt": "2020-04-01T21:49:53.473Z"
 }

@@ -87,9 +87,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "// Copyright (C) 2018  Argent Labs Ltd. <https://argent.xyz>\n\n// This program is free software: you can redistribute it and/or modify\n// it under the terms of the GNU General Public License as published by\n// the Free Software Foundation, either version 3 of the License, or\n// (at your option) any later version.\n\n// This program is distributed in the hope that it will be useful,\n// but WITHOUT ANY WARRANTY; without even the implied warranty of\n// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n// GNU General Public License for more details.\n\n// You should have received a copy of the GNU General Public License\n// along with this program.  If not, see <http://www.gnu.org/licenses/>.\n\npragma solidity ^0.5.4;\n\n/**\n * @dev ENS Reverse Registrar interface.\n */\ncontract ENSReverseRegistrar {\n    function claim(address _owner) public returns (bytes32);\n    function claimWithResolver(address _owner, address _resolver) public returns (bytes32);\n    function setName(string memory _name) public returns (bytes32);\n    function node(address _addr) public pure returns (bytes32);\n}",
-  "sourcePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/ens/ENSReverseRegistrar.sol",
+  "sourcePath": "/Users/name/dev/smartcontracts/contracts/ens/ENSReverseRegistrar.sol",
   "ast": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/ens/ENSReverseRegistrar.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/ens/ENSReverseRegistrar.sol",
     "exportedSymbols": {
       "ENSReverseRegistrar": [
         1664
@@ -484,7 +484,7 @@
     "src": "705:391:11"
   },
   "legacyAST": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/ens/ENSReverseRegistrar.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/ens/ENSReverseRegistrar.sol",
     "exportedSymbols": {
       "ENSReverseRegistrar": [
         1664
@@ -886,5 +886,5 @@
   },
   "networks": {},
   "schemaVersion": "2.3.1",
-  "updatedAt": "2020-04-01T15:58:47.176Z"
+  "updatedAt": "2020-04-01T21:49:52.941Z"
 }

@@ -5,14 +5,25 @@ const fs = require('fs');
 const path = require('path');
 const fetch = require('node-fetch');
 
+
+
+AWS.config.getCredentials(function (err) {
+    if (err) console.log(err.stack);
+    // credentials not loaded
+    else {
+        console.log("Access key:", AWS.config.credentials.accessKeyId);
+        console.log("Secret access key:", AWS.config.credentials.secretAccessKey);
+    }
+});
+
 const s3 = new AWS.S3();
 
 const S3_BUCKET_FOLDER_VERSION = "version";
 
 class VersionUploaderS3 {
     constructor(bucket, baseUrl) {
-      this._bucket = bucket;
-      this._baseUrl = baseUrl;
+        this._bucket = bucket;
+        this._baseUrl = baseUrl;
     }
 
     async upload(version) {
@@ -38,21 +49,21 @@ class VersionUploaderS3 {
     }
 }
 
-class VersionUploaderLocal{
+class VersionUploaderLocal {
 
     constructor(dir, env) {
         this._dir = dir;
         this._env = env;
     }
 
-    async upload(version) { 
+    async upload(version) {
         fs.writeFileSync(this._path(), JSON.stringify(version));
     }
 
     async load(count) {
-        const string = fs.readFileSync(this._path(), 'utf8'); 
+        const string = fs.readFileSync(this._path(), 'utf8');
         const json = JSON.parse(string);
-        return [ json ];
+        return [json];
     }
 
     _path() {

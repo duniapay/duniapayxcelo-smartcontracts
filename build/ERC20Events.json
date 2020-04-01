@@ -46,14 +46,14 @@
       "type": "event"
     }
   ],
-  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3fe6080604052600080fdfea165627a7a7230582076ec6230463d95934a6968200db7a3d485471bbe964b3a4b46183705aa357d9f0029",
-  "deployedBytecode": "0x6080604052600080fdfea165627a7a7230582076ec6230463d95934a6968200db7a3d485471bbe964b3a4b46183705aa357d9f0029",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3fe6080604052600080fdfea165627a7a72305820a022d10754517faf0fc6c04383968cdeebf361cdb0359142989e9f7babacd64f0029",
+  "deployedBytecode": "0x6080604052600080fdfea165627a7a72305820a022d10754517faf0fc6c04383968cdeebf361cdb0359142989e9f7babacd64f0029",
   "sourceMap": "828:168:76:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;828:168:76;;;;;;;",
   "deployedSourceMap": "828:168:76:-;;;;;",
   "source": "/// token.sol -- ERC20 implementation with minting and burning\n\n// Copyright (C) 2015, 2016, 2017  DappHub, LLC\n\n// This program is free software: you can redistribute it and/or modify\n// it under the terms of the GNU General Public License as published by\n// the Free Software Foundation, either version 3 of the License, or\n// (at your option) any later version.\n\n// This program is distributed in the hope that it will be useful,\n// but WITHOUT ANY WARRANTY; without even the implied warranty of\n// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n// GNU General Public License for more details.\n\n// You should have received a copy of the GNU General Public License\n// along with this program.  If not, see <http://www.gnu.org/licenses/>.\n\npragma solidity ^0.5.4;\n\nimport \"./DSMath.sol\";\nimport \"./DSStop.sol\";\n\ncontract ERC20Events {\n    event Approval(address indexed src, address indexed guy, uint wad);\n    event Transfer(address indexed src, address indexed dst, uint wad);\n}\n\ncontract IERC20 is ERC20Events {\n    function totalSupply() public view returns (uint);\n    function balanceOf(address guy) public view returns (uint);\n    function allowance(address src, address guy) public view returns (uint);\n\n    function approve(address guy, uint wad) public returns (bool);\n    function transfer(address dst, uint wad) public returns (bool);\n    function transferFrom(address src, address dst, uint wad) public returns (bool);\n}\n\ncontract DSTokenBase is IERC20, DSMath {\n    uint256                                            _supply;\n    mapping (address => uint256)                       _balances;\n    mapping (address => mapping (address => uint256))  _approvals;\n\n    constructor(uint supply) public {\n        _balances[msg.sender] = supply;\n        _supply = supply;\n    }\n\n    function totalSupply() public view returns (uint) {\n        return _supply;\n    }\n    function balanceOf(address src) public view returns (uint) {\n        return _balances[src];\n    }\n    function allowance(address src, address guy) public view returns (uint) {\n        return _approvals[src][guy];\n    }\n\n    function transfer(address dst, uint wad) public returns (bool) {\n        return transferFrom(msg.sender, dst, wad);\n    }\n\n    function transferFrom(address src, address dst, uint wad)\n        public\n        returns (bool)\n    {\n        if (src != msg.sender) {\n            _approvals[src][msg.sender] = sub(_approvals[src][msg.sender], wad);\n        }\n\n        _balances[src] = sub(_balances[src], wad);\n        _balances[dst] = add(_balances[dst], wad);\n\n        emit Transfer(src, dst, wad);\n\n        return true;\n    }\n\n    function approve(address guy, uint wad) public returns (bool) {\n        _approvals[msg.sender][guy] = wad;\n\n        emit Approval(msg.sender, guy, wad);\n\n        return true;\n    }\n}\n\n\ncontract DSToken is DSTokenBase(0), DSStop {\n\n    bytes32  public  symbol;\n    uint256  public  decimals = 18; // standard token precision. override to customize\n\n    constructor(bytes32 symbol_) public {\n        symbol = symbol_;\n    }\n\n    event Mint(address indexed guy, uint wad);\n    event Burn(address indexed guy, uint wad);\n\n    function approve(address guy) public returns (bool) {\n        return super.approve(guy, uint(-1));\n    }\n\n    function approve(address guy, uint wad) public returns (bool) {\n        return super.approve(guy, wad);\n    }\n\n    function transferFrom(address src, address dst, uint wad)\n        public\n        returns (bool)\n    {\n        if (src != msg.sender && _approvals[src][msg.sender] != uint(-1)) {\n            _approvals[src][msg.sender] = sub(_approvals[src][msg.sender], wad);\n        }\n\n        _balances[src] = sub(_balances[src], wad);\n        _balances[dst] = add(_balances[dst], wad);\n\n        emit Transfer(src, dst, wad);\n\n        return true;\n    }\n\n    function push(address dst, uint wad) public {\n        transferFrom(msg.sender, dst, wad);\n    }\n    function pull(address src, uint wad) public {\n        transferFrom(src, msg.sender, wad);\n    }\n    function move(address src, address dst, uint wad) public {\n        transferFrom(src, dst, wad);\n    }\n\n    function mint(uint wad) public {\n        mint(msg.sender, wad);\n    }\n    function burn(uint wad) public {\n        burn(msg.sender, wad);\n    }\n    function mint(address guy, uint wad) public  {\n        _balances[guy] = add(_balances[guy], wad);\n        _supply = add(_supply, wad);\n        emit Mint(guy, wad);\n    }\n    function burn(address guy, uint wad) public auth {\n        if (guy != msg.sender && _approvals[guy][msg.sender] != uint(-1)) {\n            _approvals[guy][msg.sender] = sub(_approvals[guy][msg.sender], wad);\n        }\n\n        _balances[guy] = sub(_balances[guy], wad);\n        _supply = sub(_supply, wad);\n        emit Burn(guy, wad);\n    }\n\n    // Optional token name\n    bytes32   public  name = \"\";\n\n    function setName(bytes32 name_) public auth {\n        name = name_;\n    }\n}\n",
-  "sourcePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/maker/DS/DSToken.sol",
+  "sourcePath": "/Users/name/dev/smartcontracts/contracts/test/maker/DS/DSToken.sol",
   "ast": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/maker/DS/DSToken.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/maker/DS/DSToken.sol",
     "exportedSymbols": {
       "DSToken": [
         24676
@@ -83,7 +83,7 @@
         "src": "756:23:76"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/maker/DS/DSMath.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/maker/DS/DSMath.sol",
         "file": "./DSMath.sol",
         "id": 24098,
         "nodeType": "ImportDirective",
@@ -94,7 +94,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/maker/DS/DSStop.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/maker/DS/DSStop.sol",
         "file": "./DSStop.sol",
         "id": 24099,
         "nodeType": "ImportDirective",
@@ -7509,7 +7509,7 @@
     "src": "756:4191:76"
   },
   "legacyAST": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/maker/DS/DSToken.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/maker/DS/DSToken.sol",
     "exportedSymbols": {
       "DSToken": [
         24676
@@ -7539,7 +7539,7 @@
         "src": "756:23:76"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/maker/DS/DSMath.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/maker/DS/DSMath.sol",
         "file": "./DSMath.sol",
         "id": 24098,
         "nodeType": "ImportDirective",
@@ -7550,7 +7550,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/maker/DS/DSStop.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/maker/DS/DSStop.sol",
         "file": "./DSStop.sol",
         "id": 24099,
         "nodeType": "ImportDirective",
@@ -14972,5 +14972,5 @@
   },
   "networks": {},
   "schemaVersion": "2.3.1",
-  "updatedAt": "2020-04-01T15:58:47.589Z"
+  "updatedAt": "2020-04-01T21:49:53.156Z"
 }

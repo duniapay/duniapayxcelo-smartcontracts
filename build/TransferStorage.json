@@ -47,14 +47,14 @@
       "type": "function"
     }
   ],
-  "bytecode": "0x608060405234801561001057600080fd5b506102a9806100206000396000f3fe608060405234801561001057600080fd5b5060043610610052577c0100000000000000000000000000000000000000000000000000000000600035046313f4a0ea811461005757806380bfbe68146100a4575b600080fd5b6100926004803603604081101561006d57600080fd5b5073ffffffffffffffffffffffffffffffffffffffff813581169160200135166100e9565b60408051918252519081900360200190f35b6100e7600480360360608110156100ba57600080fd5b5073ffffffffffffffffffffffffffffffffffffffff81358116916020810135909116906040013561011f565b005b73ffffffffffffffffffffffffffffffffffffffff91821660009081526020818152604080832093909416825291909152205490565b604080517fd6eb1bbf0000000000000000000000000000000000000000000000000000000081523360048201529051849173ffffffffffffffffffffffffffffffffffffffff83169163d6eb1bbf91602480820192602092909190829003018186803b15801561018e57600080fd5b505afa1580156101a2573d6000803e3d6000fd5b505050506040513d60208110156101b857600080fd5b50511515610211576040517f08c379a000000000000000000000000000000000000000000000000000000000815260040180806020018281038252603481526020018061024a6034913960400191505060405180910390fd5b5073ffffffffffffffffffffffffffffffffffffffff928316600090815260208181526040808320949095168252929092529190205556fe54533a206d75737420626520616e20617574686f72697a6564206d6f64756c6520746f2063616c6c2074686973206d6574686f64a165627a7a723058201ef0e162de6507f2e35600b3688ae4c0179207671a6b8cbed0cb0abd45cb6c5e0029",
-  "deployedBytecode": "0x608060405234801561001057600080fd5b5060043610610052577c0100000000000000000000000000000000000000000000000000000000600035046313f4a0ea811461005757806380bfbe68146100a4575b600080fd5b6100926004803603604081101561006d57600080fd5b5073ffffffffffffffffffffffffffffffffffffffff813581169160200135166100e9565b60408051918252519081900360200190f35b6100e7600480360360608110156100ba57600080fd5b5073ffffffffffffffffffffffffffffffffffffffff81358116916020810135909116906040013561011f565b005b73ffffffffffffffffffffffffffffffffffffffff91821660009081526020818152604080832093909416825291909152205490565b604080517fd6eb1bbf0000000000000000000000000000000000000000000000000000000081523360048201529051849173ffffffffffffffffffffffffffffffffffffffff83169163d6eb1bbf91602480820192602092909190829003018186803b15801561018e57600080fd5b505afa1580156101a2573d6000803e3d6000fd5b505050506040513d60208110156101b857600080fd5b50511515610211576040517f08c379a000000000000000000000000000000000000000000000000000000000815260040180806020018281038252603481526020018061024a6034913960400191505060405180910390fd5b5073ffffffffffffffffffffffffffffffffffffffff928316600090815260208181526040808320949095168252929092529190205556fe54533a206d75737420626520616e20617574686f72697a6564206d6f64756c6520746f2063616c6c2074686973206d6574686f64a165627a7a723058201ef0e162de6507f2e35600b3688ae4c0179207671a6b8cbed0cb0abd45cb6c5e0029",
+  "bytecode": "0x608060405234801561001057600080fd5b506102a9806100206000396000f3fe608060405234801561001057600080fd5b5060043610610052577c0100000000000000000000000000000000000000000000000000000000600035046313f4a0ea811461005757806380bfbe68146100a4575b600080fd5b6100926004803603604081101561006d57600080fd5b5073ffffffffffffffffffffffffffffffffffffffff813581169160200135166100e9565b60408051918252519081900360200190f35b6100e7600480360360608110156100ba57600080fd5b5073ffffffffffffffffffffffffffffffffffffffff81358116916020810135909116906040013561011f565b005b73ffffffffffffffffffffffffffffffffffffffff91821660009081526020818152604080832093909416825291909152205490565b604080517fd6eb1bbf0000000000000000000000000000000000000000000000000000000081523360048201529051849173ffffffffffffffffffffffffffffffffffffffff83169163d6eb1bbf91602480820192602092909190829003018186803b15801561018e57600080fd5b505afa1580156101a2573d6000803e3d6000fd5b505050506040513d60208110156101b857600080fd5b50511515610211576040517f08c379a000000000000000000000000000000000000000000000000000000000815260040180806020018281038252603481526020018061024a6034913960400191505060405180910390fd5b5073ffffffffffffffffffffffffffffffffffffffff928316600090815260208181526040808320949095168252929092529190205556fe54533a206d75737420626520616e20617574686f72697a6564206d6f64756c6520746f2063616c6c2074686973206d6574686f64a165627a7a7230582006bd0f6f8f1aa6ccf06f98ad7196a186b1fe19577ba35c31d1b68c1e47171d9b0029",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b5060043610610052577c0100000000000000000000000000000000000000000000000000000000600035046313f4a0ea811461005757806380bfbe68146100a4575b600080fd5b6100926004803603604081101561006d57600080fd5b5073ffffffffffffffffffffffffffffffffffffffff813581169160200135166100e9565b60408051918252519081900360200190f35b6100e7600480360360608110156100ba57600080fd5b5073ffffffffffffffffffffffffffffffffffffffff81358116916020810135909116906040013561011f565b005b73ffffffffffffffffffffffffffffffffffffffff91821660009081526020818152604080832093909416825291909152205490565b604080517fd6eb1bbf0000000000000000000000000000000000000000000000000000000081523360048201529051849173ffffffffffffffffffffffffffffffffffffffff83169163d6eb1bbf91602480820192602092909190829003018186803b15801561018e57600080fd5b505afa1580156101a2573d6000803e3d6000fd5b505050506040513d60208110156101b857600080fd5b50511515610211576040517f08c379a000000000000000000000000000000000000000000000000000000000815260040180806020018281038252603481526020018061024a6034913960400191505060405180910390fd5b5073ffffffffffffffffffffffffffffffffffffffff928316600090815260208181526040808320949095168252929092529190205556fe54533a206d75737420626520616e20617574686f72697a6564206d6f64756c6520746f2063616c6c2074686973206d6574686f64a165627a7a7230582006bd0f6f8f1aa6ccf06f98ad7196a186b1fe19577ba35c31d1b68c1e47171d9b0029",
   "sourceMap": "1090:1081:37:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;1090:1081:37;;;;;;;",
   "deployedSourceMap": "1090:1081:37:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;1090:1081:37;;;;;;;;;;;;;;;;;;;;;;;;2018:151;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;2018:151:37;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;1570:166;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;1570:166:37;;;;;;;;;;;;;;;;;;:::i;:::-;;2018:151;2126:27;;;;2100:7;2126:27;;;;;;;;;;;:36;;;;;;;;;;;;;2018:151::o;1570:166::-;1047:30:36;;;;;;1066:10;1047:30;;;;;;1665:7:37;;1047:18:36;;;;;;:30;;;;;;;;;;;;;;;:18;:30;;;5:2:-1;;;;30:1;27;20:12;5:2;1047:30:36;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;1047:30:36;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;1047:30:36;1039:95;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;-1:-1:-1;1684:27:37;;;;:9;:27;;;;;;;;;;;:36;;;;;;;;;;;;;:45;1570:166::o",
   "source": "// Copyright (C) 2018  Argent Labs Ltd. <https://argent.xyz>\n\n// This program is free software: you can redistribute it and/or modify\n// it under the terms of the GNU General Public License as published by\n// the Free Software Foundation, either version 3 of the License, or\n// (at your option) any later version.\n\n// This program is distributed in the hope that it will be useful,\n// but WITHOUT ANY WARRANTY; without even the implied warranty of\n// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n// GNU General Public License for more details.\n\n// You should have received a copy of the GNU General Public License\n// along with this program.  If not, see <http://www.gnu.org/licenses/>.\n\npragma solidity ^0.5.4;\nimport \"../wallet/BaseWallet.sol\";\nimport \"./Storage.sol\";\n\n/**\n * @title TransferStorage\n * @dev Contract storing the state of wallets related to transfers (limit and whitelist).\n * The contract only defines basic setters and getters with no logic. Only modules authorised\n * for a wallet can modify its state.\n * @author Julien Niset - <julien@argent.im>\n */\ncontract TransferStorage is Storage {\n\n    // wallet specific storage\n    mapping (address => mapping (address => uint256)) internal whitelist;\n\n    // *************** External Functions ********************* //\n\n    /**\n     * @dev Lets an authorised module add or remove an account from the whitelist of a wallet.\n     * @param _wallet The target wallet.\n     * @param _target The account to add/remove.\n     * @param _value True for addition, false for revokation.\n     */\n    function setWhitelist(BaseWallet _wallet, address _target, uint256 _value) external onlyModule(_wallet) {\n        whitelist[address(_wallet)][_target] = _value;\n    }\n\n    /**\n     * @dev Gets the whitelist state of an account for a wallet.\n     * @param _wallet The target wallet.\n     * @param _target The account.\n     * @return the epoch time at which an account strats to be whitelisted, or zero if the account is not whitelisted.\n     */\n    function getWhitelist(BaseWallet _wallet, address _target) external view returns (uint256) {\n        return whitelist[address(_wallet)][_target];\n    }\n}",
-  "sourcePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/storage/TransferStorage.sol",
+  "sourcePath": "/Users/name/dev/smartcontracts/contracts/storage/TransferStorage.sol",
   "ast": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/storage/TransferStorage.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/storage/TransferStorage.sol",
     "exportedSymbols": {
       "TransferStorage": [
         12071
@@ -75,7 +75,7 @@
         "src": "705:23:37"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/wallet/BaseWallet.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/wallet/BaseWallet.sol",
         "file": "../wallet/BaseWallet.sol",
         "id": 12020,
         "nodeType": "ImportDirective",
@@ -86,7 +86,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/storage/Storage.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/storage/Storage.sol",
         "file": "./Storage.sol",
         "id": 12021,
         "nodeType": "ImportDirective",
@@ -717,7 +717,7 @@
     "src": "705:1466:37"
   },
   "legacyAST": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/storage/TransferStorage.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/storage/TransferStorage.sol",
     "exportedSymbols": {
       "TransferStorage": [
         12071
@@ -738,7 +738,7 @@
         "src": "705:23:37"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/wallet/BaseWallet.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/wallet/BaseWallet.sol",
         "file": "../wallet/BaseWallet.sol",
         "id": 12020,
         "nodeType": "ImportDirective",
@@ -749,7 +749,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/storage/Storage.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/storage/Storage.sol",
         "file": "./Storage.sol",
         "id": 12021,
         "nodeType": "ImportDirective",
@@ -1387,5 +1387,5 @@
   },
   "networks": {},
   "schemaVersion": "2.3.1",
-  "updatedAt": "2020-04-01T15:58:47.233Z"
+  "updatedAt": "2020-04-01T21:49:52.988Z"
 }

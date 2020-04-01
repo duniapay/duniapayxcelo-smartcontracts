@@ -134,9 +134,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "// Copyright (C) 2018  Argent Labs Ltd. <https://argent.xyz>\n\n// This program is free software: you can redistribute it and/or modify\n// it under the terms of the GNU General Public License as published by\n// the Free Software Foundation, either version 3 of the License, or\n// (at your option) any later version.\n\n// This program is distributed in the hope that it will be useful,\n// but WITHOUT ANY WARRANTY; without even the implied warranty of\n// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n// GNU General Public License for more details.\n\n// You should have received a copy of the GNU General Public License\n// along with this program.  If not, see <http://www.gnu.org/licenses/>.\n\npragma solidity ^0.5.4;\n\nimport \"../../lib/utils/SafeMath.sol\";\nimport \"../wallet/BaseWallet.sol\";\nimport \"./common/BaseModule.sol\";\nimport \"./common/RelayerModule.sol\";\nimport \"./common/OnlyOwnerModule.sol\";\nimport \"../defi/Loan.sol\";\nimport \"../defi/Invest.sol\";\nimport \"../defi/utils/CompoundRegistry.sol\";\n\ninterface IComptroller {\n    function enterMarkets(address[] calldata _cTokens) external returns (uint[] memory);\n    function exitMarket(address _cToken) external returns (uint);\n    function getAssetsIn(address _account) external view returns (address[] memory);\n    function getAccountLiquidity(address _account) external view returns (uint, uint, uint);\n    function checkMembership(address account, ICToken cToken) external view returns (bool);\n}\n\ninterface ICToken {\n    function comptroller() external view returns (address);\n    function underlying() external view returns (address);\n    function symbol() external view returns (string memory);\n    function exchangeRateCurrent() external returns (uint256);\n    function exchangeRateStored() external view returns (uint256);\n    function balanceOf(address _account) external view returns (uint256);\n    function borrowBalanceCurrent(address _account) external returns (uint256);\n    function borrowBalanceStored(address _account) external view returns (uint256);\n}\n\n/**\n * @title CompoundManager\n * @dev Module to invest and borrow tokens with CompoundV2\n * @author Julien Niset - <julien@argent.xyz>\n */\ncontract CompoundManager is Loan, Invest, BaseModule, RelayerModule, OnlyOwnerModule {\n\n    bytes32 constant NAME = \"CompoundManager\";\n\n    // The Compound IComptroller contract\n    IComptroller public comptroller;\n    // The registry mapping underlying with cTokens\n    CompoundRegistry public compoundRegistry;\n\n    // Mock token address for ETH\n    address constant internal ETH_TOKEN_ADDRESS = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;\n\n    using SafeMath for uint256;\n\n    constructor(\n        ModuleRegistry _registry,\n        GuardianStorage _guardianStorage,\n        IComptroller _comptroller,\n        CompoundRegistry _compoundRegistry\n    )\n        BaseModule(_registry, _guardianStorage, NAME)\n        public\n    {\n        comptroller = _comptroller;\n        compoundRegistry = _compoundRegistry;\n    }\n\n    /* ********************************** Implementation of Loan ************************************* */\n\n    /**\n     * @dev Opens a collateralized loan.\n     * @param _wallet The target wallet.\n     * @param _collateral The token used as a collateral.\n     * @param _collateralAmount The amount of collateral token provided.\n     * @param _debtToken The token borrowed.\n     * @param _debtAmount The amount of tokens borrowed.\n     * @return bytes32(0) as Compound does not allow the creation of multiple loans.\n     */\n    function openLoan(\n        BaseWallet _wallet,\n        address _collateral,\n        uint256 _collateralAmount,\n        address _debtToken,\n        uint256 _debtAmount\n    )\n        external\n        onlyWalletOwner(_wallet)\n        onlyWhenUnlocked(_wallet)\n        returns (bytes32 _loanId)\n    {\n        address[] memory markets = new address[](2);\n        markets[0] = compoundRegistry.getCToken(_collateral);\n        markets[1] = compoundRegistry.getCToken(_debtToken);\n        invokeWallet(address(_wallet), address(comptroller), 0, abi.encodeWithSignature(\"enterMarkets(address[])\", markets));\n        mint(_wallet, markets[0], _collateral, _collateralAmount);\n        borrow(_wallet, markets[1], _debtAmount);\n        emit LoanOpened(address(_wallet), _loanId, _collateral, _collateralAmount, _debtToken, _debtAmount);\n    }\n\n    /**\n     * @dev Closes the collateralized loan in all markets by repaying all debts (plus interest). Note that it does not redeem the collateral.\n     * @param _wallet The target wallet.\n     * @param _loanId bytes32(0) as Compound does not allow the creation of multiple loans.\n     */\n    function closeLoan(\n        BaseWallet _wallet,\n        bytes32 _loanId\n    )\n        external\n        onlyWalletOwner(_wallet)\n        onlyWhenUnlocked(_wallet)\n    {\n        address[] memory markets = comptroller.getAssetsIn(address(_wallet));\n        for (uint i = 0; i < markets.length; i++) {\n            address cToken = markets[i];\n            uint debt = ICToken(cToken).borrowBalanceCurrent(address(_wallet));\n            if (debt > 0) {\n                repayBorrow(_wallet, cToken, debt);\n                uint collateral = ICToken(cToken).balanceOf(address(_wallet));\n                if (collateral == 0) {\n                    invokeWallet(address(_wallet), address(comptroller), 0, abi.encodeWithSignature(\"exitMarket(address)\", address(cToken)));\n                }\n            }\n        }\n        emit LoanClosed(address(_wallet), _loanId);\n    }\n\n    /**\n     * @dev Adds collateral to a loan identified by its ID.\n     * @param _wallet The target wallet.\n     * @param _loanId bytes32(0) as Compound does not allow the creation of multiple loans.\n     * @param _collateral The token used as a collateral.\n     * @param _collateralAmount The amount of collateral to add.\n     */\n    function addCollateral(\n        BaseWallet _wallet,\n        bytes32 _loanId,\n        address _collateral,\n        uint256 _collateralAmount\n    )\n        external\n        onlyWalletOwner(_wallet)\n        onlyWhenUnlocked(_wallet)\n    {\n        address cToken = compoundRegistry.getCToken(_collateral);\n        enterMarketIfNeeded(_wallet, cToken, address(comptroller));\n        mint(_wallet, cToken, _collateral, _collateralAmount);\n        emit CollateralAdded(address(_wallet), _loanId, _collateral, _collateralAmount);\n    }\n\n    /**\n     * @dev Removes collateral from a loan identified by its ID.\n     * @param _wallet The target wallet.\n     * @param _loanId bytes32(0) as Compound does not allow the creation of multiple loans.\n     * @param _collateral The token used as a collateral.\n     * @param _collateralAmount The amount of collateral to remove.\n     */\n    function removeCollateral(\n        BaseWallet _wallet,\n        bytes32 _loanId,\n        address _collateral,\n        uint256 _collateralAmount\n    )\n        external\n        onlyWalletOwner(_wallet)\n        onlyWhenUnlocked(_wallet)\n    {\n        address cToken = compoundRegistry.getCToken(_collateral);\n        redeemUnderlying(_wallet, cToken, _collateralAmount);\n        exitMarketIfNeeded(_wallet, cToken, address(comptroller));\n        emit CollateralRemoved(address(_wallet), _loanId, _collateral, _collateralAmount);\n    }\n\n    /**\n     * @dev Increases the debt by borrowing more token from a loan identified by its ID.\n     * @param _wallet The target wallet.\n     * @param _loanId bytes32(0) as Compound does not allow the creation of multiple loans.\n     * @param _debtToken The token borrowed.\n     * @param _debtAmount The amount of token to borrow.\n     */\n    function addDebt(\n        BaseWallet _wallet,\n        bytes32 _loanId,\n        address _debtToken,\n        uint256 _debtAmount\n    )\n        external\n        onlyWalletOwner(_wallet)\n        onlyWhenUnlocked(_wallet)\n    {\n        address dToken = compoundRegistry.getCToken(_debtToken);\n        enterMarketIfNeeded(_wallet, dToken, address(comptroller));\n        borrow(_wallet, dToken, _debtAmount);\n        emit DebtAdded(address(_wallet), _loanId, _debtToken, _debtAmount);\n    }\n\n    /**\n     * @dev Decreases the debt by repaying some token from a loan identified by its ID.\n     * @param _wallet The target wallet.\n     * @param _loanId bytes32(0) as Compound does not allow the creation of multiple loans.\n     * @param _debtToken The token to repay.\n     * @param _debtAmount The amount of token to repay.\n     */\n    function removeDebt(\n        BaseWallet _wallet,\n        bytes32 _loanId,\n        address _debtToken,\n        uint256 _debtAmount\n    )\n        external\n        onlyWalletOwner(_wallet)\n        onlyWhenUnlocked(_wallet)\n    {\n        address dToken = compoundRegistry.getCToken(_debtToken);\n        repayBorrow(_wallet, dToken, _debtAmount);\n        exitMarketIfNeeded(_wallet, dToken, address(comptroller));\n        emit DebtRemoved(address(_wallet), _loanId, _debtToken, _debtAmount);\n    }\n\n    /**\n     * @dev Gets information about the loan status on Compound.\n     * @param _wallet The target wallet.\n     * @return a status [0: no loan, 1: loan is safe, 2: loan is unsafe and can be liquidated]\n     * and a value (in ETH) representing the value that could still be borrowed when status = 1; or the value of the collateral\n     * that should be added to avoid liquidation when status = 2.\n     */\n    function getLoan(\n        BaseWallet _wallet,\n        bytes32 /* _loanId */\n    )\n        external\n        view\n        returns (uint8 _status, uint256 _ethValue)\n    {\n        (uint error, uint liquidity, uint shortfall) = comptroller.getAccountLiquidity(address(_wallet));\n        require(error == 0, \"Compound: failed to get account liquidity\");\n        if (liquidity > 0) {\n            return (1, liquidity);\n        }\n        if (shortfall > 0) {\n            return (2, shortfall);\n        }\n        return (0,0);\n    }\n\n    /* ********************************** Implementation of Invest ************************************* */\n\n    /**\n     * @dev Invest tokens for a given period.\n     * @param _wallet The target wallet.\n     * @param _token The token address.\n     * @param _amount The amount of tokens to invest.\n     * @param _period The period over which the tokens may be locked in the investment (optional).\n     * @return The exact amount of tokens that have been invested.\n     */\n    function addInvestment(\n        BaseWallet _wallet,\n        address _token,\n        uint256 _amount,\n        uint256 _period\n    )\n        external\n        onlyWalletOwner(_wallet)\n        onlyWhenUnlocked(_wallet)\n        returns (uint256 _invested)\n    {\n        address cToken = compoundRegistry.getCToken(_token);\n        mint(_wallet, cToken, _token, _amount);\n        _invested = _amount;\n        emit InvestmentAdded(address(_wallet), _token, _amount, _period);\n    }\n\n    /**\n     * @dev Exit invested postions.\n     * @param _wallet The target wallet.\n     * @param _token The token address.\n     * @param _fraction The fraction of invested tokens to exit in per 10000.\n     */\n    function removeInvestment(\n        BaseWallet _wallet,\n        address _token,\n        uint256 _fraction\n    )\n        external\n        onlyWalletOwner(_wallet)\n        onlyWhenUnlocked(_wallet)\n    {\n        require(_fraction <= 10000, \"CompoundV2: invalid fraction value\");\n        address cToken = compoundRegistry.getCToken(_token);\n        uint shares = ICToken(cToken).balanceOf(address(_wallet));\n        redeem(_wallet, cToken, shares.mul(_fraction).div(10000));\n        emit InvestmentRemoved(address(_wallet), _token, _fraction);\n    }\n\n    /**\n     * @dev Get the amount of investment in a given token.\n     * @param _wallet The target wallet.\n     * @param _token The token address.\n     * @return The value in tokens of the investment (including interests) and the time at which the investment can be removed.\n     */\n    function getInvestment(\n        BaseWallet _wallet,\n        address _token\n    )\n        external\n        view\n        returns (uint256 _tokenValue, uint256 _periodEnd)\n    {\n        address cToken = compoundRegistry.getCToken(_token);\n        uint amount = ICToken(cToken).balanceOf(address(_wallet));\n        uint exchangeRateMantissa = ICToken(cToken).exchangeRateStored();\n        _tokenValue = amount.mul(exchangeRateMantissa).div(10 ** 18);\n        _periodEnd = 0;\n    }\n\n    /* ****************************************** Compound wrappers ******************************************* */\n\n    /**\n     * @dev Adds underlying tokens to a cToken contract.\n     * @param _wallet The target wallet.\n     * @param _cToken The cToken contract.\n     * @param _token The underlying token.\n     * @param _amount The amount of underlying token to add.\n     */\n    function mint(BaseWallet _wallet, address _cToken, address _token, uint256 _amount) internal {\n        require(_cToken != address(0), \"Compound: No market for target token\");\n        require(_amount > 0, \"Compound: amount cannot be 0\");\n        if (_token == ETH_TOKEN_ADDRESS) {\n            invokeWallet(address(_wallet), _cToken, _amount, abi.encodeWithSignature(\"mint()\"));\n        } else {\n            invokeWallet(address(_wallet), _token, 0, abi.encodeWithSignature(\"approve(address,uint256)\", _cToken, _amount));\n            invokeWallet(address(_wallet), _cToken, 0, abi.encodeWithSignature(\"mint(uint256)\", _amount));\n        }\n    }\n\n    /**\n     * @dev Redeems underlying tokens from a cToken contract.\n     * @param _wallet The target wallet.\n     * @param _cToken The cToken contract.\n     * @param _amount The amount of cToken to redeem.\n     */\n    function redeem(BaseWallet _wallet, address _cToken, uint256 _amount) internal {\n        require(_cToken != address(0), \"Compound: No market for target token\");\n        require(_amount > 0, \"Compound: amount cannot be 0\");\n        invokeWallet(address(_wallet), _cToken, 0, abi.encodeWithSignature(\"redeem(uint256)\", _amount));\n    }\n\n    /**\n     * @dev Redeems underlying tokens from a cToken contract.\n     * @param _wallet The target wallet.\n     * @param _cToken The cToken contract.\n     * @param _amount The amount of underlying token to redeem.\n     */\n    function redeemUnderlying(BaseWallet _wallet, address _cToken, uint256 _amount) internal {\n        require(_cToken != address(0), \"Compound: No market for target token\");\n        require(_amount > 0, \"Compound: amount cannot be 0\");\n        invokeWallet(address(_wallet), _cToken, 0, abi.encodeWithSignature(\"redeemUnderlying(uint256)\", _amount));\n    }\n\n    /**\n     * @dev Borrows underlying tokens from a cToken contract.\n     * @param _wallet The target wallet.\n     * @param _cToken The cToken contract.\n     * @param _amount The amount of underlying tokens to borrow.\n     */\n    function borrow(BaseWallet _wallet, address _cToken, uint256 _amount) internal {\n        require(_cToken != address(0), \"Compound: No market for target token\");\n        require(_amount > 0, \"Compound: amount cannot be 0\");\n        invokeWallet(address(_wallet), _cToken, 0, abi.encodeWithSignature(\"borrow(uint256)\", _amount));\n    }\n\n    /**\n     * @dev Repays some borrowed underlying tokens to a cToken contract.\n     * @param _wallet The target wallet.\n     * @param _cToken The cToken contract.\n     * @param _amount The amount of underlying to repay.\n     */\n    function repayBorrow(BaseWallet _wallet, address _cToken, uint256 _amount) internal {\n        require(_cToken != address(0), \"Compound: No market for target token\");\n        require(_amount > 0, \"Compound: amount cannot be 0\");\n        string memory symbol = ICToken(_cToken).symbol();\n        if (keccak256(abi.encodePacked(symbol)) == keccak256(abi.encodePacked(\"cETH\"))) {\n            invokeWallet(address(_wallet), _cToken, _amount, abi.encodeWithSignature(\"repayBorrow()\"));\n        } else {\n            address token = ICToken(_cToken).underlying();\n            invokeWallet(address(_wallet), token, 0, abi.encodeWithSignature(\"approve(address,uint256)\", _cToken, _amount));\n            invokeWallet(address(_wallet), _cToken, 0, abi.encodeWithSignature(\"repayBorrow(uint256)\", _amount));\n        }\n    }\n\n    /**\n     * @dev Enters a cToken market if it was not entered before.\n     * @param _wallet The target wallet.\n     * @param _cToken The cToken contract.\n     * @param _comptroller The comptroller contract.\n     */\n    function enterMarketIfNeeded(BaseWallet _wallet, address _cToken, address _comptroller) internal {\n        bool isEntered = IComptroller(_comptroller).checkMembership(address(_wallet), ICToken(_cToken));\n        if (!isEntered) {\n            address[] memory market = new address[](1);\n            market[0] = _cToken;\n            invokeWallet(address(_wallet), _comptroller, 0, abi.encodeWithSignature(\"enterMarkets(address[])\", market));\n        }\n    }\n\n    /**\n     * @dev Exits a cToken market if there is no more collateral and debt.\n     * @param _wallet The target wallet.\n     * @param _cToken The cToken contract.\n     * @param _comptroller The comptroller contract.\n     */\n    function exitMarketIfNeeded(BaseWallet _wallet, address _cToken, address _comptroller) internal {\n        uint collateral = ICToken(_cToken).balanceOf(address(_wallet));\n        uint debt = ICToken(_cToken).borrowBalanceStored(address(_wallet));\n        if (collateral == 0 && debt == 0) {\n            invokeWallet(address(_wallet), _comptroller, 0, abi.encodeWithSignature(\"exitMarket(address)\", _cToken));\n        }\n    }\n}\n",
-  "sourcePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/CompoundManager.sol",
+  "sourcePath": "/Users/name/dev/smartcontracts/contracts/modules/CompoundManager.sol",
   "ast": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/CompoundManager.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/CompoundManager.sol",
     "exportedSymbols": {
       "CompoundManager": [
         3425
@@ -163,7 +163,7 @@
         "src": "705:23:18"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/lib/utils/SafeMath.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/lib/utils/SafeMath.sol",
         "file": "../../lib/utils/SafeMath.sol",
         "id": 2271,
         "nodeType": "ImportDirective",
@@ -174,7 +174,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/wallet/BaseWallet.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/wallet/BaseWallet.sol",
         "file": "../wallet/BaseWallet.sol",
         "id": 2272,
         "nodeType": "ImportDirective",
@@ -185,7 +185,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/BaseModule.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/common/BaseModule.sol",
         "file": "./common/BaseModule.sol",
         "id": 2273,
         "nodeType": "ImportDirective",
@@ -196,7 +196,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/RelayerModule.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/common/RelayerModule.sol",
         "file": "./common/RelayerModule.sol",
         "id": 2274,
         "nodeType": "ImportDirective",
@@ -207,7 +207,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/OnlyOwnerModule.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/common/OnlyOwnerModule.sol",
         "file": "./common/OnlyOwnerModule.sol",
         "id": 2275,
         "nodeType": "ImportDirective",
@@ -218,7 +218,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/defi/Loan.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/defi/Loan.sol",
         "file": "../defi/Loan.sol",
         "id": 2276,
         "nodeType": "ImportDirective",
@@ -229,7 +229,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/defi/Invest.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/defi/Invest.sol",
         "file": "../defi/Invest.sol",
         "id": 2277,
         "nodeType": "ImportDirective",
@@ -240,7 +240,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/defi/utils/CompoundRegistry.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/defi/utils/CompoundRegistry.sol",
         "file": "../defi/utils/CompoundRegistry.sol",
         "id": 2278,
         "nodeType": "ImportDirective",
@@ -16618,7 +16618,7 @@
     "src": "705:16745:18"
   },
   "legacyAST": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/CompoundManager.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/CompoundManager.sol",
     "exportedSymbols": {
       "CompoundManager": [
         3425
@@ -16645,7 +16645,7 @@
         "src": "705:23:18"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/lib/utils/SafeMath.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/lib/utils/SafeMath.sol",
         "file": "../../lib/utils/SafeMath.sol",
         "id": 2271,
         "nodeType": "ImportDirective",
@@ -16656,7 +16656,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/wallet/BaseWallet.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/wallet/BaseWallet.sol",
         "file": "../wallet/BaseWallet.sol",
         "id": 2272,
         "nodeType": "ImportDirective",
@@ -16667,7 +16667,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/BaseModule.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/common/BaseModule.sol",
         "file": "./common/BaseModule.sol",
         "id": 2273,
         "nodeType": "ImportDirective",
@@ -16678,7 +16678,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/RelayerModule.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/common/RelayerModule.sol",
         "file": "./common/RelayerModule.sol",
         "id": 2274,
         "nodeType": "ImportDirective",
@@ -16689,7 +16689,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/OnlyOwnerModule.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/common/OnlyOwnerModule.sol",
         "file": "./common/OnlyOwnerModule.sol",
         "id": 2275,
         "nodeType": "ImportDirective",
@@ -16700,7 +16700,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/defi/Loan.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/defi/Loan.sol",
         "file": "../defi/Loan.sol",
         "id": 2276,
         "nodeType": "ImportDirective",
@@ -16711,7 +16711,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/defi/Invest.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/defi/Invest.sol",
         "file": "../defi/Invest.sol",
         "id": 2277,
         "nodeType": "ImportDirective",
@@ -16722,7 +16722,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/defi/utils/CompoundRegistry.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/defi/utils/CompoundRegistry.sol",
         "file": "../defi/utils/CompoundRegistry.sol",
         "id": 2278,
         "nodeType": "ImportDirective",
@@ -33107,5 +33107,5 @@
   },
   "networks": {},
   "schemaVersion": "2.3.1",
-  "updatedAt": "2020-04-01T15:58:47.615Z"
+  "updatedAt": "2020-04-01T21:49:53.184Z"
 }

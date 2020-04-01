@@ -1,14 +1,14 @@
 {
   "contractName": "VatLike",
   "abi": [],
-  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3fe6080604052600080fdfea165627a7a723058204218c9c12de4dc897b9e6983005773081285fc42b1bde7a9d94cf11e861724bd0029",
-  "deployedBytecode": "0x6080604052600080fdfea165627a7a723058204218c9c12de4dc897b9e6983005773081285fc42b1bde7a9d94cf11e861724bd0029",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3fe6080604052600080fdfea165627a7a7230582005efdfb7b8ca11738bd13777f3bd9d97f7afd8363d4f80e6cd496a87e9f6a3ed0029",
+  "deployedBytecode": "0x6080604052600080fdfea165627a7a7230582005efdfb7b8ca11738bd13777f3bd9d97f7afd8363d4f80e6cd496a87e9f6a3ed0029",
   "sourceMap": "248:21:78:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;248:21:78;;;;;;;",
   "deployedSourceMap": "248:21:78:-;;;;;",
   "source": "pragma solidity ^0.5.4;\n\ncontract JoinLike {\n    function gem() public returns (GemLike) {\n        return GemLike(address(0));\n    }\n    function dai() public returns (GemLike) {\n        return GemLike(address(0));\n    }\n    VatLike public vat;\n}\n\ncontract VatLike {\n\n}\n\ncontract GemLike {\n\n}\n\n/**\n * @title MockScdMcdMigration\n * @dev Mock contract needed to deploy the MakerV2Manager contract\n */\ncontract MockScdMcdMigration {\n\n    JoinLike public saiJoin;\n    JoinLike public daiJoin;\n\n    constructor () public {\n        saiJoin = new JoinLike();\n        daiJoin = new JoinLike();\n    }\n}",
-  "sourcePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/maker/MockScdMcdMigration.sol",
+  "sourcePath": "/Users/name/dev/smartcontracts/contracts/test/maker/MockScdMcdMigration.sol",
   "ast": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/maker/MockScdMcdMigration.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/maker/MockScdMcdMigration.sol",
     "exportedSymbols": {
       "GemLike": [
         24778
@@ -698,7 +698,7 @@
     "src": "0:593:78"
   },
   "legacyAST": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/maker/MockScdMcdMigration.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/maker/MockScdMcdMigration.sol",
     "exportedSymbols": {
       "GemLike": [
         24778
@@ -1395,5 +1395,5 @@
   },
   "networks": {},
   "schemaVersion": "2.3.1",
-  "updatedAt": "2020-04-01T15:58:47.216Z"
+  "updatedAt": "2020-04-01T21:49:52.963Z"
 }

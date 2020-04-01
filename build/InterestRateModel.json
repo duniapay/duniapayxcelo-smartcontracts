@@ -52,9 +52,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.5.4;\n\n/**\n  * @title The Compound InterestRateModel Interface\n  * @author Compound\n  * @notice Any interest rate model should derive from this contract.\n  * @dev These functions are specifically not marked `pure` as implementations of this\n  *      contract may read from storage variables.\n  */\ninterface InterestRateModel {\n    /**\n      * @notice Gets the current borrow interest rate based on the given asset, total cash, total borrows\n      *         and total reserves.\n      * @dev The return value should be scaled by 1e18, thus a return value of\n      *      `(true, 1000000000000)` implies an interest rate of 0.000001 or 0.0001% *per block*.\n      * @param cash The total cash of the underlying asset in the CToken\n      * @param borrows The total borrows of the underlying asset in the CToken\n      * @param reserves The total reserves of the underlying asset in the CToken\n      * @return Success or failure and the borrow interest rate per block scaled by 10e18\n      */\n    function getBorrowRate(uint cash, uint borrows, uint reserves) external view returns (uint, uint);\n\n    /**\n      * @notice Marker function used for light validation when updating the interest rate model of a market\n      * @dev Marker function used for light validation when updating the interest rate model of a market. Implementations should simply return true.\n      * @return Success or failure\n      */\n    function isInterestRateModel() external view returns (bool);\n}",
-  "sourcePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/compound/InterestRateModel.sol",
+  "sourcePath": "/Users/name/dev/smartcontracts/contracts/test/compound/InterestRateModel.sol",
   "ast": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/compound/InterestRateModel.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/compound/InterestRateModel.sol",
     "exportedSymbols": {
       "InterestRateModel": [
         22728
@@ -308,7 +308,7 @@
     "src": "0:1483:63"
   },
   "legacyAST": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/compound/InterestRateModel.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/compound/InterestRateModel.sol",
     "exportedSymbols": {
       "InterestRateModel": [
         22728
@@ -569,5 +569,5 @@
   },
   "networks": {},
   "schemaVersion": "2.3.1",
-  "updatedAt": "2020-04-01T15:58:47.334Z"
+  "updatedAt": "2020-04-01T21:49:53.033Z"
 }

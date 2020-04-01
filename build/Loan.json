@@ -353,9 +353,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "// Copyright (C) 2018  Argent Labs Ltd. <https://argent.xyz>\n\n// This program is free software: you can redistribute it and/or modify\n// it under the terms of the GNU General Public License as published by\n// the Free Software Foundation, either version 3 of the License, or\n// (at your option) any later version.\n\n// This program is distributed in the hope that it will be useful,\n// but WITHOUT ANY WARRANTY; without even the implied warranty of\n// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n// GNU General Public License for more details.\n\n// You should have received a copy of the GNU General Public License\n// along with this program.  If not, see <http://www.gnu.org/licenses/>.\n\npragma solidity ^0.5.4;\nimport \"../wallet/BaseWallet.sol\";\n\n/**\n * @title Interface for a contract that can loan tokens to a wallet.\n * @author Julien Niset - <julien@argent.xyz>\n */\ninterface Loan {\n\n    event LoanOpened(\n        address indexed _wallet,\n        bytes32 indexed _loanId,\n        address _collateral,\n        uint256 _collateralAmount,\n        address _debtToken,\n        uint256 _debtAmount);\n    event LoanClosed(address indexed _wallet, bytes32 indexed _loanId);\n    event CollateralAdded(address indexed _wallet, bytes32 indexed _loanId, address _collateral, uint256 _collateralAmount);\n    event CollateralRemoved(address indexed _wallet, bytes32 indexed _loanId, address _collateral, uint256 _collateralAmount);\n    event DebtAdded(address indexed _wallet, bytes32 indexed _loanId, address _debtToken, uint256 _debtAmount);\n    event DebtRemoved(address indexed _wallet, bytes32 indexed _loanId, address _debtToken, uint256 _debtAmount);\n\n    /**\n     * @dev Opens a collateralized loan.\n     * @param _wallet The target wallet.\n     * @param _collateral The token used as a collateral.\n     * @param _collateralAmount The amount of collateral token provided.\n     * @param _debtToken The token borrowed.\n     * @param _debtAmount The amount of tokens borrowed.\n     * @return (optional) An ID for the loan when the provider enables users to create multiple distinct loans.\n     */\n    function openLoan(\n        BaseWallet _wallet,\n        address _collateral,\n        uint256 _collateralAmount,\n        address _debtToken,\n        uint256 _debtAmount\n    )\n        external\n        returns (bytes32 _loanId);\n\n    /**\n     * @dev Closes a collateralized loan by repaying all debts (plus interest) and redeeming all collateral (plus interest).\n     * @param _wallet The target wallet.\n     * @param _loanId The ID of the loan if any, 0 otherwise.\n     */\n    function closeLoan(\n        BaseWallet _wallet,\n        bytes32 _loanId\n    )\n        external;\n\n    /**\n     * @dev Adds collateral to a loan identified by its ID.\n     * @param _wallet The target wallet.\n     * @param _loanId The ID of the loan if any, 0 otherwise.\n     * @param _collateral The token used as a collateral.\n     * @param _collateralAmount The amount of collateral to add.\n     */\n    function addCollateral(\n        BaseWallet _wallet,\n        bytes32 _loanId,\n        address _collateral,\n        uint256 _collateralAmount\n    )\n        external;\n\n    /**\n     * @dev Removes collateral from a loan identified by its ID.\n     * @param _wallet The target wallet.\n     * @param _loanId The ID of the loan if any, 0 otherwise.\n     * @param _collateral The token used as a collateral.\n     * @param _collateralAmount The amount of collateral to remove.\n     */\n    function removeCollateral(\n        BaseWallet _wallet,\n        bytes32 _loanId,\n        address _collateral,\n        uint256 _collateralAmount\n    )\n        external;\n\n    /**\n     * @dev Increases the debt by borrowing more token from a loan identified by its ID.\n     * @param _wallet The target wallet.\n     * @param _loanId The ID of the loan if any, 0 otherwise.\n     * @param _debtToken The token borrowed.\n     * @param _debtAmount The amount of token to borrow.\n     */\n    function addDebt(\n        BaseWallet _wallet,\n        bytes32 _loanId,\n        address _debtToken,\n        uint256 _debtAmount\n    )\n        external;\n\n    /**\n     * @dev Decreases the debt by repaying some token from a loan identified by its ID.\n     * @param _wallet The target wallet.\n     * @param _loanId The ID of the loan if any, 0 otherwise.\n     * @param _debtToken The token to repay.\n     * @param _debtAmount The amount of token to repay.\n     */\n    function removeDebt(\n        BaseWallet _wallet,\n        bytes32 _loanId,\n        address _debtToken,\n        uint256 _debtAmount\n    )\n        external;\n\n    /**\n     * @dev Gets information about a loan identified by its ID.\n     * @param _wallet The target wallet.\n     * @param _loanId The ID of the loan if any, 0 otherwise.\n     * @return a status [0: no loan, 1: loan is safe, 2: loan is unsafe and can be liquidated, 3: unable to provide info]\n     * and a value (in ETH) representing the value that could still be borrowed when status = 1; or the value of the collateral\n     * that should be added to avoid liquidation when status = 2.\n     */\n    function getLoan(\n        BaseWallet _wallet,\n        bytes32 _loanId\n    )\n        external\n        view\n        returns (uint8 _status, uint256 _ethValue);\n}",
-  "sourcePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/defi/Loan.sol",
+  "sourcePath": "/Users/name/dev/smartcontracts/contracts/defi/Loan.sol",
   "ast": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/defi/Loan.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/defi/Loan.sol",
     "exportedSymbols": {
       "Loan": [
         979
@@ -376,7 +376,7 @@
         "src": "705:23:6"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/wallet/BaseWallet.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/wallet/BaseWallet.sol",
         "file": "../wallet/BaseWallet.sol",
         "id": 841,
         "nodeType": "ImportDirective",
@@ -2103,7 +2103,7 @@
     "src": "705:4528:6"
   },
   "legacyAST": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/defi/Loan.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/defi/Loan.sol",
     "exportedSymbols": {
       "Loan": [
         979
@@ -2124,7 +2124,7 @@
         "src": "705:23:6"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/wallet/BaseWallet.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/wallet/BaseWallet.sol",
         "file": "../wallet/BaseWallet.sol",
         "id": 841,
         "nodeType": "ImportDirective",
@@ -3858,5 +3858,5 @@
   },
   "networks": {},
   "schemaVersion": "2.3.1",
-  "updatedAt": "2020-04-01T15:58:47.201Z"
+  "updatedAt": "2020-04-01T21:49:52.938Z"
 }

@@ -497,9 +497,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.5.4;\n\ninterface ComptrollerInterface {\n    /**\n     * @notice Marker function used for light validation when updating the comptroller of a market\n     * @dev Implementations should simply return true.\n     * @return true\n     */\n    function isComptroller() external view returns (bool);\n\n    /*** Assets You Are In ***/\n\n    function enterMarkets(address[] calldata cTokens) external returns (uint[] memory);\n    function exitMarket(address cToken) external returns (uint);\n\n    /*** Policy Hooks ***/\n\n    function mintAllowed(address cToken, address minter, uint mintAmount) external returns (uint);\n    function mintVerify(address cToken, address minter, uint mintAmount, uint mintTokens) external;\n\n    function redeemAllowed(address cToken, address redeemer, uint redeemTokens) external returns (uint);\n    function redeemVerify(address cToken, address redeemer, uint redeemAmount, uint redeemTokens) external;\n\n    function borrowAllowed(address cToken, address borrower, uint borrowAmount) external returns (uint);\n    function borrowVerify(address cToken, address borrower, uint borrowAmount) external;\n\n    function repayBorrowAllowed(\n        address cToken,\n        address payer,\n        address borrower,\n        uint repayAmount) external returns (uint);\n    function repayBorrowVerify(\n        address cToken,\n        address payer,\n        address borrower,\n        uint repayAmount,\n        uint borrowerIndex) external;\n\n    function liquidateBorrowAllowed(\n        address cTokenBorrowed,\n        address cTokenCollateral,\n        address liquidator,\n        address borrower,\n        uint repayAmount) external returns (uint);\n    function liquidateBorrowVerify(\n        address cTokenBorrowed,\n        address cTokenCollateral,\n        address liquidator,\n        address borrower,\n        uint repayAmount,\n        uint seizeTokens) external;\n\n    function seizeAllowed(\n        address cTokenCollateral,\n        address cTokenBorrowed,\n        address liquidator,\n        address borrower,\n        uint seizeTokens) external returns (uint);\n    function seizeVerify(\n        address cTokenCollateral,\n        address cTokenBorrowed,\n        address liquidator,\n        address borrower,\n        uint seizeTokens) external;\n\n    function transferAllowed(address cToken, address src, address dst, uint transferTokens) external returns (uint);\n    function transferVerify(address cToken, address src, address dst, uint transferTokens) external;\n\n    /*** Liquidity/Liquidation Calculations ***/\n\n    function liquidateCalculateSeizeTokens(\n        address cTokenBorrowed,\n        address cTokenCollateral,\n        uint repayAmount) external view returns (uint, uint);\n}\n",
-  "sourcePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/compound/ComptrollerInterface.sol",
+  "sourcePath": "/Users/name/dev/smartcontracts/contracts/test/compound/ComptrollerInterface.sol",
   "ast": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/compound/ComptrollerInterface.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/compound/ComptrollerInterface.sol",
     "exportedSymbols": {
       "ComptrollerInterface": [
         21696
@@ -3068,7 +3068,7 @@
     "src": "0:2710:57"
   },
   "legacyAST": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/compound/ComptrollerInterface.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/compound/ComptrollerInterface.sol",
     "exportedSymbols": {
       "ComptrollerInterface": [
         21696
@@ -5644,5 +5644,5 @@
   },
   "networks": {},
   "schemaVersion": "2.3.1",
-  "updatedAt": "2020-04-01T15:58:47.332Z"
+  "updatedAt": "2020-04-01T21:49:53.032Z"
 }

@@ -96,14 +96,14 @@
       "type": "function"
     }
   ],
-  "bytecode": "0x608060405234801561001057600080fd5b506040516060806104688339810180604052606081101561003057600080fd5b508051602082015160409092015160018054600160a060020a03938416600160a060020a03199182161790915560008054948416948216949094179093556002805492909116919092161790556103dc8061008c6000396000f3fe608060405234801561001057600080fd5b5060043610610084576000357c010000000000000000000000000000000000000000000000000000000090048063de836acf1161006d578063de836acf146100d6578063fc57d4df146100de578063fe10c98d1461012357610084565b80635fe3b5671461008957806366331bba146100ba575b600080fd5b61009161012b565b6040805173ffffffffffffffffffffffffffffffffffffffff9092168252519081900360200190f35b6100c2610147565b604080519115158252519081900360200190f35b61009161014c565b610111600480360360208110156100f457600080fd5b503573ffffffffffffffffffffffffffffffffffffffff16610168565b60408051918252519081900360200190f35b610091610394565b60015473ffffffffffffffffffffffffffffffffffffffff1681565b600181565b60025473ffffffffffffffffffffffffffffffffffffffff1681565b600154604080517f8e8f294b00000000000000000000000000000000000000000000000000000000815273ffffffffffffffffffffffffffffffffffffffff80851660048301528251600094869486949390911692638e8f294b9260248083019392829003018186803b1580156101de57600080fd5b505afa1580156101f2573d6000803e3d6000fd5b505050506040513d604081101561020857600080fd5b5051905080151561021e5760009250505061038f565b60025473ffffffffffffffffffffffffffffffffffffffff8381169116141561025357670de0b6b3a76400009250505061038f565b60008273ffffffffffffffffffffffffffffffffffffffff16636f307dc36040518163ffffffff167c010000000000000000000000000000000000000000000000000000000002815260040160206040518083038186803b1580156102b757600080fd5b505afa1580156102cb573d6000803e3d6000fd5b505050506040513d60208110156102e157600080fd5b5051600054604080517f5e9a523c00000000000000000000000000000000000000000000000000000000815273ffffffffffffffffffffffffffffffffffffffff80851660048301529151939450911691635e9a523c91602480820192602092909190829003018186803b15801561035857600080fd5b505afa15801561036c573d6000803e3d6000fd5b505050506040513d602081101561038257600080fd5b5051935061038f92505050565b919050565b60005473ffffffffffffffffffffffffffffffffffffffff168156fea165627a7a72305820274ee2aa249b084754bd24fc6138a7b0285b5c4c321bf202d2699a31c4274b9e0029",
-  "deployedBytecode": "0x608060405234801561001057600080fd5b5060043610610084576000357c010000000000000000000000000000000000000000000000000000000090048063de836acf1161006d578063de836acf146100d6578063fc57d4df146100de578063fe10c98d1461012357610084565b80635fe3b5671461008957806366331bba146100ba575b600080fd5b61009161012b565b6040805173ffffffffffffffffffffffffffffffffffffffff9092168252519081900360200190f35b6100c2610147565b604080519115158252519081900360200190f35b61009161014c565b610111600480360360208110156100f457600080fd5b503573ffffffffffffffffffffffffffffffffffffffff16610168565b60408051918252519081900360200190f35b610091610394565b60015473ffffffffffffffffffffffffffffffffffffffff1681565b600181565b60025473ffffffffffffffffffffffffffffffffffffffff1681565b600154604080517f8e8f294b00000000000000000000000000000000000000000000000000000000815273ffffffffffffffffffffffffffffffffffffffff80851660048301528251600094869486949390911692638e8f294b9260248083019392829003018186803b1580156101de57600080fd5b505afa1580156101f2573d6000803e3d6000fd5b505050506040513d604081101561020857600080fd5b5051905080151561021e5760009250505061038f565b60025473ffffffffffffffffffffffffffffffffffffffff8381169116141561025357670de0b6b3a76400009250505061038f565b60008273ffffffffffffffffffffffffffffffffffffffff16636f307dc36040518163ffffffff167c010000000000000000000000000000000000000000000000000000000002815260040160206040518083038186803b1580156102b757600080fd5b505afa1580156102cb573d6000803e3d6000fd5b505050506040513d60208110156102e157600080fd5b5051600054604080517f5e9a523c00000000000000000000000000000000000000000000000000000000815273ffffffffffffffffffffffffffffffffffffffff80851660048301529151939450911691635e9a523c91602480820192602092909190829003018186803b15801561035857600080fd5b505afa15801561036c573d6000803e3d6000fd5b505050506040513d602081101561038257600080fd5b5051935061038f92505050565b919050565b60005473ffffffffffffffffffffffffffffffffffffffff168156fea165627a7a72305820274ee2aa249b084754bd24fc6138a7b0285b5c4c321bf202d2699a31c4274b9e0029",
+  "bytecode": "0x608060405234801561001057600080fd5b506040516060806104688339810180604052606081101561003057600080fd5b508051602082015160409092015160018054600160a060020a03938416600160a060020a03199182161790915560008054948416948216949094179093556002805492909116919092161790556103dc8061008c6000396000f3fe608060405234801561001057600080fd5b5060043610610084576000357c010000000000000000000000000000000000000000000000000000000090048063de836acf1161006d578063de836acf146100d6578063fc57d4df146100de578063fe10c98d1461012357610084565b80635fe3b5671461008957806366331bba146100ba575b600080fd5b61009161012b565b6040805173ffffffffffffffffffffffffffffffffffffffff9092168252519081900360200190f35b6100c2610147565b604080519115158252519081900360200190f35b61009161014c565b610111600480360360208110156100f457600080fd5b503573ffffffffffffffffffffffffffffffffffffffff16610168565b60408051918252519081900360200190f35b610091610394565b60015473ffffffffffffffffffffffffffffffffffffffff1681565b600181565b60025473ffffffffffffffffffffffffffffffffffffffff1681565b600154604080517f8e8f294b00000000000000000000000000000000000000000000000000000000815273ffffffffffffffffffffffffffffffffffffffff80851660048301528251600094869486949390911692638e8f294b9260248083019392829003018186803b1580156101de57600080fd5b505afa1580156101f2573d6000803e3d6000fd5b505050506040513d604081101561020857600080fd5b5051905080151561021e5760009250505061038f565b60025473ffffffffffffffffffffffffffffffffffffffff8381169116141561025357670de0b6b3a76400009250505061038f565b60008273ffffffffffffffffffffffffffffffffffffffff16636f307dc36040518163ffffffff167c010000000000000000000000000000000000000000000000000000000002815260040160206040518083038186803b1580156102b757600080fd5b505afa1580156102cb573d6000803e3d6000fd5b505050506040513d60208110156102e157600080fd5b5051600054604080517f5e9a523c00000000000000000000000000000000000000000000000000000000815273ffffffffffffffffffffffffffffffffffffffff80851660048301529151939450911691635e9a523c91602480820192602092909190829003018186803b15801561035857600080fd5b505afa15801561036c573d6000803e3d6000fd5b505050506040513d602081101561038257600080fd5b5051935061038f92505050565b919050565b60005473ffffffffffffffffffffffffffffffffffffffff168156fea165627a7a72305820ff844d55ad5b9ebd46043f20d66538775083f701957d67c8cd609748dadfb2920029",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b5060043610610084576000357c010000000000000000000000000000000000000000000000000000000090048063de836acf1161006d578063de836acf146100d6578063fc57d4df146100de578063fe10c98d1461012357610084565b80635fe3b5671461008957806366331bba146100ba575b600080fd5b61009161012b565b6040805173ffffffffffffffffffffffffffffffffffffffff9092168252519081900360200190f35b6100c2610147565b604080519115158252519081900360200190f35b61009161014c565b610111600480360360208110156100f457600080fd5b503573ffffffffffffffffffffffffffffffffffffffff16610168565b60408051918252519081900360200190f35b610091610394565b60015473ffffffffffffffffffffffffffffffffffffffff1681565b600181565b60025473ffffffffffffffffffffffffffffffffffffffff1681565b600154604080517f8e8f294b00000000000000000000000000000000000000000000000000000000815273ffffffffffffffffffffffffffffffffffffffff80851660048301528251600094869486949390911692638e8f294b9260248083019392829003018186803b1580156101de57600080fd5b505afa1580156101f2573d6000803e3d6000fd5b505050506040513d604081101561020857600080fd5b5051905080151561021e5760009250505061038f565b60025473ffffffffffffffffffffffffffffffffffffffff8381169116141561025357670de0b6b3a76400009250505061038f565b60008273ffffffffffffffffffffffffffffffffffffffff16636f307dc36040518163ffffffff167c010000000000000000000000000000000000000000000000000000000002815260040160206040518083038186803b1580156102b757600080fd5b505afa1580156102cb573d6000803e3d6000fd5b505050506040513d60208110156102e157600080fd5b5051600054604080517f5e9a523c00000000000000000000000000000000000000000000000000000000815273ffffffffffffffffffffffffffffffffffffffff80851660048301529151939450911691635e9a523c91602480820192602092909190829003018186803b15801561035857600080fd5b505afa15801561036c573d6000803e3d6000fd5b505050506040513d602081101561038257600080fd5b5051935061038f92505050565b919050565b60005473ffffffffffffffffffffffffffffffffffffffff168156fea165627a7a72305820ff844d55ad5b9ebd46043f20d66538775083f701957d67c8cd609748dadfb2920029",
   "sourceMap": "236:2345:66:-;;;1488:249;8:9:-1;5:2;;;30:1;27;20:12;5:2;1488:249:66;;;;;;;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;1488:249:66;;;;;;;;;;;1587:11;:39;;-1:-1:-1;;;;;1587:39:66;;;-1:-1:-1;;;;;;1587:39:66;;;;;;;:11;1636:54;;;;;;;;;;;;;;;1700:13;:30;;;;;;;;;;;;;236:2345;;;;;;",
   "deployedSourceMap": "236:2345:66:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;236:2345:66;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;760:30;;;:::i;:::-;;;;;;;;;;;;;;;;;;;1016:41;;;:::i;:::-;;;;;;;;;;;;;;;;;;887:28;;;:::i;2001:578::-;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;2001:578:66;;;;:::i;:::-;;;;;;;;;;;;;;;;399:43;;;:::i;760:30::-;;;;;;:::o;1016:41::-;1053:4;1016:41;:::o;887:28::-;;;;;;:::o;2001:578::-;2150:11;;:34;;;;;;:11;:34;;;;;;;;;2065:4;;2113:6;;2065:4;;2150:11;;;;;:19;;:34;;;;;;;;;;;:11;:34;;;5:2:-1;;;;30:1;27;20:12;5:2;2150:34:66;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;2150:34:66;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;2150:34:66;;-1:-1:-1;2199:9:66;;2195:378;;;2268:1;2261:8;;;;;;2195:378;2307:13;;;2290:30;;;2307:13;;2290:30;2286:287;;;2379:4;2372:11;;;;;;2286:287;2449:18;2477:13;2470:32;;;:34;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;2470:34:66;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;2470:34:66;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;2470:34:66;2525:13;;:37;;;;;;:13;:37;;;;;;;;;2470:34;;-1:-1:-1;2525:13:66;;;:25;;:37;;;;;2470:34;;2525:37;;;;;;;;:13;:37;;;5:2:-1;;;;30:1;27;20:12;5:2;2525:37:66;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;2525:37:66;;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;2525:37:66;;-1:-1:-1;2518:44:66;;-1:-1:-1;;;2518:44:66;2001:578;;;;:::o;399:43::-;;;;;;:::o",
   "source": "pragma solidity ^0.5.4;\n\nimport \"./CErc20.sol\";\nimport \"./CToken.sol\";\nimport \"./PriceOracle.sol\";\nimport \"./Comptroller.sol\";\n\ninterface V1PriceOracleInterface {\n    function assetPrices(address asset) external view returns (uint);\n}\n\ncontract PriceOracleProxy is PriceOracle {\n    /**\n     * @notice The v1 price oracle, which will continue to serve prices\n     * prices for v1 assets\n     */\n    V1PriceOracleInterface public v1PriceOracle;\n\n    /**\n     * @notice The active comptroller, which will be checked for listing status\n     * to short circuit and return 0 for unlisted assets.\n     *\n     * @dev Listed markets are not part of the comptroller interface used by\n     * cTokens, so we assumena an instance of v1 comptroller.sol instead\n     */\n    Comptroller public comptroller;\n\n    /**\n     * @notice address of the cEther contract, which has a constant price\n     */\n    address public cEtherAddress;\n\n    /**\n     * @notice Indicator that this is a PriceOracle contract (for inspection)\n     */\n    bool public constant isPriceOracle = true;\n\n    /**\n     * @param comptroller_ The address of the active comptroller, which will\n     * be consulted for market listing status.\n     * @param v1PriceOracle_ The address of the v1 price oracle, which will\n     * continue to operate and hold prices for collateral assets.\n     * @param cEtherAddress_ The address of the cEther contract, which will\n     * return a constant 1e18, since all prices relative to ether\n     */\n    constructor(address comptroller_, address v1PriceOracle_, address cEtherAddress_) public {\n        comptroller = Comptroller(comptroller_);\n        v1PriceOracle = V1PriceOracleInterface(v1PriceOracle_);\n        cEtherAddress = cEtherAddress_;\n    }\n\n    /**\n     * @notice Get the underlying price of a listed cToken asset\n     * @param cToken The cToken to get the underlying price of\n     * @return The underlying asset price mantissa (scaled by 1e18).\n     *  Zero means the price is unavailable.\n     */\n    function getUnderlyingPrice(CToken cToken) public view returns (uint) {\n        address cTokenAddress = address(cToken);\n        (bool isListed, ) = comptroller.markets(cTokenAddress);\n\n        if (!isListed) {\n            // not listed, worthless\n            return 0;\n        } else if (cTokenAddress == cEtherAddress) {\n            // ether always worth 1\n            return 1e18;\n        } else {\n            // read from v1 oracle\n            address underlying = CErc20(cTokenAddress).underlying();\n            return v1PriceOracle.assetPrices(underlying);\n        }\n    }\n}\n",
-  "sourcePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/compound/PriceOracleProxy.sol",
+  "sourcePath": "/Users/name/dev/smartcontracts/contracts/test/compound/PriceOracleProxy.sol",
   "ast": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/compound/PriceOracleProxy.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/compound/PriceOracleProxy.sol",
     "exportedSymbols": {
       "PriceOracleProxy": [
         22927
@@ -127,7 +127,7 @@
         "src": "0:23:66"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/compound/CErc20.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/compound/CErc20.sol",
         "file": "./CErc20.sol",
         "id": 22830,
         "nodeType": "ImportDirective",
@@ -138,7 +138,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/compound/CToken.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/compound/CToken.sol",
         "file": "./CToken.sol",
         "id": 22831,
         "nodeType": "ImportDirective",
@@ -149,7 +149,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/compound/PriceOracle.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/compound/PriceOracle.sol",
         "file": "./PriceOracle.sol",
         "id": 22832,
         "nodeType": "ImportDirective",
@@ -160,7 +160,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/compound/Comptroller.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/compound/Comptroller.sol",
         "file": "./Comptroller.sol",
         "id": 22833,
         "nodeType": "ImportDirective",
@@ -1386,7 +1386,7 @@
     "src": "0:2582:66"
   },
   "legacyAST": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/compound/PriceOracleProxy.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/compound/PriceOracleProxy.sol",
     "exportedSymbols": {
       "PriceOracleProxy": [
         22927
@@ -1410,7 +1410,7 @@
         "src": "0:23:66"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/compound/CErc20.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/compound/CErc20.sol",
         "file": "./CErc20.sol",
         "id": 22830,
         "nodeType": "ImportDirective",
@@ -1421,7 +1421,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/compound/CToken.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/compound/CToken.sol",
         "file": "./CToken.sol",
         "id": 22831,
         "nodeType": "ImportDirective",
@@ -1432,7 +1432,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/compound/PriceOracle.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/compound/PriceOracle.sol",
         "file": "./PriceOracle.sol",
         "id": 22832,
         "nodeType": "ImportDirective",
@@ -1443,7 +1443,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/test/compound/Comptroller.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/test/compound/Comptroller.sol",
         "file": "./Comptroller.sol",
         "id": 22833,
         "nodeType": "ImportDirective",
@@ -2676,5 +2676,5 @@
   },
   "networks": {},
   "schemaVersion": "2.3.1",
-  "updatedAt": "2020-04-01T15:58:47.335Z"
+  "updatedAt": "2020-04-01T21:49:53.034Z"
 }

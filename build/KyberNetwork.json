@@ -81,9 +81,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.5.4;\nimport \"./ERC20.sol\";\n\ncontract KyberNetwork {\n\n    function getExpectedRate(\n        ERC20 src,\n        ERC20 dest,\n        uint srcQty\n    )\n        public\n        view\n        returns (uint expectedRate, uint slippageRate);\n\n    function trade(\n        ERC20 src,\n        uint srcAmount,\n        ERC20 dest,\n        address payable destAddress,\n        uint maxDestAmount,\n        uint minConversionRate,\n        address walletId\n    )\n        public\n        payable\n        returns(uint);\n}\n",
-  "sourcePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/exchange/KyberNetwork.sol",
+  "sourcePath": "/Users/name/dev/smartcontracts/contracts/exchange/KyberNetwork.sol",
   "ast": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/exchange/KyberNetwork.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/exchange/KyberNetwork.sol",
     "exportedSymbols": {
       "KyberNetwork": [
         1810
@@ -104,7 +104,7 @@
         "src": "0:23:14"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/exchange/ERC20.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/exchange/ERC20.sol",
         "file": "./ERC20.sol",
         "id": 1777,
         "nodeType": "ImportDirective",
@@ -541,7 +541,7 @@
     "src": "0:519:14"
   },
   "legacyAST": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/exchange/KyberNetwork.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/exchange/KyberNetwork.sol",
     "exportedSymbols": {
       "KyberNetwork": [
         1810
@@ -562,7 +562,7 @@
         "src": "0:23:14"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/exchange/ERC20.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/exchange/ERC20.sol",
         "file": "./ERC20.sol",
         "id": 1777,
         "nodeType": "ImportDirective",
@@ -1006,5 +1006,5 @@
   },
   "networks": {},
   "schemaVersion": "2.3.1",
-  "updatedAt": "2020-04-01T15:58:47.178Z"
+  "updatedAt": "2020-04-01T21:49:52.954Z"
 }

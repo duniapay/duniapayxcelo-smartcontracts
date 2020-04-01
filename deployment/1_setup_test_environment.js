@@ -8,8 +8,8 @@ const utils = require('../utils/utilities.js');
 const DeployManager = require('../utils/deploy-manager.js');
 
 const TEST_ERC20_SUPPLY = 1000000000; //10**9
-const TEST_ERC20_DECIMALS = 10;
-const TEST_ERC20_RATE = 6 * 10**14; // 1 AGT = 0.0006 ETH
+const TEST_ERC20_DECIMALS = 0;
+const TEST_ERC20_RATE = 1524 / (10 ** 8); // 1 XOFx = 0.00001524 ETH
 
 const BYTES32_NULL = '0x0000000000000000000000000000000000000000000000000000000000000000';
 
@@ -17,7 +17,7 @@ const BYTES32_NULL = '0x00000000000000000000000000000000000000000000000000000000
 async function deployENSRegistry(deployer, owner, domain) {
 	// Deploy the public ENS registry
 	const ensRegistryWithoutFallback = await deployer.deploy(ENSRegistry);
-    const ENSWrapper = await deployer.deploy(ENSRegistryWithFallback, {}, ensRegistryWithoutFallback.contractAddress);
+	const ENSWrapper = await deployer.deploy(ENSRegistryWithFallback, {}, ensRegistryWithoutFallback.contractAddress);
 
 	// ENS domain
 	const parts = domain.split('.');
@@ -37,13 +37,13 @@ async function deployENSRegistry(deployer, owner, domain) {
 
 // For development purpose
 async function deployKyber(deployer) {
-    const KyberWrapper = await deployer.deploy(Kyber);
+	const KyberWrapper = await deployer.deploy(Kyber);
 	const ERC20Wrapper = await deployer.deploy(ERC20, {}, [KyberWrapper.contractAddress], TEST_ERC20_SUPPLY, TEST_ERC20_DECIMALS);
 
 	const addToken = await KyberWrapper.contract.addToken(ERC20Wrapper.contractAddress, TEST_ERC20_RATE, TEST_ERC20_DECIMALS);
 	await KyberWrapper.verboseWaitForTransaction(addToken, 'Add test token to Kyber');
 
-    return KyberWrapper.contractAddress;
+	return KyberWrapper.contractAddress;
 }
 
 const deploy = async (network, secret) => {
@@ -60,24 +60,24 @@ const deploy = async (network, secret) => {
 
 	if (config.ENS.deployOwnRegistry) {
 		// on some testnets, we use our own ENSRegistry
-        const address = await deployENSRegistry(deployer, deploymentAccount, config.ENS.domain);
-        configurator.updateENSRegistry(address);
-    }
-
-    if (config.Kyber.deployOwn) {
-        // Deploy Kyber Network if needed
-        const address = await deployKyber(deployer);
-        configurator.updateKyberContract(address);
+		const address = await deployENSRegistry(deployer, deploymentAccount, config.ENS.domain);
+		configurator.updateENSRegistry(address);
 	}
-	
+
+	if (config.Kyber.deployOwn) {
+		// Deploy Kyber Network if needed
+		const address = await deployKyber(deployer);
+		configurator.updateKyberContract(address);
+	}
+
 	if (config.defi.maker.deployOwn) {
-        // Deploy Maker's mock Migration contract if needed
+		// Deploy Maker's mock Migration contract if needed
 		const MakerMigrationWrapper = await deployer.deploy(MakerMigration);
-        configurator.updateMakerMigration(MakerMigrationWrapper.contractAddress);
+		configurator.updateMakerMigration(MakerMigrationWrapper.contractAddress);
 	}
 
-    // save configuration
-    await configurator.save();
+	// save configuration
+	await configurator.save();
 };
 
 module.exports = {

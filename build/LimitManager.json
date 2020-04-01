@@ -208,9 +208,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "// Copyright (C) 2018  Argent Labs Ltd. <https://argent.xyz>\n\n// This program is free software: you can redistribute it and/or modify\n// it under the terms of the GNU General Public License as published by\n// the Free Software Foundation, either version 3 of the License, or\n// (at your option) any later version.\n\n// This program is distributed in the hope that it will be useful,\n// but WITHOUT ANY WARRANTY; without even the implied warranty of\n// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n// GNU General Public License for more details.\n\n// You should have received a copy of the GNU General Public License\n// along with this program.  If not, see <http://www.gnu.org/licenses/>.\n\npragma solidity ^0.5.4;\nimport \"../../wallet/BaseWallet.sol\";\nimport \"../../../lib/utils/SafeMath.sol\";\nimport \"./BaseModule.sol\";\n\n/**\n * @title LimitManager\n * @dev Module to manage a daily spending limit\n * @author Julien Niset - <julien@argent.im>\n */\ncontract LimitManager is BaseModule {\n\n    // large limit when the limit can be considered disabled\n    uint128 constant private LIMIT_DISABLED = uint128(-1); // 3.40282366920938463463374607431768211455e+38\n\n    using SafeMath for uint256;\n\n    struct LimitManagerConfig {\n        // The daily limit\n        Limit limit;\n        // The current usage\n        DailySpent dailySpent;\n    }\n\n    struct Limit {\n        // the current limit\n        uint128 current;\n        // the pending limit if any\n        uint128 pending;\n        // when the pending limit becomes the current limit\n        uint64 changeAfter;\n    }\n\n    struct DailySpent {\n        // The amount already spent during the current period\n        uint128 alreadySpent;\n        // The end of the current period\n        uint64 periodEnd;\n    }\n\n    // wallet specific storage\n    mapping (address => LimitManagerConfig) internal limits;\n    // The default limit\n    uint256 public defaultLimit;\n\n    // *************** Events *************************** //\n\n    event LimitChanged(address indexed wallet, uint indexed newLimit, uint64 indexed startAfter);\n\n    // *************** Constructor ********************** //\n\n    constructor(uint256 _defaultLimit) public {\n        defaultLimit = _defaultLimit;\n    }\n\n    // *************** External/Public Functions ********************* //\n\n    /**\n     * @dev Inits the module for a wallet by setting the limit to the default value.\n     * @param _wallet The target wallet.\n     */\n    function init(BaseWallet _wallet) public onlyWallet(_wallet) {\n        Limit storage limit = limits[address(_wallet)].limit;\n        if (limit.current == 0 && limit.changeAfter == 0) {\n            limit.current = uint128(defaultLimit);\n        }\n    }\n\n    // *************** Internal Functions ********************* //\n\n    /**\n     * @dev Changes the daily limit.\n     * The limit is expressed in ETH and the change is pending for the security period.\n     * @param _wallet The target wallet.\n     * @param _newLimit The new limit.\n     * @param _securityPeriod The security period.\n     */\n    function changeLimit(BaseWallet _wallet, uint256 _newLimit, uint256 _securityPeriod) internal {\n        Limit storage limit = limits[address(_wallet)].limit;\n        // solium-disable-next-line security/no-block-members\n        uint128 current = (limit.changeAfter > 0 && limit.changeAfter < now) ? limit.pending : limit.current;\n        limit.current = current;\n        limit.pending = uint128(_newLimit);\n        // solium-disable-next-line security/no-block-members\n        limit.changeAfter = uint64(now.add(_securityPeriod));\n        // solium-disable-next-line security/no-block-members\n        emit LimitChanged(address(_wallet), _newLimit, uint64(now.add(_securityPeriod)));\n    }\n\n     /**\n     * @dev Disable the daily limit.\n     * The change is pending for the security period.\n     * @param _wallet The target wallet.\n     * @param _securityPeriod The security period.\n     */\n    function disableLimit(BaseWallet _wallet, uint256 _securityPeriod) internal {\n        changeLimit(_wallet, LIMIT_DISABLED, _securityPeriod);\n    }\n\n    /**\n    * @dev Gets the current daily limit for a wallet.\n    * @param _wallet The target wallet.\n    * @return the current limit expressed in ETH.\n    */\n    function getCurrentLimit(BaseWallet _wallet) public view returns (uint256 _currentLimit) {\n        Limit storage limit = limits[address(_wallet)].limit;\n        _currentLimit = uint256(currentLimit(limit.current, limit.pending, limit.changeAfter));\n    }\n\n    /**\n    * @dev Returns whether the daily limit is disabled for a wallet.\n    * @param _wallet The target wallet.\n    * @return true if the daily limit is disabled, false otherwise.\n    */\n    function isLimitDisabled(BaseWallet _wallet) public view returns (bool _limitDisabled) {\n        uint256 currentLimit = getCurrentLimit(_wallet);\n        _limitDisabled = currentLimit == LIMIT_DISABLED;\n    }\n\n    /**\n    * @dev Gets a pending limit for a wallet if any.\n    * @param _wallet The target wallet.\n    * @return the pending limit (in ETH) and the time at chich it will become effective.\n    */\n    function getPendingLimit(BaseWallet _wallet) external view returns (uint256 _pendingLimit, uint64 _changeAfter) {\n        Limit storage limit = limits[address(_wallet)].limit;\n        // solium-disable-next-line security/no-block-members\n        return ((now < limit.changeAfter)? (uint256(limit.pending), limit.changeAfter) : (0,0));\n    }\n\n    /**\n    * @dev Gets the amount of tokens that has not yet been spent during the current period.\n    * @param _wallet The target wallet.\n    * @return the amount of tokens (in ETH) that has not been spent yet and the end of the period.\n    */\n    function getDailyUnspent(BaseWallet _wallet) external view returns (uint256 _unspent, uint64 _periodEnd) {\n        uint256 limit = getCurrentLimit(_wallet);\n        DailySpent storage expense = limits[address(_wallet)].dailySpent;\n        // solium-disable-next-line security/no-block-members\n        if (now > expense.periodEnd) {\n            _unspent = limit;\n            // solium-disable-next-line security/no-block-members\n            _periodEnd = uint64(now + 24 hours);\n        } else {\n            _periodEnd = expense.periodEnd;\n            if (expense.alreadySpent < limit) {\n                _unspent = limit - expense.alreadySpent;\n            }\n        }\n    }\n\n    /**\n    * @dev Helper method to check if a transfer is within the limit.\n    * If yes the daily unspent for the current period is updated.\n    * @param _wallet The target wallet.\n    * @param _amount The amount for the transfer\n    */\n    function checkAndUpdateDailySpent(BaseWallet _wallet, uint _amount) internal returns (bool) {\n        if (_amount == 0)\n            return true;\n        Limit storage limit = limits[address(_wallet)].limit;\n        uint128 current = currentLimit(limit.current, limit.pending, limit.changeAfter);\n        if (isWithinDailyLimit(_wallet, current, _amount)) {\n            updateDailySpent(_wallet, current, _amount);\n            return true;\n        }\n        return false;\n    }\n\n    /**\n    * @dev Helper method to update the daily spent for the current period.\n    * @param _wallet The target wallet.\n    * @param _limit The current limit for the wallet.\n    * @param _amount The amount to add to the daily spent.\n    */\n    function updateDailySpent(BaseWallet _wallet, uint128 _limit, uint _amount) internal {\n        if (_limit != LIMIT_DISABLED) {\n            DailySpent storage expense = limits[address(_wallet)].dailySpent;\n            // solium-disable-next-line security/no-block-members\n            if (expense.periodEnd < now) {\n                // solium-disable-next-line security/no-block-members\n                expense.periodEnd = uint64(now + 24 hours);\n                expense.alreadySpent = uint128(_amount);\n            } else {\n                expense.alreadySpent += uint128(_amount);\n            }\n        }\n    }\n\n    /**\n    * @dev Checks if a transfer amount is withing the daily limit for a wallet.\n    * @param _wallet The target wallet.\n    * @param _limit The current limit for the wallet.\n    * @param _amount The transfer amount.\n    * @return true if the transfer amount is withing the daily limit.\n    */\n    function isWithinDailyLimit(BaseWallet _wallet, uint _limit, uint _amount) internal view returns (bool) {\n        if (_limit == LIMIT_DISABLED) {\n            return true;\n        }\n        DailySpent storage expense = limits[address(_wallet)].dailySpent;\n        // solium-disable-next-line security/no-block-members\n        if (expense.periodEnd < now) {\n            return (_amount <= _limit);\n        } else {\n            return (expense.alreadySpent + _amount <= _limit && expense.alreadySpent + _amount >= expense.alreadySpent);\n        }\n    }\n\n    /**\n    * @dev Helper method to get the current limit from a Limit struct.\n    * @param _current The value of the current parameter\n    * @param _pending The value of the pending parameter\n    * @param _changeAfter The value of the changeAfter parameter\n    */\n    function currentLimit(uint128 _current, uint128 _pending, uint64 _changeAfter) internal view returns (uint128) {\n        // solium-disable-next-line security/no-block-members\n        if (_changeAfter > 0 && _changeAfter < now) {\n            return _pending;\n        }\n        return _current;\n    }\n\n}",
-  "sourcePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/LimitManager.sol",
+  "sourcePath": "/Users/name/dev/smartcontracts/contracts/modules/common/LimitManager.sol",
   "ast": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/LimitManager.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/common/LimitManager.sol",
     "exportedSymbols": {
       "LimitManager": [
         10910
@@ -231,7 +231,7 @@
         "src": "705:23:30"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/wallet/BaseWallet.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/wallet/BaseWallet.sol",
         "file": "../../wallet/BaseWallet.sol",
         "id": 10389,
         "nodeType": "ImportDirective",
@@ -242,7 +242,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/lib/utils/SafeMath.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/lib/utils/SafeMath.sol",
         "file": "../../../lib/utils/SafeMath.sol",
         "id": 10390,
         "nodeType": "ImportDirective",
@@ -253,7 +253,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/BaseModule.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/common/BaseModule.sol",
         "file": "./BaseModule.sol",
         "id": 10391,
         "nodeType": "ImportDirective",
@@ -7152,7 +7152,7 @@
     "src": "705:8687:30"
   },
   "legacyAST": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/LimitManager.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/common/LimitManager.sol",
     "exportedSymbols": {
       "LimitManager": [
         10910
@@ -7173,7 +7173,7 @@
         "src": "705:23:30"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/wallet/BaseWallet.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/wallet/BaseWallet.sol",
         "file": "../../wallet/BaseWallet.sol",
         "id": 10389,
         "nodeType": "ImportDirective",
@@ -7184,7 +7184,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/lib/utils/SafeMath.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/lib/utils/SafeMath.sol",
         "file": "../../../lib/utils/SafeMath.sol",
         "id": 10390,
         "nodeType": "ImportDirective",
@@ -7195,7 +7195,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/BaseModule.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/common/BaseModule.sol",
         "file": "./BaseModule.sol",
         "id": 10391,
         "nodeType": "ImportDirective",
@@ -14101,5 +14101,5 @@
   },
   "networks": {},
   "schemaVersion": "2.3.1",
-  "updatedAt": "2020-04-01T15:58:47.523Z"
+  "updatedAt": "2020-04-01T21:49:53.129Z"
 }

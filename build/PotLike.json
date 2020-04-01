@@ -49,9 +49,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "// Copyright (C) 2018  Argent Labs Ltd. <https://argent.xyz>\n\n// This program is free software: you can redistribute it and/or modify\n// it under the terms of the GNU General Public License as published by\n// the Free Software Foundation, either version 3 of the License, or\n// (at your option) any later version.\n\n// This program is distributed in the hope that it will be useful,\n// but WITHOUT ANY WARRANTY; without even the implied warranty of\n// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n// GNU General Public License for more details.\n\n// You should have received a copy of the GNU General Public License\n// along with this program.  If not, see <http://www.gnu.org/licenses/>.\n\npragma solidity ^0.5.4;\n\nimport \"./common/BaseModule.sol\";\nimport \"./common/RelayerModule.sol\";\nimport \"./common/OnlyOwnerModule.sol\";\nimport \"../../lib/utils/SafeMath.sol\";\nimport \"../defi/Invest.sol\";\n\ncontract VatLike {\n    function can(address, address) public view returns (uint);\n    function dai(address) public view returns (uint);\n    function hope(address) public;\n}\n\ncontract JoinLike {\n    function gem() public returns (GemLike);\n    function dai() public returns (GemLike);\n    function join(address, uint) public;\n    function exit(address, uint) public;\n    VatLike public vat;\n}\n\ncontract PotLike {\n    function chi() public view returns (uint);\n    function pie(address) public view returns (uint);\n    function drip() public;\n}\n\ncontract ScdMcdMigration {\n    function swapSaiToDai(uint wad) external;\n    function swapDaiToSai(uint wad) external;\n    JoinLike public saiJoin;\n    JoinLike public wethJoin;\n    JoinLike public daiJoin;\n}\n\ncontract GemLike {\n    function balanceOf(address) public view returns (uint);\n    function transferFrom(address, address, uint) public returns (bool);\n}\n\n/**\n * @title MakerV2Manager\n * @dev Module to convert SAI <-> DAI and lock/unlock MCD DAI into/from Maker's Pot,\n * @author Olivier VDB - <olivier@argent.xyz>\n */\ncontract MakerV2Manager is Invest, BaseModule, RelayerModule, OnlyOwnerModule {\n\n    bytes32 constant NAME = \"MakerV2Manager\";\n\n    // The address of the SAI token\n    GemLike public saiToken;\n    // The address of the (MCD) DAI token\n    GemLike public daiToken;\n    // The address of the SAI <-> DAI migration contract\n    address public scdMcdMigration;\n    // The address of the Pot\n    PotLike public pot;\n    // The address of the Dai Adapter\n    JoinLike public daiJoin;\n    // The address of the Vat\n    VatLike public vat;\n\n    // Method signatures to reduce gas cost at depoyment\n    bytes4 constant internal ERC20_APPROVE = bytes4(keccak256(\"approve(address,uint256)\"));\n    bytes4 constant internal SWAP_SAI_DAI = bytes4(keccak256(\"swapSaiToDai(uint256)\"));\n    bytes4 constant internal SWAP_DAI_SAI = bytes4(keccak256(\"swapDaiToSai(uint256)\"));\n    bytes4 constant internal ADAPTER_JOIN = bytes4(keccak256(\"join(address,uint256)\"));\n    bytes4 constant internal ADAPTER_EXIT = bytes4(keccak256(\"exit(address,uint256)\"));\n    bytes4 constant internal VAT_HOPE = bytes4(keccak256(\"hope(address)\"));\n    bytes4 constant internal POT_JOIN = bytes4(keccak256(\"join(uint256)\"));\n    bytes4 constant internal POT_EXIT = bytes4(keccak256(\"exit(uint256)\"));\n\n    uint256 constant internal RAY = 10 ** 27;\n\n    using SafeMath for uint256;\n\n    // ****************** Events *************************** //\n\n    event TokenConverted(address indexed _wallet, address _srcToken, uint _srcAmount, address _destToken, uint _destAmount);\n\n    // *************** Constructor ********************** //\n\n    constructor(\n        ModuleRegistry _registry,\n        GuardianStorage _guardianStorage,\n        ScdMcdMigration _scdMcdMigration,\n        PotLike _pot\n    )\n        BaseModule(_registry, _guardianStorage, NAME)\n        public\n    {\n        scdMcdMigration = address(_scdMcdMigration);\n        saiToken = _scdMcdMigration.saiJoin().gem();\n        daiJoin = _scdMcdMigration.daiJoin();\n        vat = daiJoin.vat();\n        daiToken = daiJoin.dai();\n        pot = _pot;\n    }\n\n    // *************** External/Public Functions ********************* //\n\n    /* ********************************** Implementation of Invest ************************************* */\n\n    /**\n     * @dev Invest tokens for a given period.\n     * @param _wallet The target wallet.\n     * @param _token The token address.\n     * @param _amount The amount of tokens to invest.\n     * @param _period The period over which the tokens may be locked in the investment (optional).\n     * @return The exact amount of tokens that have been invested.\n     */\n    function addInvestment(\n        BaseWallet _wallet,\n        address _token,\n        uint256 _amount,\n        uint256 _period\n    )\n        external\n        returns (uint256 _invested)\n    {\n        require(_token == address(daiToken), \"DM: token should be DAI\");\n        joinDsr(_wallet, _amount);\n        _invested = _amount;\n        emit InvestmentAdded(address(_wallet), address(daiToken), _amount, _period);\n    }\n\n    /**\n     * @dev Exit invested postions.\n     * @param _wallet The target wallet.\n     * @param _token The token address.\n     * @param _fraction The fraction of invested tokens to exit in per 10000.\n     */\n    function removeInvestment(\n        BaseWallet _wallet,\n        address _token,\n        uint256 _fraction\n    )\n        external\n    {\n        require(_token == address(daiToken), \"DM: token should be DAI\");\n        require(_fraction <= 10000, \"DM: invalid fraction value\");\n        exitDsr(_wallet, dsrBalance(_wallet).mul(_fraction) / 10000);\n        emit InvestmentRemoved(address(_wallet), _token, _fraction);\n    }\n\n    /**\n     * @dev Get the amount of investment in a given token.\n     * @param _wallet The target wallet.\n     * @param _token The token address.\n     * @return The value in tokens of the investment (including interests) and the time at which the investment can be removed.\n     */\n    function getInvestment(\n        BaseWallet _wallet,\n        address _token\n    )\n        external\n        view\n        returns (uint256 _tokenValue, uint256 _periodEnd)\n    {\n        _tokenValue = _token == address(daiToken) ? dsrBalance(_wallet) : 0;\n        _periodEnd = 0;\n    }\n\n    /* ****************************************** DSR wrappers ******************************************* */\n\n    function dsrBalance(BaseWallet _wallet) public view returns (uint256) {\n        return pot.chi().mul(pot.pie(address(_wallet))) / RAY;\n    }\n\n    /**\n    * @dev lets the owner deposit MCD DAI into the DSR Pot.\n    * @param _wallet The target wallet.\n    * @param _amount The amount of DAI to deposit\n    */\n    function joinDsr(\n        BaseWallet _wallet,\n        uint256 _amount\n    )\n        public\n        onlyWalletOwner(_wallet)\n        onlyWhenUnlocked(_wallet)\n    {\n        if (daiToken.balanceOf(address(_wallet)) < _amount) {\n            swapSaiToDai(_wallet, _amount - daiToken.balanceOf(address(_wallet)));\n        }\n\n        // Execute drip to get the chi rate updated to rho == now, otherwise join will fail\n        pot.drip();\n        // Approve DAI adapter to take the DAI amount\n        invokeWallet(address(_wallet), address(daiToken), 0, abi.encodeWithSelector(ERC20_APPROVE, address(daiJoin), _amount));\n        // Join DAI into the vat (_amount of external DAI is burned and the vat transfers _amount of internal DAI from the adapter to the _wallet)\n        invokeWallet(address(_wallet), address(daiJoin), 0, abi.encodeWithSelector(ADAPTER_JOIN, address(_wallet), _amount));\n        // Approve the pot to take out (internal) DAI from the wallet's balance in the vat\n        if (vat.can(address(_wallet), address(pot)) == 0) {\n            invokeWallet(address(_wallet), address(vat), 0, abi.encodeWithSelector(VAT_HOPE, address(pot)));\n        }\n        // Compute the pie value in the pot\n        uint256 pie = _amount.mul(RAY) / pot.chi();\n        // Join the pie value to the pot\n        invokeWallet(address(_wallet), address(pot), 0, abi.encodeWithSelector(POT_JOIN, pie));\n    }\n\n    /**\n    * @dev lets the owner withdraw MCD DAI from the DSR Pot.\n    * @param _wallet The target wallet.\n    * @param _amount The amount of DAI to withdraw\n    */\n    function exitDsr(\n        BaseWallet _wallet,\n        uint256 _amount\n    )\n        public\n        onlyWalletOwner(_wallet)\n        onlyWhenUnlocked(_wallet)\n    {\n        // Execute drip to count the savings accumulated until this moment\n        pot.drip();\n        // Calculates the pie value in the pot equivalent to the DAI wad amount\n        uint256 pie = _amount.mul(RAY) / pot.chi();\n        // Exit DAI from the pot\n        invokeWallet(address(_wallet), address(pot), 0, abi.encodeWithSelector(POT_EXIT, pie));\n        // Allow adapter to access the _wallet's DAI balance in the vat\n        if (vat.can(address(_wallet), address(daiJoin)) == 0) {\n            invokeWallet(address(_wallet), address(vat), 0, abi.encodeWithSelector(VAT_HOPE, address(daiJoin)));\n        }\n        // Check the actual balance of DAI in the vat after the pot exit\n        uint bal = vat.dai(address(_wallet));\n        // It is necessary to check if due to rounding the exact _amount can be exited by the adapter.\n        // Otherwise it will do the maximum DAI balance in the vat\n        uint256 withdrawn = bal >= _amount.mul(RAY) ? _amount : bal / RAY;\n        invokeWallet(address(_wallet), address(daiJoin), 0, abi.encodeWithSelector(ADAPTER_EXIT, address(_wallet), withdrawn));\n    }\n\n    function exitAllDsr(\n        BaseWallet _wallet\n    )\n        external\n        onlyWalletOwner(_wallet)\n        onlyWhenUnlocked(_wallet)\n    {\n        // Execute drip to count the savings accumulated until this moment\n        pot.drip();\n        // Gets the total pie belonging to the _wallet\n        uint256 pie = pot.pie(address(_wallet));\n        // Exit DAI from the pot\n        invokeWallet(address(_wallet), address(pot), 0, abi.encodeWithSelector(POT_EXIT, pie));\n        // Allow adapter to access the _wallet's DAI balance in the vat\n        if (vat.can(address(_wallet), address(daiJoin)) == 0) {\n            invokeWallet(address(_wallet), address(vat), 0, abi.encodeWithSelector(VAT_HOPE, address(daiJoin)));\n        }\n        // Exits the DAI amount corresponding to the value of pie\n        uint256 withdrawn = pot.chi().mul(pie) / RAY;\n        invokeWallet(address(_wallet), address(daiJoin), 0, abi.encodeWithSelector(ADAPTER_EXIT, address(_wallet), withdrawn));\n    }\n\n    /**\n    * @dev lets the owner convert SCD SAI into MCD DAI.\n    * @param _wallet The target wallet.\n    * @param _amount The amount of SAI to convert\n    */\n    function swapSaiToDai(\n        BaseWallet _wallet,\n        uint256 _amount\n    )\n        public\n        onlyWalletOwner(_wallet)\n        onlyWhenUnlocked(_wallet)\n    {\n        require(saiToken.balanceOf(address(_wallet)) >= _amount, \"DM: insufficient SAI\");\n        invokeWallet(address(_wallet), address(saiToken), 0, abi.encodeWithSelector(ERC20_APPROVE, scdMcdMigration, _amount));\n        invokeWallet(address(_wallet), scdMcdMigration, 0, abi.encodeWithSelector(SWAP_SAI_DAI, _amount));\n        emit TokenConverted(address(_wallet), address(saiToken), _amount, address(daiToken), _amount);\n    }\n\n    /**\n    * @dev lets the owner convert MCD DAI into SCD SAI.\n    * @param _wallet The target wallet.\n    * @param _amount The amount of DAI to convert\n    */\n    function swapDaiToSai(\n        BaseWallet _wallet,\n        uint256 _amount\n    )\n        external\n        onlyWalletOwner(_wallet)\n        onlyWhenUnlocked(_wallet)\n    {\n        require(daiToken.balanceOf(address(_wallet)) >= _amount, \"DM: insufficient DAI\");\n        invokeWallet(address(_wallet), address(daiToken), 0, abi.encodeWithSelector(ERC20_APPROVE, scdMcdMigration, _amount));\n        invokeWallet(address(_wallet), scdMcdMigration, 0, abi.encodeWithSelector(SWAP_DAI_SAI, _amount));\n        emit TokenConverted(address(_wallet), address(daiToken), _amount, address(saiToken), _amount);\n    }\n}",
-  "sourcePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/MakerV2Manager.sol",
+  "sourcePath": "/Users/name/dev/smartcontracts/contracts/modules/MakerV2Manager.sol",
   "ast": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/MakerV2Manager.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/MakerV2Manager.sol",
     "exportedSymbols": {
       "GemLike": [
         6061
@@ -87,7 +87,7 @@
         "src": "705:23:22"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/BaseModule.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/common/BaseModule.sol",
         "file": "./common/BaseModule.sol",
         "id": 5956,
         "nodeType": "ImportDirective",
@@ -98,7 +98,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/RelayerModule.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/common/RelayerModule.sol",
         "file": "./common/RelayerModule.sol",
         "id": 5957,
         "nodeType": "ImportDirective",
@@ -109,7 +109,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/OnlyOwnerModule.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/common/OnlyOwnerModule.sol",
         "file": "./common/OnlyOwnerModule.sol",
         "id": 5958,
         "nodeType": "ImportDirective",
@@ -120,7 +120,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/lib/utils/SafeMath.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/lib/utils/SafeMath.sol",
         "file": "../../lib/utils/SafeMath.sol",
         "id": 5959,
         "nodeType": "ImportDirective",
@@ -131,7 +131,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/defi/Invest.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/defi/Invest.sol",
         "file": "../defi/Invest.sol",
         "id": 5960,
         "nodeType": "ImportDirective",
@@ -13148,7 +13148,7 @@
     "src": "705:11328:22"
   },
   "legacyAST": {
-    "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/MakerV2Manager.sol",
+    "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/MakerV2Manager.sol",
     "exportedSymbols": {
       "GemLike": [
         6061
@@ -13184,7 +13184,7 @@
         "src": "705:23:22"
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/BaseModule.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/common/BaseModule.sol",
         "file": "./common/BaseModule.sol",
         "id": 5956,
         "nodeType": "ImportDirective",
@@ -13195,7 +13195,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/RelayerModule.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/common/RelayerModule.sol",
         "file": "./common/RelayerModule.sol",
         "id": 5957,
         "nodeType": "ImportDirective",
@@ -13206,7 +13206,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/modules/common/OnlyOwnerModule.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/modules/common/OnlyOwnerModule.sol",
         "file": "./common/OnlyOwnerModule.sol",
         "id": 5958,
         "nodeType": "ImportDirective",
@@ -13217,7 +13217,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/lib/utils/SafeMath.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/lib/utils/SafeMath.sol",
         "file": "../../lib/utils/SafeMath.sol",
         "id": 5959,
         "nodeType": "ImportDirective",
@@ -13228,7 +13228,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/Users/name/dev/argent-contracts-release-1.5.0/contracts/defi/Invest.sol",
+        "absolutePath": "/Users/name/dev/smartcontracts/contracts/defi/Invest.sol",
         "file": "../defi/Invest.sol",
         "id": 5960,
         "nodeType": "ImportDirective",
@@ -26252,5 +26252,5 @@
   },
   "networks": {},
   "schemaVersion": "2.3.1",
-  "updatedAt": "2020-04-01T15:58:47.676Z"
+  "updatedAt": "2020-04-01T21:49:53.225Z"
 }
